@@ -1,0 +1,23 @@
+<root>
+    <searchForm  action='url'>
+        <input type="text" width='100px' placeholder="请输入啦啦啦啦" prop="name" lable="姓名"/>
+        <input type="text" placeholder="请输入aaaa" prop="gender" lable="性别"/>
+        <input type="select" placeholder="请选择生日" prop="birth" lable="生日"/>
+        <input type="text" placeholder="请选择生日" prop="birth1" lable="生日"/>
+        <input type="text" placeholder="请选择生日" prop="birth2" lable="生日"/>
+        <input type="textarea" placeholder="请输入ooo" prop="info" lable="简介"/>
+        <input type="radio" prop="radio" />
+        <button type="button" placeholder="查询"/>
+        <button type="button"  placeholder="创建"/>
+        <!-- <date-picker/>
+        <text/>
+        <select/>
+        <textarea/>
+        <radio/> -->
+    </searchForm>
+    <table action="url" type='index'>
+        <tableCol  prop="date" lable="日期" align="left"/> 
+        <tableCol  prop="name" lable="姓名" /> 
+        <tableCol  prop="address" lable="地址"/>
+    </table>
+</root>
