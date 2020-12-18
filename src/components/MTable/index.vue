@@ -38,7 +38,6 @@ export default {
   },
   created() {
     this.tableConfig = this.xmlConfigObj.root.table[0]
-    console.log('Config', this.xmlConfigObj.root)
   },
   mounted() {
 

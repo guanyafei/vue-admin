@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <section class="search">
-      <component :is="pageConfig['form']" :xml-config-obj="xmlConfig" />
+      <component :is="pageConfig['form']" :xmlConfigObj="xmlConfig" />
     </section>
     <section class="list">
-      <component :is="pageConfig['table']" :xml-config-obj="xmlConfig" :table-list="baseData" />
+      <component :is="pageConfig['table']" :xmlConfigObj="xmlConfig" :table-list="baseData" />
     </section>
   </div>
 </template>
