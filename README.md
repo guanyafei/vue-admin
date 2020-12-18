@@ -109,4 +109,7 @@ npm run lint
 
 # code format check and auto fix
 npm run lint -- --fix
+
+# skip pre-commit
+git commit -m '' --no-verify
 ```
