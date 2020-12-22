@@ -1,18 +1,59 @@
 <root>
-    <searchForm  action='url'>
+    <form action='url'>
         <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
         <text  prop="gender" lable="性别"/>
         <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
         <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
-        <select placeholder="请选择生日" prop="birth" lable="生日"/>
+        <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
         <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
-        <radio prop="radio"/>
-        <button placeholder="查询"/>
-        <button placeholder="创建"/>
-    </searchForm>
+        <radio lable="选择" prop="radio" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
+        <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
+        <button type="primary" placeholder="查询"/>
+        <button type="success" id="add" placeholder="创建"/>
+    </form>
     <table action="url" type='index'>
         <tableCol  prop="date" lable="日期" align="left"/> 
         <tableCol  prop="name" lable="姓名" /> 
         <tableCol  prop="address" lable="地址"/>
+        <tableCol  lable="操作" handle="delete,add">
+            <button type="danger" id="delete"  placeholder="删除"/>
+            <button type="warning" id="update" placeholder="修改"/>
+        </tableCol>
     </table>
+    <dialog id="add">
+        <form action='url'>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <text  prop="gender" lable="性别"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
+            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
+            <radio prop="radio"/>
+            <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
+        </form>
+    </dialog>
+    <dialog id="delete">
+        <form action='url'>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <text  prop="gender" lable="性别"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
+            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
+            <radio prop="radio"/>
+            <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
+        </form>
+    </dialog>
+    <dialog id="update">
+        <form action='url'>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <text  prop="gender" lable="性别"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
+            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
+            <radio prop="radio"/>
+            <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
+        </form>
+    </dialog>
 </root>

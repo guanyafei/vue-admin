@@ -1,5 +1,5 @@
 <template>
-      <el-input v-model="modelVal" :type="itemConfig.type || type" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput"/>
+  <el-input v-model="formItemVal" :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput"/>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
         type: String,
         default: ''
     },
-    type: {
+    tag: {
         type: String,
         default: 'text'
     },
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      modelVal:this.value
+      formItemVal:this.value
     }
   },
   created() {
@@ -45,12 +45,12 @@ export default {
   methods: {
     handleModelInput(value) {
       this.$emit('input', value)
-      if (this.$parent.$options.componentName === 'ElFormItem') {
-        if (this.validateEvent) {
-          this.$parent.$emit('el.form.change', [value])
-        }
-      }
-      this.$emit('change', value)
+      // if (this.$parent.$options.componentName === 'ElFormItem') {
+      //   if (this.validateEvent) {
+      //     this.$parent.$emit('el.form.change', [value])
+      //   }
+      // }
+      // this.$emit('change', value)
     },
 
   }

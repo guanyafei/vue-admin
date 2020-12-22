@@ -8,13 +8,25 @@
         v-if="tableConfig.$.type"
         :type="tableConfig.$.type"
       />
-      <el-table-column
-        v-for="(item,index) in tableConfig.tableCol"
-        :key="index"
-        :prop="item.$.prop"
-        :label="item.$.lable"
-        :align="item.$.align || align"
-      />
+      <template v-for="(item,index) in tableConfig.tableCol" >
+        <el-table-column
+          v-if="item.$.handle"
+          :key="index"
+          :label="item.$.lable"
+          :align="item.$.align || align"
+        >
+          <template v-slot:default="scope">
+              <m-button :itemConfig="item" :rowObj="scope.row" v-for="(item,index) in buttonItems"  :key="index"></m-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          v-else
+          :key="index"
+          :prop="item.$.prop"
+          :label="item.$.lable"
+          :align="item.$.align || align"
+        />
+      </template>
     </el-table>
     <div class="pagination">
       <el-pagination
@@ -25,26 +37,56 @@
     </div>
   </div>
 </template>
-
 <script>
-import defalutProps from './prop'
+import MButton from '@/components/MButton'
 export default {
-  name: 'GmTable',
-  props: defalutProps,
+  name: 'MTable',
+  components: { MButton },
+  props: {
+    xmlConfigObj: {},
+    tableList: {
+      default: () => {
+        return 
+      }
+    },
+    align: {
+      type: String,
+      default: 'center'
+    },
+    stripe: {
+      type: Boolean,
+      default: false
+    },
+    type: {
+      type: String,
+      default: 'index'
+    }
+  },
   data() {
     return {
-      tableConfig: {}
+      tableConfig: {},
+      buttonItems:[]
     }
   },
   created() {
-    this.tableConfig = this.xmlConfigObj.root.table[0]
+    this.tableConfig = this.xmlConfigObj.table[0];
+    this.handleOperatData(this.tableConfig.tableCol);
   },
   mounted() {
-
   },
   methods: {
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`)
+    },
+    // 格式化table操作按钮
+    handleOperatData(tableCol=[]){
+      let itemObj = {};
+      tableCol.map(colItem=>{
+        colItem.$.handle && colItem.button.length && colItem.button.map(item=>{
+             itemObj = item.$;
+            this.buttonItems.push(itemObj);
+        })
+      });
     }
   }
 }

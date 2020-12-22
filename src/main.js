@@ -32,7 +32,8 @@ import * as filters from './filters' // global filters
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
-// Vue.prototype.$x2js = new x2js(); //xml to json
+// Vue.prototype.$x2js =new x2js(); //xml to json
+
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
