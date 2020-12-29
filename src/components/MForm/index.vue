@@ -38,7 +38,7 @@ export default {
   components: { MInput, MButton, MDialog, MSelect, MDate, MRadio},
   props:{
     xmlConfigObj:{},
-    handle:{}
+    updateDate:{}
   },
   data() {
     return {
@@ -47,12 +47,24 @@ export default {
       buttonItems:[]
     }
   },
+  watch:{
+   'updateDate':{
+      handler: function(val, oldVal){
+      console.log("val",val)
+      this.forms = {};
+      this.forms = val || {};
+      },
+      deep: true
+    }
+  },
   created() {
     const searchConfig = this.xmlConfigObj.form[0];
-    // console.log("erere",this.handle.add())
     this.initForm(searchConfig);
+      console.log("updateDate",this.updateDate)
+      this.forms = this.updateDate || {};
   },
   mounted() {
+    console.log("forms",this.forms)
   },
   methods: {
     // xml to json表单数据组装  初始化

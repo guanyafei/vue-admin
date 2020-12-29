@@ -22,12 +22,12 @@
     </table>
     <dialog id="add">
         <form action='url'>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name5" lable="姓名"/>
             <text  prop="gender" lable="性别"/>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
-            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name6" lable="姓名"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name7" lable="姓名"/>
+            <select placeholder="请选择生日" prop="birth1" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入ooo" prop="info2" lable="简介"/>
             <radio prop="radio"/>
             <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
         </form>
@@ -38,22 +38,13 @@
             <text  prop="gender" lable="性别"/>
             <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
             <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
-            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
-            <radio prop="radio"/>
-            <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
         </form>
     </dialog>
     <dialog id="update">
         <form action='url'>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
-            <text  prop="gender" lable="性别"/>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name2" lable="姓名"/>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name3" lable="姓名"/>
-            <select placeholder="请选择生日" prop="birth" lable="生日" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <textarea placeholder="请输入ooo" prop="info" lable="简介"/>
-            <radio prop="radio"/>
-            <date type="daterange" prop="time" placeholder="选择日期时间" lable="日期"/>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name" lable="姓名"/>
+            <textarea placeholder="请输入ooo" prop="address" lable="简介"/>
+            <date type="date" prop="date" placeholder="选择日期时间" lable="日期"/>
         </form>
     </dialog>
 </root>

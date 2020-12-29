@@ -1,28 +1,34 @@
 <template>
-      <el-button :type="itemConfig.type || type"  :disabled="disabled">{{itemConfig.placeholder || placeholder}}</el-button>
+      <el-button :type="itemConfig.type || type" @click="submitHandle"  :disabled="disabled">{{itemConfig.placeholder || placeholder}}</el-button>
 </template>
 
 <script>
 export default {
   name: 'MButton',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
+    itemConfig:{
+    },
+    rowObj:{},
     type: {
-        type: String,
-        default: 'success'
+      type: String,
+      default: 'success'
     },
     disabled: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
     placeholder: {
-        type: String,
-        default: '查询'
+      type: String,
+      default: '查询'
     },
     disabled:{
       type: Boolean,
       default: false
-    },
-    itemConfig:{
     },
   },
   data() {
@@ -33,9 +39,13 @@ export default {
   created() {
   },
   mounted() {
+    console.log("rowObj",this.rowObj)
   },
   methods: {
-  
+    submitHandle(){
+      if(!this.itemConfig.id) return;
+      this.$app.handle[this.itemConfig.id](this.rowObj)
+    }
   }
 }
 </script>

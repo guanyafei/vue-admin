@@ -83,8 +83,8 @@ export default {
       let itemObj = {};
       tableCol.map(colItem=>{
         colItem.$.handle && colItem.button.length && colItem.button.map(item=>{
-             itemObj = item.$;
-            this.buttonItems.push(itemObj);
+          itemObj = item.$;
+          this.buttonItems.push(itemObj);
         })
       });
     }
