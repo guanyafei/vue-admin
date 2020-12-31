@@ -39,7 +39,6 @@ export default {
   created() {
   },
   mounted() {
-    console.log("rowObj",this.rowObj)
   },
   methods: {
     submitHandle(){

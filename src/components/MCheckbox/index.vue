@@ -1,25 +1,21 @@
 <template>
-  <el-input v-model="formItemVal" :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput"/>
+ <el-checkbox-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
+    <el-checkbox v-for="item in itemConfig.options || options"
+      :key="item"
+      :label="item"
+      >
+      {{item}}
+    </el-checkbox>
+  </el-checkbox-group>
 </template>
 
 <script>
 export default {
-  name: 'MInput',
+  name: 'MCheckbox',
   props: {
     itemConfig:{
     },
-    value: {
-        type: String,
-        default: ''
-    },
-    tag: {
-        type: String,
-        default: 'text'
-    },
-    maxlength: {
-        type: String,
-        default: '6'
-    },
+    value: [],
     clearable: {
         type: Boolean,
         default: true
@@ -31,22 +27,24 @@ export default {
     placeholder: {
         type: String,
         default: '请输入'
-    }
+    },
+    options: []
   },
   data() {
     return {
       formItemVal:this.value
     }
   },
-  watch:{
-   'value':{
-      handler: function(val, oldVal){
-        this.formItemVal = val;
-      },
-      deep: true
-    }
-  },
+  // watch:{
+  //  'value':{
+  //     handler: function(val, oldVal){
+  //       this.formItemVal = val;
+  //     },
+  //     deep: true
+  //   }
+  // },
   created() {
+    console.log("MCheckbox",this.value)
   },
   mounted() {
   },

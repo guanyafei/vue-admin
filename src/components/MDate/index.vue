@@ -41,6 +41,14 @@ export default {
       formItemVal:this.value
     }
   },
+  watch:{
+   'value':{
+      handler: function(val, oldVal){
+        this.formItemVal = val;
+      },
+      deep: true
+    }
+  },
   created() {
   },
   mounted() {

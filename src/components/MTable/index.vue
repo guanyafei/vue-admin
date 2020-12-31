@@ -10,13 +10,13 @@
       />
       <template v-for="(item,index) in tableConfig.tableCol" >
         <el-table-column
-          v-if="item.$.handle"
+          v-if="item.button"
           :key="index"
           :label="item.$.lable"
           :align="item.$.align || align"
         >
           <template v-slot:default="scope">
-              <m-button :itemConfig="item" :rowObj="scope.row" v-for="(item,index) in buttonItems"  :key="index"></m-button>
+              <m-button :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -65,12 +65,12 @@ export default {
   data() {
     return {
       tableConfig: {},
-      buttonItems:[]
+      // buttonItems:[]
     }
   },
   created() {
-    this.tableConfig = this.xmlConfigObj.table[0];
-    this.handleOperatData(this.tableConfig.tableCol);
+    this.tableConfig = this.xmlConfigObj;
+    // this.handleOperatData(this.tableConfig.tableCol);
   },
   mounted() {
   },
@@ -79,22 +79,18 @@ export default {
       console.log(`当前页: ${val}`)
     },
     // 格式化table操作按钮
-    handleOperatData(tableCol=[]){
-      let itemObj = {};
-      tableCol.map(colItem=>{
-        colItem.$.handle && colItem.button.length && colItem.button.map(item=>{
-          itemObj = item.$;
-          this.buttonItems.push(itemObj);
-        })
-      });
-    }
+    // handleOperatData(tableCol=[]){
+    //   let itemObj = {};
+    //   tableCol.map(colItem=>{
+    //     colItem.button && colItem.button.length && colItem.button.map(item=>{
+    //       itemObj = item.$;
+    //       this.buttonItems.push(itemObj);
+    //     })
+    //   });
+    // }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.pagination{
-    float: right;
-    margin-top: 15px;
-}
 </style>

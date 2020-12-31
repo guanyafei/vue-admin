@@ -85,3 +85,12 @@ export function isArray(arg) {
   }
   return Array.isArray(arg)
 }
+
+/**
+ * @param {Object} arg
+ * @returns {Boolean}
+ */
+export function isEmptyObj (arg) {
+  if(typeof arg === 'undefined') return 0;
+  return Object.keys(arg).length>0;
+}
