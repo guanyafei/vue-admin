@@ -30,6 +30,10 @@ export default {
       type: Boolean,
       default: false
     },
+    formData:{
+      type: Object,
+      default: ()=>{}
+    },
   },
   data() {
     return {
@@ -42,8 +46,8 @@ export default {
   },
   methods: {
     submitHandle(){
-      if(!this.itemConfig.id) return;
-      this.$app.handle[this.itemConfig.id](this.rowObj)
+      if(!this.itemConfig._id) return;
+      this.$app.handle[this.itemConfig._id](this.rowObj,this.formData);
     }
   }
 }

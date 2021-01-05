@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableList"
+      :data="tableList.rows"
       :stripe="stripe"
     >
       <el-table-column
@@ -31,7 +31,7 @@
     <div class="pagination">
       <el-pagination
         layout="total, prev, pager, next, jumper"
-        :total="tableList.length"
+        :total="tableList.total"
         @current-change="handleCurrentChange"
       />
     </div>
@@ -39,15 +39,19 @@
 </template>
 <script>
 import MButton from '@/components/MButton'
+import request from '@/utils/request'
 export default {
   name: 'MTable',
   components: { MButton },
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     xmlConfigObj: {},
     tableList: {
-      default: () => {
-        return 
-      }
+      default: () => []
     },
     align: {
       type: String,
@@ -64,30 +68,34 @@ export default {
   },
   data() {
     return {
-      tableConfig: {},
-      // buttonItems:[]
+      tableConfig: {}
     }
   },
   created() {
     this.tableConfig = this.xmlConfigObj;
-    // this.handleOperatData(this.tableConfig.tableCol);
   },
   mounted() {
+    this.handleCurrentChange();
   },
   methods: {
-    handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+    handleCurrentChange(val=1) {
+      console.log(`当前页: ${val}`);
+      request({
+        method: this.tableConfig.$.method,
+        url: this.tableConfig.$.action,
+        params:{
+          date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+          conditions: '',
+          currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+          Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+          readOnly: 'YES',
+          page: 1,
+          rows: 20
+        }
+      }).then(res=>{
+          this.$app.baseData = res;
+      });
     },
-    // 格式化table操作按钮
-    // handleOperatData(tableCol=[]){
-    //   let itemObj = {};
-    //   tableCol.map(colItem=>{
-    //     colItem.button && colItem.button.length && colItem.button.map(item=>{
-    //       itemObj = item.$;
-    //       this.buttonItems.push(itemObj);
-    //     })
-    //   });
-    // }
   }
 }
 </script>

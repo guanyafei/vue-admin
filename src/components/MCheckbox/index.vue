@@ -15,7 +15,10 @@ export default {
   props: {
     itemConfig:{
     },
-    value: [],
+    value: {
+      type: String,
+      default: ''
+    },
     clearable: {
         type: Boolean,
         default: true
@@ -32,31 +35,24 @@ export default {
   },
   data() {
     return {
-      formItemVal:this.value
+      formItemVal:JSON.parse(this.value)
     }
   },
-  // watch:{
-  //  'value':{
-  //     handler: function(val, oldVal){
-  //       this.formItemVal = val;
-  //     },
-  //     deep: true
-  //   }
-  // },
+  watch:{
+   'value':{
+      handler: function(val, oldVal){
+        this.formItemVal = val;
+      },
+      deep: true
+    }
+  },
   created() {
-    console.log("MCheckbox",this.value)
   },
   mounted() {
   },
   methods: {
     handleModelInput(value) {
-      this.$emit('input', value)
-      // if (this.$parent.$options.componentName === 'ElFormItem') {
-      //   if (this.validateEvent) {
-      //     this.$parent.$emit('el.form.change', [value])
-      //   }
-      // }
-      this.$emit('change', value)
+      console.log("MCheckbox",value)
     },
 
   }

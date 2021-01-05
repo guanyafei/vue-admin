@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-    <section class="search">
-      <component :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.search[0]" ></component>
-    </section>
-    <section class="list">
-      <component :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="baseData" ></component>
-    </section>
-    <section class="list" v-for="(item,idx) in xmlConfig.root.dialog" :key="idx">
-      <component :ref="item.$.id" :is="pageConfig['dialog']" :dialogVisibleFlag='`${item.$.id}DialogVisible`' :xmlConfigObj="xmlConfig.root" >
+    <component :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.search[0]" v-if="xmlConfig.root.search&&xmlConfig.root.search.length"></component>
+    <component ref="tableComp" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="baseData" v-if="xmlConfig.root.table&&xmlConfig.root.table.length"></component>
+    <section class="list" v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length">
+      <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item,idx) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
         <component :is="pageConfig['form']" :updateDate="updateDate" :xmlConfigObj="item" ></component>
-        <component v-if="item.table" :is="pageConfig['table']" :xmlConfigObj="item.table[0]" :tableList="baseData"></component>
+        <component :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="baseData"></component>
       </component>
     </section>
   </div>
@@ -36,27 +32,7 @@ export default {
       handle:{},
       updateDate:{},
       handleMapping:{},
-      baseData: [{
-        id:'1',
-        date: '2016-05-02',
-        name: '王1虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        id:'21',
-        date: '2017-05-04',
-        name: '王2虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        id:'3',
-        date: '2018-05-01',
-        name: '王3虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        id:'4',
-        date: '2019-05-03',
-        name: '王4虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      baseData: []
     }
   },
   created() {
@@ -65,6 +41,7 @@ export default {
     if(this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return;
     this.idToHandle(root);
     this.idToFun();
+    console.log("rtrtrtr",this.handleMapping)
   },
   mounted() {
   },
@@ -74,21 +51,21 @@ export default {
       Object.keys(root).map(tagItem=>{
         root[tagItem].map(tagObj=>{
           root[tagItem].map(item=>{
-            if(isEmptyObj(item.$) && isEmptyObj(item.$.id)){
+            if(isEmptyObj(item.$) && isEmptyObj(item.$._id)){
               let tempObj = {};
               item.$.handleType = tagItem;
-              tempObj[item.$.id] = item.$;
+              tempObj[item.$._id] = item.$;
               this.handleMapping = Object.assign(this.handleMapping,tempObj);
             } 
           });
         });
       });
     },
-    // id to fun
+    // id to fun params查询参数
     idToFun (){
       Object.keys(this.handleMapping).map(itemKey=>{
-        if(isEmptyObj(this.handleMapping[itemKey].id)){
-          this.handle[this.handleMapping[itemKey].id] = (data)=>{
+        if(isEmptyObj(this.handleMapping[itemKey]._id)){
+          this.handle[this.handleMapping[itemKey]._id] = (data={},params={})=>{
             this.updateDate = data;
             if(this.handleMapping[itemKey].handleType === 'alert'){
               this.$confirm(`${this.handleMapping[itemKey].tip?this.handleMapping[itemKey].tip:this.alertTip}`, '提示', {
@@ -96,9 +73,26 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
-                this.$message({
-                  type: 'success',
-                  message: '操作成功!'
+                request({
+                  method: this.handleMapping[itemKey].method || 'GET',
+                  url: this.handleMapping[itemKey].action,
+                  params:{
+                    id:this.updateDate.id,
+                    Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+                  }
+                }).then(res=>{
+                  if(res.retcode===0){
+                     this.$message({
+                      type: 'success',
+                      message: '操作成功!'
+                    })
+                     this.$refs.tableComp.handleCurrentChange();
+                  }else{
+                    this.$message({
+                      type: 'info',
+                      message: res.retmesg
+                    })
+                  }
                 });
               }).catch(() => {
                 this.$message({
@@ -106,20 +100,54 @@ export default {
                   message: '已取消操作' 
                 });          
               });
+            }else if(this.handleMapping[itemKey].handleType === 'table'){
+              request({
+                method: this.handleMapping[itemKey].method,
+                url: this.handleMapping[itemKey].action,
+                params:{
+                  date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+                  conditions: params.accountNo ? `{客户账号} = ${params.accountNo}` : '',
+                  currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+                  Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+                  readOnly: 'YES',
+                  page: 1,
+                  rows: 20
+                }
+              }).then(res=>{
+                  this.baseData = res;
+              });
             }else{
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`]=true;
             }
           }
         }
       });
-    }
+    },
+    // request 
+    // fetch (params={}) {
+    //  request({
+    //     method: this.tableConfig.$.method,
+    //     url: this.tableConfig.$.action,
+    //     params:{
+    //       date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+    //       conditions: '',
+    //       currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+    //       Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+    //       readOnly: 'YES',
+    //       page: 1,
+    //       rows: 20
+    //     }
+    //   }).then(res=>{
+    //       this.baseData = res;
+    //   });
+    // }
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .container{
-     margin: 10px 20px 0;
+     margin: 10px 20px 40px;
      .search{
        margin-top: 20px;
        border-bottom: 1px solid #DCDFE6;
