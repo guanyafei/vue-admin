@@ -9,8 +9,8 @@ export default {
     itemConfig:{
     },
     value: {
-      type: String,
-      default: ''
+      type: Array,
+      default: []
     },
     clearable: {
       type: Boolean,
@@ -24,31 +24,10 @@ export default {
       type: String,
       default: '请选择地区'
     },
-    // options: [{
-    //   value: 'zhinan',
-    //   label: '指南',
-    //   children: [{
-    //     value: 'shejiyuanze',
-    //     label: '设计原则',
-    //     children: [{
-    //       value: 'yizhi',
-    //       label: '一致'
-    //     }, {
-    //       value: 'fankui',
-    //       label: '反馈'
-    //     }, {
-    //       value: 'xiaolv',
-    //       label: '效率'
-    //     }, {
-    //       value: 'kekong',
-    //       label: '可控'
-    //     }]
-    //   }]
-    // }]
   },
   data() {
     return {
-      formItemVal:JSON.parse(this.value),
+      formItemVal:this.value,
       options: [{
         value: 'zhinan',
         label: '指南',
@@ -86,6 +65,7 @@ export default {
   },
   methods: {
     handleChange(value) {
+      console.log("erere",this.formItemVal)
     },
 
   }

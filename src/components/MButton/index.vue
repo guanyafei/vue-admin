@@ -1,5 +1,5 @@
 <template>
-      <el-button :type="itemConfig.type || type" @click="submitHandle"  :disabled="disabled">{{itemConfig.placeholder || placeholder}}</el-button>
+  <el-button :type="itemConfig.type || type" @click="submitHandle"  :disabled="disabled" size="mini">{{itemConfig.placeholder || placeholder}}</el-button>
 </template>
 
 <script>

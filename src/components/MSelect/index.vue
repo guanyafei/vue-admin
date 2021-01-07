@@ -1,15 +1,16 @@
 <template>
   <el-select v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
     <el-option
-      v-for="item in itemConfig.options || options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
+      v-for="item in optionsVal"
+      :key="item.firstCode"
+      :label="item.firstArea"
+      :value="item.firstCode">
     </el-option>
   </el-select>
 </template>
 
 <script>
+import request from '@/utils/request'
 export default {
   name: 'MSelect',
   props: {
@@ -35,12 +36,11 @@ export default {
       type: String,
       default: '请选择'
     },
-    options: [],
-    dada:''
   },
   data() {
     return {
-      formItemVal:this.value
+      formItemVal:this.value,
+      optionsVal:this.itemConfig.options || [],
     }
   },
   watch:{
@@ -52,10 +52,25 @@ export default {
     }
   },
   created() {
+    this.itemConfig && this.itemConfig.action && this.getOptions();
   },
   mounted() {
   },
   methods: {
+    // 获取select值
+    getOptions () {
+      request({
+        method: this.itemConfig.method,
+        url: this.itemConfig.action,
+        params:{
+          Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
+        }
+      }).then(res=>{
+        if(res.retcode===0){
+          this.optionsVal = res.retdata || [];
+        }
+      });
+    },
     handleModelInput(val) {
       this.$emit('input', val)
     },

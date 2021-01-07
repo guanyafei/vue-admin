@@ -3,9 +3,9 @@
     <component :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.search[0]" v-if="xmlConfig.root.search&&xmlConfig.root.search.length"></component>
     <component ref="tableComp" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="baseData" v-if="xmlConfig.root.table&&xmlConfig.root.table.length"></component>
     <section class="list" v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length">
-      <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item,idx) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
-        <component :is="pageConfig['form']" :updateDate="updateDate" :xmlConfigObj="item" ></component>
-        <component :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="baseData"></component>
+      <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
+        <component :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDate" :xmlConfigObj="item" ></component>
+        <component :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="baseData"></component>
       </component>
     </section>
   </div>
@@ -16,6 +16,7 @@ import xmlConfig from './demo.xml'
 import pageConfig from 'pageConfig'
 import request from '@/utils/request'
 import { isEmptyObj } from '@/utils/validate'
+import { objectMerge,deepClone } from '@/utils/index'
 
 export default {
   name: 'PageDemo',
@@ -41,7 +42,6 @@ export default {
     if(this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return;
     this.idToHandle(root);
     this.idToFun();
-    console.log("rtrtrtr",this.handleMapping)
   },
   mounted() {
   },
@@ -52,10 +52,13 @@ export default {
         root[tagItem].map(tagObj=>{
           root[tagItem].map(item=>{
             if(isEmptyObj(item.$) && isEmptyObj(item.$._id)){
-              let tempObj = {};
-              item.$.handleType = tagItem;
-              tempObj[item.$._id] = item.$;
-              this.handleMapping = Object.assign(this.handleMapping,tempObj);
+              let tempObj = {},itemObj = deepClone(item.$);
+              itemObj['handleType'] = tagItem;
+              itemObj['forms'] = {};
+              itemObj['baseDate'] = [];
+              tempObj[itemObj._id] = itemObj;
+              this.handleMapping = Object.assign({},this.handleMapping,tempObj);
+              console.log("33333333",this.handleMapping)
             } 
           });
         });
@@ -78,7 +81,7 @@ export default {
                   url: this.handleMapping[itemKey].action,
                   params:{
                     id:this.updateDate.id,
-                    Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+                    Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
                   }
                 }).then(res=>{
                   if(res.retcode===0){
@@ -108,7 +111,7 @@ export default {
                   date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
                   conditions: params.accountNo ? `{客户账号} = ${params.accountNo}` : '',
                   currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                  Login_SessionId: 'SESSION_E53DB5BA6B7F4B1DA95DA6C018AA1B96',
+                  Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
                   readOnly: 'YES',
                   page: 1,
                   rows: 20

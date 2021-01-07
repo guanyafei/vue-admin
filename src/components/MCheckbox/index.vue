@@ -16,8 +16,8 @@ export default {
     itemConfig:{
     },
     value: {
-      type: String,
-      default: ''
+      type: Array,
+      default: []
     },
     clearable: {
         type: Boolean,
@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      formItemVal:JSON.parse(this.value)
+      formItemVal:this.value
     }
   },
   watch:{

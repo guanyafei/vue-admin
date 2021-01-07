@@ -1,12 +1,12 @@
 <template>
   <div>
     <el-form ref="forms" class="form-box" inline :model="forms" label-width="100px">
-      <el-form-item v-for="(keyItem) in Object.keys(forms)" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag&&forms[keyItem]">
+      <el-form-item v-for="(keyItem) in Object.keys(forms).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
             <m-input v-model="forms[keyItem]" :itemConfig="formItems[keyItem]" ></m-input>
           </template>
-          <template v-if="formItems[keyItem].tag === 'textarea'">
+          <template v-else-if="formItems[keyItem].tag === 'textarea'">
             <m-input v-model="forms[keyItem]" :itemConfig="formItems[keyItem]" ></m-input>
           </template>
           <template v-else-if="formItems[keyItem].tag === 'select'">
@@ -56,7 +56,8 @@ export default {
   },
   props:{
     xmlConfigObj:{},
-    updateDate:{}
+    updateDate:{},
+    formKey:''
   },
   data() {
     return {
@@ -77,7 +78,10 @@ export default {
     const searchConfig = this.xmlConfigObj;
     this.initForm(searchConfig);
     isEmptyObj(this.updateDate) && (this.forms = Object.assign(this.forms,this.removeDateId(this.updateDate)));
-    this.$app.forms = this.forms;
+    this.$nextTick(()=>{
+      this.$app.forms = this.forms;
+      this.$app.formRefs = this.$refs['forms'];
+    })
   },
   mounted() {
   },
@@ -104,7 +108,7 @@ export default {
         }else if(key === 'checkbox'){
           searchConfig[key].map(item => {
             itemObj = item.$;
-            this.$set(this.forms, itemObj.prop, '[]');
+            this.$set(this.forms, itemObj.prop, []);
             itemObj.tag = key;
             itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj,{'options':JSON.parse(itemObj.options)}));
             this.formItems[itemObj.prop] = itemObj;
@@ -112,7 +116,7 @@ export default {
         }else if(key === 'cascader'){
           searchConfig[key].map(item => {
             itemObj = item.$;
-            this.$set(this.forms, itemObj.prop, '[]');
+            this.$set(this.forms, itemObj.prop, []);
             itemObj.tag = key;
             itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj,{'options':JSON.parse(itemObj.options)}));
             this.formItems[itemObj.prop] = itemObj;
