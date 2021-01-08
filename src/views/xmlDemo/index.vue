@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <component :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.search[0]" v-if="xmlConfig.root.search&&xmlConfig.root.search.length"></component>
-    <component ref="tableComp" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="baseData" v-if="xmlConfig.root.table&&xmlConfig.root.table.length"></component>
+    <component formKey="query" :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.formBox[0]" v-if="xmlConfig.root.formBox&&xmlConfig.root.formBox.length"></component>
+    <component tableKey="query" ref="queryTable" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="(handleMapping['query'])['queryBaseDate']" v-if="xmlConfig.root.table&&xmlConfig.root.table.length"></component>
     <section class="list" v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length">
       <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
-        <component :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDate" :xmlConfigObj="item" ></component>
-        <component :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="baseData"></component>
+        <component :ref="`${item.$._id}Form`" :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDate" :xmlConfigObj="item.formBox[0]" ></component>
+        <component :ref="`${item.$._id}Table`" :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]"></component>
       </component>
     </section>
   </div>
@@ -21,7 +21,7 @@ import { objectMerge,deepClone } from '@/utils/index'
 export default {
   name: 'PageDemo',
   provide() {
-    return {
+    return { 
       $app: this//提供祖先组件的实例
     };
   },
@@ -33,7 +33,8 @@ export default {
       handle:{},
       updateDate:{},
       handleMapping:{},
-      baseData: []
+      queryBaseData: [],
+      forms:{}
     }
   },
   created() {
@@ -50,18 +51,34 @@ export default {
     idToHandle (root){
       Object.keys(root).map(tagItem=>{
         root[tagItem].map(tagObj=>{
-          root[tagItem].map(item=>{
-            if(isEmptyObj(item.$) && isEmptyObj(item.$._id)){
-              let tempObj = {},itemObj = deepClone(item.$);
-              itemObj['handleType'] = tagItem;
-              itemObj['forms'] = {};
-              itemObj['baseDate'] = [];
-              tempObj[itemObj._id] = itemObj;
-              this.handleMapping = Object.assign({},this.handleMapping,tempObj);
-              console.log("33333333",this.handleMapping)
-            } 
-          });
+          this.xmlToJson(root,tagItem);
         });
+      });
+    },
+    // xml to json
+    xmlToJson (root,tagItem){
+      root[tagItem].map(item=>{
+        if(isEmptyObj(item.$) && isEmptyObj(item.$._id)){
+          let tempObj = {},itemObj = deepClone(item.$);
+          itemObj['handleType'] = tagItem;
+          itemObj['forms'] = {};
+          itemObj[`${item.$._id}BaseDate`] = [];
+          tempObj[itemObj._id] = itemObj;
+          this.handleMapping = Object.assign({},this.handleMapping,tempObj);
+          if(item.formBox && isEmptyObj(item.$) && isEmptyObj(item.$._id)){
+            this.handleMapping[itemObj._id].forms = deepClone(item.formBox[0]);
+          }
+          if(item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)){
+            this.handleMapping[itemObj._id].baseDate = deepClone(item.table[0]);
+            console.log("qqqqqqq",item.table)
+            let tempObj = {},obj = deepClone(item.table[0].$);
+            obj['handleType'] = 'table';
+            obj['forms'] = {};
+            obj[`${obj._id}BaseDate`] = [];
+            tempObj[obj._id] = obj;
+            this.handleMapping = Object.assign({},this.handleMapping,tempObj);
+          }
+        } 
       });
     },
     // id to fun params查询参数
@@ -69,6 +86,7 @@ export default {
       Object.keys(this.handleMapping).map(itemKey=>{
         if(isEmptyObj(this.handleMapping[itemKey]._id)){
           this.handle[this.handleMapping[itemKey]._id] = (data={},params={})=>{
+            console.log("this.handleMapping[itemKey]._id",this.$refs)
             this.updateDate = data;
             if(this.handleMapping[itemKey].handleType === 'alert'){
               this.$confirm(`${this.handleMapping[itemKey].tip?this.handleMapping[itemKey].tip:this.alertTip}`, '提示', {
@@ -81,7 +99,7 @@ export default {
                   url: this.handleMapping[itemKey].action,
                   params:{
                     id:this.updateDate.id,
-                    Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
+                    Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04',
                   }
                 }).then(res=>{
                   if(res.retcode===0){
@@ -89,7 +107,7 @@ export default {
                       type: 'success',
                       message: '操作成功!'
                     })
-                     this.$refs.tableComp.handleCurrentChange();
+                    (this.$refs[`${itemKey}Table`])[0].handleCurrentChange();
                   }else{
                     this.$message({
                       type: 'info',
@@ -111,13 +129,13 @@ export default {
                   date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
                   conditions: params.accountNo ? `{客户账号} = ${params.accountNo}` : '',
                   currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                  Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
+                  Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
                   readOnly: 'YES',
                   page: 1,
                   rows: 20
                 }
               }).then(res=>{
-                  this.baseData = res;
+                  this.queryBaseData = res;
               });
             }else{
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`]=true;

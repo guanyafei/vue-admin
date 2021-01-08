@@ -1,9 +1,9 @@
 <root>
-    <search action="/lmis-md-web/cusm/totalQuery.do">
+    <formBox action="/lmis-md-web/cusm/totalQuery.do">
         <text width='100px' placeholder="请输入客户账号" prop="accountNo" lable="客户账号"/>
         <button type="primary" _id="query" placeholder="查询"/>
         <button type="success" _id="add" placeholder="创建"/>
-    </search>
+    </formBox>
     <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" type='index' method="get">
         <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
         <tableCol  prop="company" lable="客户名称" /> 
@@ -15,29 +15,32 @@
         </tableCol>
     </table>
     <dialog _id="add" action='/lmis-md-web/cusm/saveClientAdd.do' method="post">
-        <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
-        <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
-        <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
-        <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
-        <select placeholder="请输入" prop="city" lable="城市" options='[{"firstArea":"黄金糕","value":"选项1"},{"firstArea":"双皮奶","value":"选项2"}]'/>
-        <select placeholder="请输入" prop="country" lable="区县" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
-        <select placeholder="请输入" prop="street" lable="街道" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
-        <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
-        <text placeholder="请输入" prop="name" lable="联系人"/>
-        <text placeholder="请输入" prop="phone" lable="联系电话"/>
-        <text placeholder="请输入" prop="zipCode" lable="邮编"/>
-        <text placeholder="请输入" prop="email" lable="Email"/>
-        <text placeholder="请输入" prop="dcId" lable="所属DC"/>
-        <select placeholder="请输入" prop="status" lable="状态" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="industryId" lable="所属行业" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="projectId" lable="项目分类" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="xiangmu" lable="项目名称" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="businessDepartment" lable="事业部" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="parentAccountNo" lable="客户父账号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <text placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
-        <select placeholder="请输入" prop="belongsBody" lable="所属公司主体" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="isNeedOrder" lable="是否须有订单号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="isPallet" lable="是否托盘管理" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+        <formBox>
+            <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
+            <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
+            <select placeholder="请输入" prop="city" lable="城市" options='[{"firstArea":"黄金糕","value":"选项1"},{"firstArea":"双皮奶","value":"选项2"}]'/>
+            <select placeholder="请输入" prop="country" lable="区县" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
+            <select placeholder="请输入" prop="street" lable="街道" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
+            <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
+            <text placeholder="请输入" prop="name" lable="联系人"/>
+            <text placeholder="请输入" prop="phone" lable="联系电话"/>
+            <text placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <text placeholder="请输入" prop="email" lable="Email"/>
+            <text placeholder="请输入" prop="dcId" lable="所属DC"/>
+            <select placeholder="请输入" prop="status" lable="状态" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="industryId" lable="所属行业" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="projectId" lable="项目分类" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="xiangmu" lable="项目名称" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="businessDepartment" lable="事业部" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="parentAccountNo" lable="客户父账号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <text placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
+            <select placeholder="请输入" prop="belongsBody" lable="所属公司主体" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="isNeedOrder" lable="是否须有订单号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="isPallet" lable="是否托盘管理" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <button type="warning" _id="update" placeholder="保存"/>
+        </formBox>
         <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do" type='index' method="get">
             <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
             <tableCol  prop="company" lable="客户名称" /> 
@@ -45,7 +48,7 @@
             <tableCol  lable="操作">
                 <button type="danger" _id="statusClose"  placeholder="冻结"/>
                 <button type="danger" _id="statusOpen"  placeholder="开通"/>
-                <button type="warning" _id="update" placeholder="更新"/>
+                <button type="warning" _id="ccc" placeholder="更新"/>
             </tableCol>
         </table>
     </dialog>
@@ -53,33 +56,37 @@
     </alert>
     <alert _id="statusClose"  action='/lmis-md-web/cusm/statusClose.do' method="post" tip="确定冻结吗？">
     </alert>
-    <dialog _id="cc" action='url'>
-        <text width='100px' placeholder="请输入啦啦啦啦" prop="name" lable="姓名"/>
-        <textarea placeholder="请输入ooo" prop="address" lable="简介"/>
-        <date type="date" prop="date" placeholder="选择日期时间" lable="日期"/>
+    <dialog _id="ccc" action='url'>
+        <formBox>
+            <text width='100px' placeholder="请输入啦啦啦啦" prop="name" lable="姓名"/>
+            <textarea placeholder="请输入ooo" prop="address" lable="简介"/>
+            <date type="date" prop="date" placeholder="选择日期时间" lable="日期"/>
+        </formBox>
     </dialog>
     <dialog _id="update" action='/lmis-md-web/cusm/saveClientEdit.do' method="post">
-        <text width='100px' placeholder="请输入" prop="clientAccountNo" lable="客户账号"/>
-        <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
-        <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
-        <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-        <select placeholder="请输入" prop="country" lable="区县" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-        <select placeholder="请输入" prop="street" lable="街道" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-        <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
-        <text placeholder="请输入" prop="name" lable="联系人"/>
-        <text placeholder="请输入" prop="phone" lable="联系电话"/>
-        <text placeholder="请输入" prop="zipCode" lable="邮编"/>
-        <text placeholder="请输入" prop="email" lable="Email"/>
-        <text placeholder="请输入" prop="dcId" lable="所属DC"/>
-        <select placeholder="请输入" prop="status" lable="状态" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="industryId" lable="所属行业" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="projectId" lable="项目分类" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="xiangmu" lable="项目名称" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="businessDepartment" lable="事业部" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="parentAccountNo" lable="客户父账号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <text placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
-        <select placeholder="请输入" prop="belongsBody" lable="所属公司主体" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="isNeedOrder" lable="是否须有订单号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-        <select placeholder="请输入" prop="isPallet" lable="是否托盘管理" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+        <formBox>
+            <text width='100px' placeholder="请输入" prop="clientAccountNo" lable="客户账号"/>
+            <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
+            <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <select placeholder="请输入" prop="country" lable="区县" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <select placeholder="请输入" prop="street" lable="街道" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
+            <text placeholder="请输入" prop="name" lable="联系人"/>
+            <text placeholder="请输入" prop="phone" lable="联系电话"/>
+            <text placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <text placeholder="请输入" prop="email" lable="Email"/>
+            <text placeholder="请输入" prop="dcId" lable="所属DC"/>
+            <select placeholder="请输入" prop="status" lable="状态" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="industryId" lable="所属行业" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="projectId" lable="项目分类" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="xiangmu" lable="项目名称" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="businessDepartment" lable="事业部" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="parentAccountNo" lable="客户父账号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <text placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
+            <select placeholder="请输入" prop="belongsBody" lable="所属公司主体" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="isNeedOrder" lable="是否须有订单号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+            <select placeholder="请输入" prop="isPallet" lable="是否托盘管理" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
+        </formBox>
     </dialog>
 </root>

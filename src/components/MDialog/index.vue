@@ -84,8 +84,9 @@ export default {
     // 重置表单数据
     closeDia(){
       this.dialogVisibleObj[this.dialogVisibleFlag] = false;
+      console.log("this.$app['formRefs']",this.$app)
       this.$app['formRefs'].resetFields();
-      this.$app.forms={};
+      // this.$app.forms={};
     }
   }
 }

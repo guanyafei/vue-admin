@@ -16,7 +16,7 @@
           :align="item.$.align || align"
         >
           <template v-slot:default="scope">
-              <m-button :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
+              <m-button :xmlConfigObj="xmlConfigObj"  :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -68,7 +68,8 @@ export default {
   },
   data() {
     return {
-      tableConfig: {}
+      tableConfig: {},
+      ddd:{}
     }
   },
   created() {
@@ -87,13 +88,14 @@ export default {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
+          Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
           readOnly: 'YES',
-          page: 1,
+          page: val,
           rows: 20
         }
       }).then(res=>{
-          this.$app.baseData = res;
+          console.log("etrertetetetetetet",this.$app)
+          this.$app['handleMapping'][this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res;
       });
     },
   }

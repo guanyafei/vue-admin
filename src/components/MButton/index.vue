@@ -34,6 +34,7 @@ export default {
       type: Object,
       default: ()=>{}
     },
+    xmlConfigObj:{}
   },
   data() {
     return {
