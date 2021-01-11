@@ -54,39 +54,13 @@ export default {
          ...this.$app.forms
       }).then(res=>{
           this.$app.$refs.tableComp.handleCurrentChange();
-          this.dialogVisibleObj[dialogVisibleFlag] = false;
+          this.closeDia();
       });
-      // axios({        
-      //   url:this.$app.handleMapping[this.handleId].action,    // 设置请求的地址
-      //   method:this.$app.handleMapping[this.handleId].method, // 设置请求方法
-      //   data:{      // get请求使用params进行参数凭借,如果是post请求用data
-      //    Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB',
-      //    ...this.$app.forms
-      //   },
-      //   transformRequest: [function (data) {
-      //     let ret = ''
-      //     for (let it in data) {
-      //       ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-      //     }
-      //     ret=ret.substring(0,ret.length-1)
-      //     console.log("ret",typeof ret);
-      //     return ret
-      //   }],
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded',
-      //     'Cookie':'JSESSIONID=4A4141EA843977ACE855AE39085590A7'
-      //   }
-      // }).then(res => {  
-      //   // res为后端返回的数据
-      //   console.log(res);   
-      // })
     },
     // 重置表单数据
     closeDia(){
       this.dialogVisibleObj[this.dialogVisibleFlag] = false;
-      console.log("this.$app['formRefs']",this.$app)
-      this.$app['formRefs'].resetFields();
-      // this.$app.forms={};
+      this.$app['formRefs'][this.handleId].resetFields();
     }
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-form ref="forms" class="form-box" inline :model="forms[formKey]" label-width="100px">
+    <!-- <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px"> -->
+    <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px">
       <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
@@ -69,23 +70,19 @@ export default {
   watch:{
    'updateDate':{
       handler: function(val, oldVal){
-        console.log("eeeeeeeeeeeee",this.formKey,this.forms[this.formKey]);
         this.forms[this.formKey] = Object.assign(this.forms[this.formKey],this.removeDateId(val));
       },
       deep: true
-    },
+    }
   },
   created() {
     const searchConfig = this.xmlConfigObj;
     this.formKey && this.$set(this.forms, this.formKey, {});
-    console.log(this.forms)
-    // debugger;
     this.initForm(searchConfig);
-    isEmptyObj(this.updateDate) && (this.forms[this.formKey] = Object.assign(this.forms[this.formKey],this.removeDateId(this.updateDate)));
-    console.log("this.$app",this.$app)
+    isEmptyObj(this.updateDate) && this.$set(this.forms, this.formKey, this.removeDateId(this.updateDate));
     this.$nextTick(()=>{
-      this.$app.forms[`${this.formKey}`] = this.forms[this.formKey];
-      this.$app.formRefs = this.$refs['forms'];
+      this.$set(this.$app.forms, this.formKey, this.forms[this.formKey]);
+      this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`]);
     });
   },
   mounted() {

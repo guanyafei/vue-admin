@@ -94,7 +94,6 @@ export default {
           rows: 20
         }
       }).then(res=>{
-          console.log("etrertetetetetetet",this.$app)
           this.$app['handleMapping'][this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res;
       });
     },
