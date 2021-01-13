@@ -1,6 +1,7 @@
 <root>
     <formBox action="/lmis-md-web/cusm/totalQuery.do">
         <text width='100px' placeholder="请输入客户账号" prop="accountNo" lable="客户账号"/>
+        <zoom width='100px' placeholder="请选择" prop="name" _id="zoom1" lable="名称" action='/lmis-md-web/cusm/totalQuery.do'/>
         <button type="primary" _id="query" placeholder="查询"/>
         <button type="success" _id="add" placeholder="创建"/>
     </formBox>

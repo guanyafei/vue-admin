@@ -25,6 +25,9 @@
           <template v-else-if="formItems[keyItem].tag === 'cascader'">
             <m-cascader v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-cascader>
           </template>
+          <template v-else-if="formItems[keyItem].tag === 'zoom'">
+            <m-zoom v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-zoom>
+          </template>
         </template>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
@@ -47,9 +50,10 @@ import MDate from '@/components/MDate'
 import MRadio from '@/components/MRadio'
 import MCheckbox from '@/components/MCheckbox'
 import MCascader from '@/components/MCascader'
+import MZoom from '@/components/MZoom'
 export default {
   name: 'MForm',
-  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader},
+  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom},
   inject: {
     $app: {
       default: () => ({})
