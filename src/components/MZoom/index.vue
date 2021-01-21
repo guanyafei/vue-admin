@@ -3,8 +3,8 @@
     <el-input v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" readonly>
       <el-button slot="append" icon="el-icon-search" @click="openDia()"/>
     </el-input>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%">
-      <el-form ref="form" :model="zoom">
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%" append-to-body :closed="closeDia" destroy-on-close>
+      <el-form ref="zoomForm" :model="zoom" :inline="true">
         <el-form-item label="活动名称" prop="searchKey">
           <el-input v-model="zoom.searchKey" placeholder="请输入"/>
         </el-form-item>
@@ -25,7 +25,7 @@
         />
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button  size="mini" @click="dialogVisible = false">取 消</el-button>
+        <el-button  size="mini" @click="closeDia">取 消</el-button>
         <el-button  size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
@@ -97,7 +97,11 @@ export default {
     },
     rowSelected(row, column){
       this.dialogVisible = false;
-      console.log("row",row);
+      this.formItemVal = row.company;
+    },
+    closeDia (){
+      this.dialogVisible = false;
+      this.$refs['zoomForm'].resetFields();
     }
   }
 }

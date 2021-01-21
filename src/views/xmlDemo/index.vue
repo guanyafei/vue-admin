@@ -5,7 +5,7 @@
     <section class="list" v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length">
       <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
         <component :ref="`${item.$._id}Form`" :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.formBox[0]" ></component>
-        <component :ref="`${item.$._id}Table`" :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]"></component>
+        <component :ref="`${item.table[0].$._id}Table`" :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]"></component>
       </component>
     </section>
   </div>
@@ -16,7 +16,7 @@ import xmlConfig from './demo.xml'
 import pageConfig from 'pageConfig'
 import request from '@/utils/request'
 import { isEmptyObj } from '@/utils/validate'
-import { objectMerge,deepClone } from '@/utils/index'
+import { objectMerge, deepClone } from '@/utils/index'
 
 export default {
   name: 'PageDemo',
@@ -85,7 +85,9 @@ export default {
     idToFun (){
       Object.keys(this.handleMapping).map(itemKey=>{
         if(isEmptyObj(this.handleMapping[itemKey]._id)){
-          this.handle[this.handleMapping[itemKey]._id] = (data={},params={})=>{
+          // btnConfig 用于主页面查询  新增
+          // tableId 用于表格内操作栏按钮
+          this.handle[this.handleMapping[itemKey]._id] = (data={},tableId='',btnConfig={},formKey='')=>{
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {});
             if(this.handleMapping[itemKey].handleType === 'alert'){
               this.$confirm(`${this.handleMapping[itemKey].tip?this.handleMapping[itemKey].tip:this.alertTip}`, '提示', {
@@ -105,8 +107,10 @@ export default {
                      this.$message({
                       type: 'success',
                       message: '操作成功!'
-                    })
-                    (this.$refs[`${itemKey}Table`])[0].handleCurrentChange();
+                    });
+                    if(tableId !== ''){
+                      (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange();
+                    }
                   }else{
                     this.$message({
                       type: 'info',
@@ -126,15 +130,15 @@ export default {
                 url: this.handleMapping[itemKey].action,
                 params:{
                   date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                  conditions: params.accountNo ? `{客户账号} = ${params.accountNo}` : '',
                   currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
                   Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
                   readOnly: 'YES',
                   page: 1,
-                  rows: 20
+                  rows: 20,
+                  ...this.forms[`${formKey}`]
                 }
               }).then(res=>{
-                  this.queryBaseData = res;
+                (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange();
               });
             }else{
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`]=true;

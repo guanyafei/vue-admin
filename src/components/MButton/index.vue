@@ -34,7 +34,8 @@ export default {
       type: Object,
       default: ()=>{}
     },
-    xmlConfigObj:{}
+    tableId:{},
+    formKey:''
   },
   data() {
     return {
@@ -48,7 +49,7 @@ export default {
   methods: {
     submitHandle(){
       if(!this.itemConfig._id) return;
-      this.$app.handle[this.itemConfig._id](this.rowObj,this.formData);
+      this.$app.handle[this.itemConfig._id](this.rowObj,this.tableId,this.itemConfig,this.formKey);
     }
   }
 }

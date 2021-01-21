@@ -16,7 +16,7 @@
           :align="item.$.align || align"
         >
           <template v-slot:default="scope">
-              <m-button :xmlConfigObj="xmlConfigObj"  :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
+              <m-button :tableId="xmlConfigObj.$._id"  :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -32,6 +32,7 @@
       <el-pagination
         layout="total, prev, pager, next, jumper"
         :total="tableList.total"
+        :page-size = '20'
         @current-change="handleCurrentChange"
       />
     </div>
@@ -68,8 +69,7 @@ export default {
   },
   data() {
     return {
-      tableConfig: {},
-      ddd:{}
+      tableConfig: {}
     }
   },
   created() {
@@ -94,7 +94,7 @@ export default {
           rows: 20
         }
       }).then(res=>{
-          this.$app['handleMapping'][this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res;
+          this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res;
       });
     },
   }

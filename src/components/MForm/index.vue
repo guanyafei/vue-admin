@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px"> -->
-    <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px">
+    <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
       <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
@@ -32,7 +32,7 @@
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
         <template>
-          <m-button :itemConfig="item" :formData="forms"></m-button>
+          <m-button :itemConfig="item" :formData="forms" :formKey="formKey"></m-button>
         </template>
       </el-form-item>
     </el-form>

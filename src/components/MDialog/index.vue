@@ -4,6 +4,7 @@
         :visible.sync="dialogVisibleObj[dialogVisibleFlag]"
         width="80%"
         :closed="closeDia"
+        destroy-on-close
         >
         <slot></slot>
         <span slot="footer" class="dialog-footer">
