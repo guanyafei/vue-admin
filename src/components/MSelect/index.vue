@@ -2,9 +2,9 @@
   <el-select v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
     <el-option
       v-for="item in optionsVal"
-      :key="item.firstCode"
-      :label="item.firstArea"
-      :value="item.firstCode">
+      :key="item.label"
+      :label="item.label"
+      :value="item.value">
     </el-option>
   </el-select>
 </template>

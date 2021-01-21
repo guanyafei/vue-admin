@@ -33,7 +33,6 @@ export default {
       handle:{},
       updateDateObj:{},
       handleMapping:{},
-      queryBaseData: [],
       forms:{},
       formRefs:{}
     }

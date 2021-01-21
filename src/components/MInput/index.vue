@@ -38,14 +38,14 @@ export default {
       formItemVal:this.value
     }
   },
-  watch:{
-   'value':{
-      handler: function(val, oldVal){
-        this.formItemVal = val;
-      },
-      deep: true
-    }
-  },
+  // watch:{
+  //  'value':{
+  //     handler: function(val, oldVal){
+  //       this.formItemVal = val;
+  //     },
+  //     deep: true
+  //   }
+  // },
   created() {
   },
   mounted() {
@@ -58,7 +58,7 @@ export default {
       //     this.$parent.$emit('el.form.change', [value])
       //   }
       // }
-      this.$emit('change', value)
+      // this.$emit('change', value)
     },
 
   }

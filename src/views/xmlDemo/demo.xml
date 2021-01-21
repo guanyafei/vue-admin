@@ -16,14 +16,15 @@
     </table>
     <dialog _id="add" action='/lmis-md-web/cusm/saveClientAdd.do' method="post">
         <formBox>
-            <zoom width='100px' placeholder="请选择" prop="name1" _id="zoom2" lable="名称" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom width='100px' placeholder="请选择" prop="name2" _id="zoom2" lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom width='100px' placeholder="请选择" prop="name1" _id="zoom2" lable="名称1" action='/lmis-md-web/cusm/totalQuery.do'/>
             <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
             <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
             <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
             <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
-            <select placeholder="请输入" prop="city" lable="城市" options='[{"firstArea":"黄金糕","value":"选项1"},{"firstArea":"双皮奶","value":"选项2"}]'/>
-            <select placeholder="请输入" prop="country" lable="区县" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
-            <select placeholder="请输入" prop="street" lable="街道" options='[{"firstArea":"黄金糕","firstCode":"选项1"},{"firstArea":"双皮奶","firstCode":"选项2"}]'/>
+            <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <select placeholder="请输入" prop="country" lable="区县" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <select placeholder="请输入" prop="street" lable="街道" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
             <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
             <text placeholder="请输入" prop="name" lable="联系人"/>
             <text placeholder="请输入" prop="phone" lable="联系电话"/>

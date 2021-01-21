@@ -49,6 +49,7 @@ export default {
   methods: {
     submitHandle(){
       if(!this.itemConfig._id) return;
+      console.log("nnnnnnnnnnnnnnn",this.itemConfig._id)
       this.$app.handle[this.itemConfig._id](this.rowObj,this.tableId,this.itemConfig,this.formKey);
     }
   }

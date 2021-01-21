@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px"> -->
     <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
       <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
@@ -71,19 +70,19 @@ export default {
       buttonItems:[]
     }
   },
-  watch:{
-   'updateDate':{
-      handler: function(val, oldVal){
-        this.forms[this.formKey] = Object.assign(this.forms[this.formKey],this.removeDateId(val));
-      },
-      deep: true
-    }
-  },
+  // watch:{
+  //  'updateDate':{
+  //     handler: function(val, oldVal){
+  //       this.forms[this.formKey] = Object.assign(this.forms[this.formKey],this.removeDateId(val));
+  //     },
+  //     deep: true
+  //   }
+  // },
   created() {
     const searchConfig = this.xmlConfigObj;
     this.formKey && this.$set(this.forms, this.formKey, {});
     this.initForm(searchConfig);
-    isEmptyObj(this.updateDate) && this.$set(this.forms, this.formKey, this.removeDateId(this.updateDate));
+    isEmptyObj(this.updateDate) && this.$set(this.forms, this.formKey, this.updateDate);
     this.$nextTick(()=>{
       this.$set(this.$app.forms, this.formKey, this.forms[this.formKey]);
       this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`]);
@@ -136,8 +135,6 @@ export default {
           });
         }
       });
-      console.log("formItems",this.formItems);
-      console.log("forms",this.forms);
     },
     // rowData剔除ID
     removeDateId(row){

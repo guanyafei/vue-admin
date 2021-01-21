@@ -51,21 +51,21 @@ export default {
       }]
     }
   },
-  watch:{
-   'value':{
-      handler: function(val, oldVal){
-        this.formItemVal = val;
-      },
-      deep: true
-    }
-  },
+  // watch:{
+  //  'value':{
+  //     handler: function(val, oldVal){
+  //       this.formItemVal = val;
+  //     },
+  //     deep: true
+  //   }
+  // },
   created() {
   },
   mounted() {
   },
   methods: {
     handleChange(value) {
-      console.log("erere",this.formItemVal)
+      this.$emit('input', value)
     },
 
   }

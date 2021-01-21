@@ -45,14 +45,12 @@ export default {
   methods: {
     // 点击确定 发送请求
     requestHandle(){
-      let tempId = (this.$app.updateDate && this.$app.updateDate.id) ? this.$app.updateDate.id : null;
-      tempId && (this.$app.forms.id = tempId);
       let headers = { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       request({
-        method: this.$app.handleMapping[this.handleId].method,
-        url: this.$app.handleMapping[this.handleId].action,
+        method: this.$app.handleMapping[this.handleId].method || "Get",
+        url: this.$app.handleMapping[this.handleId].action || '',
         headers,
-         ...this.$app.forms
+         ...this.$app.forms[this.handleId]
       }).then(res=>{
           this.$app.$refs.tableComp.handleCurrentChange();
           this.closeDia();

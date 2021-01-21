@@ -96,8 +96,10 @@ export default {
       console.log("yyyyyyyyyyy");
     },
     rowSelected(row, column){
+      this.handleModelInput();
       this.dialogVisible = false;
       this.formItemVal = row.company;
+      this.$emit('input', this.formItemVal);
     },
     closeDia (){
       this.dialogVisible = false;
