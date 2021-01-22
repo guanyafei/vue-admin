@@ -8,7 +8,7 @@
         v-if="tableConfig.$.type"
         :type="tableConfig.$.type"
       />
-      <template v-for="(item,index) in tableConfig.tableCol" >
+      <template v-for="(item,index) in tableConfig.tableCol">
         <el-table-column
           v-if="item.button"
           :key="index"
@@ -18,11 +18,11 @@
           <template v-slot:default="scope">
             <el-dropdown>
               <span class="el-dropdown-link">
-                下拉操作<i class="el-icon-arrow-down el-icon--right"></i>
+                下拉操作<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(item,index) in item.button"   :key="index">
-                  <m-button :tableId="xmlConfigObj.$._id"  :itemConfig="item.$" :rowObj="scope.row" ></m-button>
+                <el-dropdown-item v-for="(item,index) in item.button" :key="index">
+                  <m-button :table-id="xmlConfigObj.$._id" :item-config="item.$" :row-obj="scope.row" />
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -41,7 +41,7 @@
       <el-pagination
         layout="total, prev, pager, next, jumper"
         :total="tableList.total"
-        :page-size = '20'
+        :page-size="20"
         @current-change="handleCurrentChange"
       />
     </div>
@@ -82,18 +82,18 @@ export default {
     }
   },
   created() {
-    this.tableConfig = this.xmlConfigObj;
+    this.tableConfig = this.xmlConfigObj
   },
   mounted() {
-    this.handleCurrentChange();
+    this.handleCurrentChange()
   },
   methods: {
-    handleCurrentChange(val=1) {
-      console.log(`当前页: ${val}`);
+    handleCurrentChange(val = 1) {
+      console.log(`当前页: ${val}`)
       request({
         method: this.tableConfig.$.method,
         url: this.tableConfig.$.action,
-        params:{
+        params: {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
@@ -102,10 +102,10 @@ export default {
           page: val,
           rows: 20
         }
-      }).then(res=>{
-          this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res;
-      });
-    },
+      }).then(res => {
+        this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
+      })
+    }
   }
 }
 </script>

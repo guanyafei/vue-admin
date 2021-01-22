@@ -1,5 +1,5 @@
 <template>
-  <el-button :type="itemConfig.type || type" @click="submitHandle"  :disabled="disabled" size="mini">{{itemConfig.placeholder || placeholder}}</el-button>
+  <el-button :type="itemConfig.type || type" :disabled="disabled" size="mini" @click="submitHandle">{{ itemConfig.placeholder || placeholder }}</el-button>
 </template>
 
 <script>
@@ -11,9 +11,9 @@ export default {
     }
   },
   props: {
-    itemConfig:{
+    itemConfig: {
     },
-    rowObj:{},
+    rowObj: {},
     type: {
       type: String,
       default: 'success'
@@ -26,20 +26,20 @@ export default {
       type: String,
       default: '查询'
     },
-    disabled:{
+    disabled: {
       type: Boolean,
       default: false
     },
-    formData:{
+    formData: {
       type: Object,
-      default: ()=>{}
+      default: () => {}
     },
-    tableId:'',
-    formKey:''
+    tableId: '',
+    formKey: ''
   },
   data() {
     return {
-      
+
     }
   },
   created() {
@@ -47,11 +47,11 @@ export default {
   mounted() {
   },
   methods: {
-    submitHandle(){
-      if(!this.itemConfig._id) return;
-      this.tableId && (this.$app.tableId = this.tableId);
-      this.formKey && (this.$app.tableId = this.formKey);
-      this.$app.handle[this.itemConfig._id](this.rowObj,this.tableId,this.itemConfig,this.formKey);
+    submitHandle() {
+      if (!this.itemConfig._id) return
+      this.tableId && (this.$app.tableId = this.tableId)
+      this.formKey && (this.$app.tableId = this.formKey)
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.tableId, this.itemConfig, this.formKey)
     }
   }
 }

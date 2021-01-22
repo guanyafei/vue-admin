@@ -4,33 +4,33 @@
       <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
-            <m-input v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-input>
+            <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'textarea'">
-            <m-input v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-input>
+            <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'select'">
-            <m-select v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-select>
+            <m-select v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'date'">
-            <m-date v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-date>
+            <m-date v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'radio'">
-            <m-radio v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-radio>
+            <m-radio v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'checkbox'">
-            <m-checkbox v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-checkbox>
+            <m-checkbox v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'cascader'">
-            <m-cascader v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-cascader>
+            <m-cascader v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
           <template v-else-if="formItems[keyItem].tag === 'zoom'">
-            <m-zoom v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" ></m-zoom>
+            <m-zoom v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
           </template>
         </template>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
-        <m-button :itemConfig="item" :formData="forms" :formKey="formKey"></m-button>
+        <m-button :item-config="item" :form-data="forms" :form-key="formKey" />
       </el-form-item>
     </el-form>
   </div>
@@ -49,22 +49,22 @@ import MCascader from '@/components/MCascader'
 import MZoom from '@/components/MZoom'
 export default {
   name: 'MForm',
-  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom},
+  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom },
   inject: {
     $app: {
       default: () => ({})
     }
   },
-  props:{
-    xmlConfigObj:{},
-    updateDate:{},
-    formKey:''
+  props: {
+    xmlConfigObj: {},
+    updateDate: {},
+    formKey: ''
   },
   data() {
     return {
       forms: {},
-      formItems:{},
-      buttonItems:[]
+      formItems: {},
+      buttonItems: []
     }
   },
   // watch:{
@@ -76,81 +76,81 @@ export default {
   //   }
   // },
   created() {
-    const searchConfig = this.xmlConfigObj;
-    this.formKey && this.$set(this.forms, this.formKey, {});
-    this.xmlToJson(searchConfig);
-    isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey]);
-    this.$nextTick(()=>{
-      this.$set(this.$app.forms, this.formKey, this.forms[this.formKey]);
-      this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`]);
-    });
+    const searchConfig = this.xmlConfigObj
+    this.formKey && this.$set(this.forms, this.formKey, {})
+    this.xmlToJson(searchConfig)
+    isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey])
+    this.$nextTick(() => {
+      this.$set(this.$app.forms, this.formKey, this.forms[this.formKey])
+      this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`])
+    })
   },
   mounted() {
-  }, 
+  },
   methods: {
     /**
      * @name: initForm
      * @msg: 更新  rowDate 赋值给 form表单
      * @param {row}
      * @return {form}
-     */ 
-    initForm(formOgj){
+     */
+    initForm(formOgj) {
       Object.keys(formOgj).map(keyItem => {
-        this.updateDate.hasOwnProperty(keyItem) && (formOgj[keyItem] = this.updateDate[keyItem]);
-      });
+        this.updateDate.hasOwnProperty(keyItem) && (formOgj[keyItem] = this.updateDate[keyItem])
+      })
     },
     // xml to json表单数据组装  初始化
     xmlToJson(searchConfig) {
-      let itemObj = {};
+      let itemObj = {}
       Object.keys(searchConfig).map(key => {
-        if(key === '$'){
+        if (key === '$') {
 
-        }else if( key === 'button'){
+        } else if (key === 'button') {
           searchConfig[key].map(item => {
-            itemObj = item.$;
-            this.buttonItems.push(itemObj);
-          });
-        }else if( key === 'select' || key === 'radio'){
+            itemObj = item.$
+            this.buttonItems.push(itemObj)
+          })
+        } else if (key === 'select' || key === 'radio') {
           searchConfig[key].map(item => {
-            itemObj = item.$;
-            this.$set(this.forms[this.formKey], itemObj.prop, '');
-            itemObj.tag = key;
-            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj,{'options':JSON.parse(itemObj.options)}));
-            this.formItems[itemObj.prop] = itemObj;
-          });
-        }else if(key === 'checkbox'){
+            itemObj = item.$
+            this.$set(this.forms[this.formKey], itemObj.prop, '')
+            itemObj.tag = key
+            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj, { 'options': JSON.parse(itemObj.options) }))
+            this.formItems[itemObj.prop] = itemObj
+          })
+        } else if (key === 'checkbox') {
           searchConfig[key].map(item => {
-            itemObj = item.$;
-            this.$set(this.forms[this.formKey], itemObj.prop, []);
-            itemObj.tag = key;
-            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj,{'options':JSON.parse(itemObj.options)}));
-            this.formItems[itemObj.prop] = itemObj;
-          });
-        }else if(key === 'cascader'){
+            itemObj = item.$
+            this.$set(this.forms[this.formKey], itemObj.prop, [])
+            itemObj.tag = key
+            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj, { 'options': JSON.parse(itemObj.options) }))
+            this.formItems[itemObj.prop] = itemObj
+          })
+        } else if (key === 'cascader') {
           searchConfig[key].map(item => {
-            itemObj = item.$;
-            this.$set(this.forms[this.formKey], itemObj.prop, []);
-            itemObj.tag = key;
-            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj,{'options':JSON.parse(itemObj.options)}));
-            this.formItems[itemObj.prop] = itemObj;
-          });
-        }else{
+            itemObj = item.$
+            this.$set(this.forms[this.formKey], itemObj.prop, [])
+            itemObj.tag = key
+            itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj, { 'options': JSON.parse(itemObj.options) }))
+            this.formItems[itemObj.prop] = itemObj
+          })
+        } else {
           searchConfig[key].map(item => {
-            itemObj = item.$;
-            this.$set(this.forms[this.formKey], itemObj.prop, '');
-            itemObj.tag = key;
-            this.formItems[itemObj.prop] = itemObj;
-          });
+            itemObj = item.$
+            this.$set(this.forms[this.formKey], itemObj.prop, '')
+            itemObj.tag = key
+            this.formItems[itemObj.prop] = itemObj
+          })
         }
-      });
+      })
     },
     // rowData剔除ID
-    removeDateId(row){
-      let obj = {};
-      for(let key in row){
-        if(key !== 'id') obj[key] = row[key];
+    removeDateId(row) {
+      const obj = {}
+      for (const key in row) {
+        if (key !== 'id') obj[key] = row[key]
       }
-      return obj;
+      return obj
     }
   }
 }

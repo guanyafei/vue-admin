@@ -1,41 +1,41 @@
 <template>
-  <el-input v-model="formItemVal" :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput"/>
+  <el-input v-model="formItemVal" :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput" />
 </template>
 
 <script>
 export default {
   name: 'MInput',
   props: {
-    itemConfig:{
+    itemConfig: {
     },
     value: {
-        type: String,
-        default: ''
+      type: String,
+      default: ''
     },
     tag: {
-        type: String,
-        default: 'text'
+      type: String,
+      default: 'text'
     },
     maxlength: {
-        type: String,
-        default: '6'
+      type: String,
+      default: '6'
     },
     clearable: {
-        type: Boolean,
-        default: true
+      type: Boolean,
+      default: true
     },
     disabled: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     },
     placeholder: {
-        type: String,
-        default: '请输入'
+      type: String,
+      default: '请输入'
     }
   },
   data() {
     return {
-      formItemVal:this.value
+      formItemVal: this.value
     }
   },
   // watch:{
@@ -59,7 +59,7 @@ export default {
       //   }
       // }
       // this.$emit('change', value)
-    },
+    }
 
   }
 }
