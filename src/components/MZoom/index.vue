@@ -95,8 +95,7 @@ export default {
     zoomQuery(){
       console.log("yyyyyyyyyyy");
     },
-    rowSelected(row, column){
-      this.handleModelInput();
+    rowSelected(row){
       this.dialogVisible = false;
       this.formItemVal = row.company;
       this.$emit('input', this.formItemVal);

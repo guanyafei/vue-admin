@@ -16,7 +16,16 @@
           :align="item.$.align || align"
         >
           <template v-slot:default="scope">
-              <m-button :tableId="xmlConfigObj.$._id"  :itemConfig="item.$" :rowObj="scope.row" v-for="(item,index) in item.button"  :key="index"></m-button>
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                下拉操作<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="(item,index) in item.button"   :key="index">
+                  <m-button :tableId="xmlConfigObj.$._id"  :itemConfig="item.$" :rowObj="scope.row" ></m-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </template>
         </el-table-column>
         <el-table-column

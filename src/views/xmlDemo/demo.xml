@@ -1,23 +1,25 @@
 <root>
-    <formBox action="/lmis-md-web/cusm/totalQuery.do">
-        <text width='100px' placeholder="请输入客户账号" prop="accountNo" lable="客户账号"/>
-        <button type="primary" _id="query" tableId="query" placeholder="查询"/>
-        <button type="success" _id="add" placeholder="创建"/>
-    </formBox>
-    <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" type='index' method="get">
-        <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
-        <tableCol  prop="company" lable="客户名称" /> 
-        <tableCol  prop="addressDetail" lable="详细地址"/>
-        <tableCol  lable="操作">
-            <button type="danger" _id="statusClose"  placeholder="冻结"/>
-            <button type="danger" _id="statusOpen"  placeholder="开通"/>
-            <button type="warning" _id="update" placeholder="更新"/>
-        </tableCol>
-    </table>
+    <main _id="main">
+        <formBox>
+            <text width='100px' placeholder="请输入客户账号" prop="accountNo" lable="客户账号"/>
+            <button type="primary" _id="query" tableId="query" placeholder="查询"/>
+            <button type="success" _id="add" placeholder="创建"/>
+        </formBox>
+        <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" type='index' method="get">
+            <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
+            <tableCol  prop="company" lable="客户名称" /> 
+            <tableCol  prop="addressDetail" lable="详细地址"/>
+            <tableCol  lable="操作">
+                <button type="danger" _id="statusClose"  placeholder="冻结"/>
+                <button type="danger" _id="statusOpen"  placeholder="开通"/>
+                <button type="warning" _id="update" placeholder="更新"/>
+            </tableCol>
+        </table>
+    </main>
     <dialog _id="add" action='/lmis-md-web/cusm/saveClientAdd.do' method="post">
         <formBox>
-            <zoom width='100px' placeholder="请选择" prop="name2" _id="zoom2" lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <zoom width='100px' placeholder="请选择" prop="name1" _id="zoom2" lable="名称1" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom width='100px' placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom width='100px' placeholder="请选择" prop="name1"  lable="名称1" action='/lmis-md-web/cusm/totalQuery.do'/>
             <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
             <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
             <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>

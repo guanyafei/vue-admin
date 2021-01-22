@@ -8,15 +8,15 @@
         >
         <slot></slot>
         <span slot="footer" class="dialog-footer">
-          <el-button  size="mini" @click="closeDia">取 消</el-button>
-          <el-button  size="mini" type="primary" :loading="loading" @click="requestHandle">确 定</el-button>
+          <el-button v-if="!hasTable" size="mini" @click="closeDia">取 消</el-button>
+          <el-button v-if="hasTable" size="mini" @click="closeDia">关 闭</el-button>
+          <el-button v-if="!hasTable" size="mini" type="primary" :loading="loading" @click="requestHandle">确 定</el-button>
         </span>
       </el-dialog>
 </template>
 
 <script>
 import request from '@/utils/request'
-import axios from 'axios'
 export default {
   name: 'MDialog',
   inject: {
@@ -28,7 +28,8 @@ export default {
     dialogVisibleFlag:'',
     xmlConfigObj:{
     },
-    handleId:''
+    handleId:'',
+    hasTable:false
   },
   data() {
     return {
@@ -52,12 +53,16 @@ export default {
         headers,
          ...this.$app.forms[this.handleId]
       }).then(res=>{
-          this.$app.$refs.tableComp.handleCurrentChange();
-          this.closeDia();
+        this.closeDia();
+        if(this.$app.tableId){
+          let tableId = this.$app.tableId;
+          (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange();
+        }
       });
     },
     // 重置表单数据
     closeDia(){
+      this.$app.tableId = '';
       this.dialogVisibleObj[this.dialogVisibleFlag] = false;
       this.$app['formRefs'][this.handleId].resetFields();
     }

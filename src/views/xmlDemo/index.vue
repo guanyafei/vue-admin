@@ -1,11 +1,13 @@
 <template>
   <div class="container">
-    <component formKey="query" :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.formBox[0]" v-if="xmlConfig.root.formBox&&xmlConfig.root.formBox.length"></component>
-    <component tableKey="query" ref="queryTable" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.table[0]" :tableList="(handleMapping['query'])['queryBaseDate']" v-if="xmlConfig.root.table&&xmlConfig.root.table.length"></component>
+    <section class="main" v-if="xmlConfig.root.main">
+      <component v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" :formKey="xmlConfig.root.main[0].$._id" :is="pageConfig['form']" :xmlConfigObj="xmlConfig.root.main[0].formBox[0]" ></component>
+      <component v-if="xmlConfig.root.main[0].table&&xmlConfig.root.main[0].table.length" :ref="`${xmlConfig.root.main[0].table[0].$._id}Table`" :is="pageConfig['table']" :xmlConfigObj="xmlConfig.root.main[0].table[0]" :tableList="(handleMapping[`${xmlConfig.root.main[0].table[0].$._id}`])[`${xmlConfig.root.main[0].table[0].$._id}BaseDate`]" ></component>
+    </section>
     <section class="list" v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length">
-      <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :key="item.$._id" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
-        <component :ref="`${item.$._id}Form`" :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.formBox[0]" ></component>
-        <component :ref="`${item.table[0].$._id}Table`" :tableKey="item.$._id" :is="pageConfig['table']" v-if="item.table" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]"></component>
+      <component :ref="item.$._id" :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :key="item.$._id" :hasTable="!!item.table" :dialogVisibleFlag='`${item.$._id}DialogVisible`' :handleId="item.$._id" :xmlConfigObj="item" >
+        <component v-if="item.formBox" :ref="`${item.$._id}Form`" :formKey="item.$._id" :is="pageConfig['form']" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.formBox[0]" ></component>
+        <component v-if="item.table" :ref="`${item.table[0].$._id}Table`" :is="pageConfig['table']" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]"></component>
       </component>
     </section>
   </div>
@@ -16,7 +18,7 @@ import xmlConfig from './demo.xml'
 import pageConfig from 'pageConfig'
 import request from '@/utils/request'
 import { isEmptyObj } from '@/utils/validate'
-import { objectMerge, deepClone } from '@/utils/index'
+import { deepClone } from '@/utils/index'
 
 export default {
   name: 'PageDemo',
@@ -34,12 +36,13 @@ export default {
       updateDateObj:{},
       handleMapping:{},
       forms:{},
-      formRefs:{}
+      formRefs:{},
+      tableId:''
     }
   },
   created() {
     let root = this.xmlConfig.root || {};
-    console.log("wwwwwwwwwww",this.xmlConfig.root)
+    console.log("wwwwwwwwwww",this.xmlConfig.root);
     if(this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return;
     this.idToHandle(root);
     this.idToFun();
@@ -47,6 +50,9 @@ export default {
   mounted() {
   },
   methods: {
+    // getTableId(item){
+    //   return (item.table && item.table[0].$._id) || '';
+    // },
     // id与handle映射
     idToHandle (root){
       Object.keys(root).map(tagItem=>{
@@ -69,7 +75,6 @@ export default {
             this.handleMapping[itemObj._id].forms = deepClone(item.formBox[0]);
           }
           if(item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)){
-            this.handleMapping[itemObj._id].baseDate = deepClone(item.table[0]);
             let tempObj = {},obj = deepClone(item.table[0].$);
             obj['handleType'] = 'table';
             obj['forms'] = {};
@@ -136,7 +141,7 @@ export default {
                   rows: 20,
                   ...this.forms[`${formKey}`]
                 }
-              }).then(res=>{
+              }).then(()=>{
                 (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange();
               });
             }else{
