@@ -63,8 +63,8 @@ export default {
     // 重置表单数据
     closeDia() {
       this.$app.tableId = ''
-      this.dialogVisibleObj[this.dialogVisibleFlag] = false
-      this.$app['formRefs'][this.handleId].resetFields()
+      this.dialogVisibleObj[this.dialogVisibleFlag] = false;
+      this.$app['formRefs'][this.handleId].resetFields();
     }
   }
 }

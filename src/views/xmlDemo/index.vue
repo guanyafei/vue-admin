@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section v-if="xmlConfig.root.main" class="main">
-      <component :is="pageConfig['form']" v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" :form-key="xmlConfig.root.main[0].$._id" :xml-config-obj="xmlConfig.root.main[0].formBox[0]" />
+      <component mainBoxFlag='Y' :is="pageConfig['form']" v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" :form-key="xmlConfig.root.main[0].$._id" :xml-config-obj="xmlConfig.root.main[0].formBox[0]" />
       <component :is="pageConfig['table']" v-if="xmlConfig.root.main[0].table&&xmlConfig.root.main[0].table.length" :ref="`${xmlConfig.root.main[0].table[0].$._id}Table`" :xml-config-obj="xmlConfig.root.main[0].table[0]" :table-list="(handleMapping[`${xmlConfig.root.main[0].table[0].$._id}`])[`${xmlConfig.root.main[0].table[0].$._id}BaseDate`]" />
     </section>
     <section v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length" class="list">
@@ -42,10 +42,11 @@ export default {
   },
   created() {
     const root = this.xmlConfig.root || {}
-    console.log('wwwwwwwwwww', this.xmlConfig.root)
+    console.log('wwwwwwwwwww', this.xmlConfig.root,xmlConfig.root.main[0].table[0].$._id)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     this.idToHandle(root)
     this.idToFun()
+    console.log("this.handleMapping",this.handleMapping);
   },
   mounted() {
   },
@@ -94,6 +95,8 @@ export default {
           this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}, formKey = '') => {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
+              console.log(" this.tableId",tableId,formKey);
+              return;
               this.$confirm(`${this.handleMapping[itemKey].tip ? this.handleMapping[itemKey].tip : this.alertTip}`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -129,6 +132,9 @@ export default {
                 })
               })
             } else if (this.handleMapping[itemKey].handleType === 'table') {
+              console.log("btnConfig.tableId",btnConfig.tableId,formKey);
+              console.log("this",this);
+              return;
               request({
                 method: this.handleMapping[itemKey].method,
                 url: this.handleMapping[itemKey].action,

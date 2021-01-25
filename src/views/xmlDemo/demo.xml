@@ -1,7 +1,16 @@
 <root>
     <main _id="main">
         <formBox>
-            <text width='100px' placeholder="请输入客户账号" prop="accountNo" lable="客户账号"/>
+            <zoom width='100px' placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
+            <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
+            <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
+            <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
+            <text placeholder="请输入" prop="name" lable="联系人"/>
+            <text placeholder="请输入" prop="phone" lable="联系电话"/>
+            <text placeholder="请输入" prop="zipCode" lable="邮编"/>
             <button type="primary" _id="query" tableId="query" placeholder="查询"/>
             <button type="success" _id="add" placeholder="创建"/>
         </formBox>

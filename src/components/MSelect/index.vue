@@ -45,7 +45,7 @@ export default {
   },
   watch:{
    'value':{
-      handler: function(val, oldVal){
+      handler: function(val){
         this.formItemVal = val;
       },
       deep: true

@@ -1,6 +1,6 @@
 <template>
   <div class="form-item">
-    <el-form :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
+    <el-form v-if="mainBoxFlag === 'N'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
       <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
@@ -33,6 +33,78 @@
         <m-button :item-config="item" :form-data="forms" :form-key="formKey" />
       </el-form-item>
     </el-form>
+    <el-form v-if="mainBoxFlag === 'Y'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
+      <m-collapse>
+        <template v-slot:visible-slot>
+          <template  v-for="(keyItem,idx) in Object.keys(forms[formKey]).sort()" >
+            <el-form-item :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx<3">
+              <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
+                <template v-if="formItems[keyItem].tag === 'text'">
+                  <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'textarea'">
+                  <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'select'">
+                  <m-select v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'date'">
+                  <m-date v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'radio'">
+                  <m-radio v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'checkbox'">
+                  <m-checkbox v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'cascader'">
+                  <m-cascader v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+                <template v-else-if="formItems[keyItem].tag === 'zoom'">
+                  <m-zoom v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+                </template>
+              </template>
+            </el-form-item>
+          </template>
+          <el-form-item v-for="(item,index) in buttonItems" :key="index">
+            <m-button :item-config="item" :form-data="forms" :form-key="formKey" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary"  size="mini" @click="reSet()">重置</el-button>
+          </el-form-item>
+        </template>
+        <template v-for="(keyItem,idx) in Object.keys(forms[formKey]).sort()" >
+          <el-form-item :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx>=3">
+            <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
+              <template v-if="formItems[keyItem].tag === 'text'">
+                <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'textarea'">
+                <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'select'">
+                <m-select v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'date'">
+                <m-date v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'radio'">
+                <m-radio v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'checkbox'">
+                <m-checkbox v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'cascader'">
+                <m-cascader v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+              <template v-else-if="formItems[keyItem].tag === 'zoom'">
+                <m-zoom v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
+              </template>
+            </template>
+          </el-form-item>
+        </template>
+      </m-collapse>
+    </el-form>
   </div>
 </template>
 
@@ -47,9 +119,10 @@ import MRadio from '@/components/MRadio'
 import MCheckbox from '@/components/MCheckbox'
 import MCascader from '@/components/MCascader'
 import MZoom from '@/components/MZoom'
+import MCollapse from '@/components/MCollapse'
 export default {
   name: 'MForm',
-  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom },
+  components: { MInput, MButton, MDialog, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom, MCollapse },
   inject: {
     $app: {
       default: () => ({})
@@ -58,7 +131,11 @@ export default {
   props: {
     xmlConfigObj: {},
     updateDate: {},
-    formKey: ''
+    formKey: '',
+    mainBoxFlag: {
+      type: String,
+      default: 'N'
+    }
   },
   data() {
     return {
@@ -88,6 +165,9 @@ export default {
   mounted() {
   },
   methods: {
+    reSet(){
+      this.$app['formRefs'][`${this.formKey}`].resetFields();
+    },
     /**
      * @name: initForm
      * @msg: 更新  rowDate 赋值给 form表单
