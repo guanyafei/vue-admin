@@ -5,6 +5,8 @@
     :placeholder="itemConfig.placeholder || placeholder"
     range-separator="至"
     :clearable="clearable"
+    value-format="yyyy-MM-dd"
+    @change="handleModelInput"
     >
   </el-date-picker>
 </template>
@@ -15,7 +17,7 @@ export default {
   props: {
     itemConfig:{
     },
-    value: {
+    value:  {
       type: String,
       default: ''
     },
@@ -43,8 +45,8 @@ export default {
   },
   watch:{
    'value':{
-      handler: function(val, oldVal){
-        this.formItemVal = val;
+      handler: function(val){
+        this.formItemVal =  val;
       },
       deep: true
     }
@@ -55,7 +57,7 @@ export default {
   },
   methods: {
     handleModelInput(val) {
-      this.$emit('input', val)
+      this.$emit('input', val);
     },
 
   }

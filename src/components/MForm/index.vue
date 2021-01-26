@@ -1,7 +1,7 @@
 <template>
   <div class="form-item">
-    <el-form v-if="mainBoxFlag === 'N'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
-      <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem">
+    <el-form v-if="mainBoxFlag === 'N'" :ref="`${formKey}Ref`" :model="forms[formKey]" inline label-width="100px" class="form-box" label-position="right">
+      <el-form-item v-for="(keyItem) in Object.keys(forms[formKey]).sort()" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem"  :rules="setRules(formItems[keyItem])">
         <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
           <template v-if="formItems[keyItem].tag === 'text'">
             <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" />
@@ -70,7 +70,7 @@
             <m-button :item-config="item" :form-data="forms" :form-key="formKey" />
           </el-form-item>
           <el-form-item>
-            <el-button type="primary"  size="mini" @click="reSet()">重置</el-button>
+            <el-button type="primary"  size="mini" @click="reSetForms()">重置</el-button>
           </el-form-item>
         </template>
         <template v-for="(keyItem,idx) in Object.keys(forms[formKey]).sort()" >
@@ -160,12 +160,61 @@ export default {
     this.$nextTick(() => {
       this.$set(this.$app.forms, this.formKey, this.forms[this.formKey])
       this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`])
-    })
+    });
+    console.log("this.formItems",this.formItems)
   },
   mounted() {
   },
   methods: {
-    reSet(){
+    // 设置表单项规则 tel number email data 需特殊处理
+    setRules(item){
+      let rulesArr = [];
+      if(item.hasOwnProperty('required')){
+        switch (item.type){
+          case 'tel':
+            rulesArr = [
+              { required: true, message: '请输入手机号', trigger: 'blur' },
+              { trigger: ['blur', 'change'] , validator: (rule, value, callback) => {
+                if (/^1[3|4|5|7|8|9][0-9]\d{8}$/.test(value) == false) {
+                  callback(new Error('请输入正确的手机号'));
+                } else {
+                  callback();
+                }
+              }}
+            ];
+          break;
+          case 'date':
+            rulesArr = [,
+              { required: true, message: '请选择时间', trigger: ['blur', 'change'] }
+            ];
+          break; 
+          case 'email':
+            rulesArr = [
+              { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+              { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+            ];
+          break;
+          case 'number':
+            rulesArr = [
+              { required: true, message: '此项为必输项', trigger: 'blur' },
+              { type: 'number', trigger: ['blur', 'change'] ,validator: (rule, value, callback) => {
+                if (/^[1-9]\d*$/.test(value) == false) {
+                  callback(new Error(`${item.prop}必须为数字`));
+                } else {
+                  callback();
+                }
+              }}
+            ];
+          break;
+          default:
+            rulesArr = [
+              { required: true, message: '此项为必输项', trigger: ['blur', 'change'] }
+            ];
+        };
+        return rulesArr;
+      }
+    },
+    reSetForms(){
       this.$app['formRefs'][`${this.formKey}`].resetFields();
     },
     /**

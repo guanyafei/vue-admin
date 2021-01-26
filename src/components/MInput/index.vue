@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput" />
+  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
 </template>
 
 <script>
@@ -18,7 +18,7 @@ export default {
     },
     maxlength: {
       type: String,
-      default: '6'
+      default: '10'
     },
     clearable: {
       type: Boolean,

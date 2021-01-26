@@ -68,17 +68,17 @@ export default {
         if (isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
           const tempObj = {}; const itemObj = deepClone(item.$)
           itemObj['handleType'] = tagItem
-          itemObj['forms'] = {}
+          // itemObj['forms'] = {}
           itemObj[`${item.$._id}BaseDate`] = []
           tempObj[itemObj._id] = itemObj
           this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
-          if (item.formBox && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
-            this.handleMapping[itemObj._id].forms = deepClone(item.formBox[0])
-          }
+          // if (item.formBox && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
+          //   this.handleMapping[itemObj._id].forms = deepClone(item.formBox[0])
+          // }
           if (item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
             const tempObj = {}; const obj = deepClone(item.table[0].$)
             obj['handleType'] = 'table'
-            obj['forms'] = {}
+            // obj['forms'] = {}
             obj[`${obj._id}BaseDate`] = []
             tempObj[obj._id] = obj
             this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
@@ -134,22 +134,29 @@ export default {
             } else if (this.handleMapping[itemKey].handleType === 'table') {
               console.log("btnConfig.tableId",btnConfig.tableId,formKey);
               console.log("this",this);
-              return;
-              request({
-                method: this.handleMapping[itemKey].method,
-                url: this.handleMapping[itemKey].action,
-                params: {
-                  date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                  currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                  Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
-                  readOnly: 'YES',
-                  page: 1,
-                  rows: 20,
-                  ...this.forms[`${formKey}`]
+              this.formRefs[`${formKey}`].validate((valid) => {
+                if (valid) {
+                  return;
+                  request({
+                    method: this.handleMapping[itemKey].method,
+                    url: this.handleMapping[itemKey].action,
+                    params: {
+                      date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+                      currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+                      Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
+                      readOnly: 'YES',
+                      page: 1,
+                      rows: 20,
+                      ...this.forms[`${formKey}`]
+                    }
+                  }).then(() => {
+                    (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                  })
+                } else {
+                  console.log('error submit!!');
+                  return false;
                 }
-              }).then(() => {
-                (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
-              })
+              });
             } else {
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`] = true
             }

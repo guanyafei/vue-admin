@@ -46,19 +46,22 @@ export default {
   methods: {
     // 点击确定 发送请求
     requestHandle() {
-      const headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}
-      request({
-        method: this.$app.handleMapping[this.handleId].method || 'Get',
-        url: this.$app.handleMapping[this.handleId].action || '',
-        headers,
-        ...this.$app.forms[this.handleId]
-      }).then(res => {
-        this.closeDia()
-        if (this.$app.tableId) {
-          const tableId = this.$app.tableId;
-          (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
-        }
-      })
+      const headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }};
+      this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
+        return;
+        request({
+          method: this.$app.handleMapping[this.handleId].method || 'Get',
+          url: this.$app.handleMapping[this.handleId].action || '',
+          headers,
+          ...this.$app.forms[this.handleId]
+        }).then(res => {
+          this.closeDia()
+          if (this.$app.tableId) {
+            const tableId = this.$app.tableId;
+            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
+          }
+        });
+      });
     },
     // 重置表单数据
     closeDia() {

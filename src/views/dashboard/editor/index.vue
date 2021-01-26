@@ -1,10 +1,18 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-14 09:33:10
+ * @LastEditTime: 2021-01-26 20:55:16
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-admin\src\views\dashboard\editor\index.vue
+-->
 <template>
   <div class="dashboard-editor-container">
     <div class=" clearfix">
-      <pan-thumb :image="avatar" style="float: left">
+      <!-- <pan-thumb :image="avatar" style="float: left">
         Your roles:
         <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
-      </pan-thumb>
+      </pan-thumb> -->
       <div class="info-container">
         <span class="display_name">{{ name }}</span>
         <span style="font-size:20px;padding-top:20px;display:inline-block;">Editor's Dashboard</span>
@@ -18,11 +26,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import PanThumb from '@/components/PanThumb'
+// import PanThumb from '@/components/PanThumb'
 
 export default {
   name: 'DashboardEditor',
-  components: { PanThumb },
+  // components: { PanThumb },
   data() {
     return {
       emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'

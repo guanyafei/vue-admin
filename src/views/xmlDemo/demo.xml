@@ -1,16 +1,18 @@
 <root>
     <main _id="main">
         <formBox>
-            <zoom width='100px' placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
-            <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <zoom placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <text placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            <text placeholder="请输入" prop="company" lable="客户名称"/>
             <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
             <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
             <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
             <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
             <text placeholder="请输入" prop="name" lable="联系人"/>
             <text placeholder="请输入" prop="phone" lable="联系电话"/>
-            <text placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <text type="number" required='true' maxlength="2" placeholder="请输入" prop="age" lable="年龄"/>
+            <text type="email" required='true'  placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <text type="tel" required='true' placeholder="请输入" prop="tel" lable="电话"/>
             <button type="primary" _id="query" tableId="query" placeholder="查询"/>
             <button type="success" _id="add" placeholder="创建"/>
         </formBox>
@@ -27,20 +29,16 @@
     </main>
     <dialog _id="add" action='/lmis-md-web/cusm/saveClientAdd.do' method="post">
         <formBox>
-            <zoom width='100px' placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <zoom width='100px' placeholder="请选择" prop="name1"  lable="名称1" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom required='true' width='100px' placeholder="请选择" prop="name2"  lable="名称2" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <zoom required='true' width='100px' placeholder="请选择" prop="name1"  lable="名称1" action='/lmis-md-web/cusm/totalQuery.do'/>
             <text width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
-            <text width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <text required='true' width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
             <cascader lable="地区" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
-            <select placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
-            <select placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <select placeholder="请输入" prop="country" lable="区县" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <select placeholder="请输入" prop="street" lable="街道" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
             <textarea placeholder="请输入" prop="addressDetail" lable="详细地址"/>
-            <text placeholder="请输入" prop="name" lable="联系人"/>
-            <text placeholder="请输入" prop="phone" lable="联系电话"/>
+            <text type="number" required='true' maxlength="2" placeholder="请输入" prop="name" lable="联系人"/>
+            <text type="tel" required='true' maxlength="11" placeholder="请输入" prop="phone" lable="联系电话"/>
             <text placeholder="请输入" prop="zipCode" lable="邮编"/>
-            <text placeholder="请输入" prop="email" lable="Email"/>
+            <text type="email" required='true'  placeholder="请输入" prop="email" lable="Email"/>
             <text placeholder="请输入" prop="dcId" lable="所属DC"/>
             <select placeholder="请输入" prop="status" lable="状态" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
             <select placeholder="请输入" prop="industryId" lable="所属行业" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
@@ -71,9 +69,13 @@
     </alert>
     <dialog _id="ccc" action='url'>
         <formBox>
-            <text width='100px' placeholder="请输入啦啦啦啦" prop="name" lable="姓名"/>
+            <text  required='true' width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
             <textarea placeholder="请输入ooo" prop="address" lable="简介"/>
-            <date type="date" prop="date" placeholder="选择日期时间" lable="日期"/>
+            <date required='true' type="date" prop="date11" placeholder="选择日期时间" lable="日期"/>
+            <text required='true' placeholder="请输入" prop="name" lable="联系人"/>
+            <text placeholder="请输入" prop="phone" lable="联系电话"/>
+            <text placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <text placeholder="请输入" prop="email" lable="Email"/>
         </formBox>
     </dialog>
     <dialog _id="update" action='/lmis-md-web/cusm/saveClientEdit.do' method="post">

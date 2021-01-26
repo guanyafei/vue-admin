@@ -49,7 +49,7 @@ export const constantRoutes = [{
             component: () =>
                 import ('@/views/dashboard/index'),
             name: 'Dashboard',
-            meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+            meta: { title: 'Dashboard', icon: 'dashboard', affix: false }
         }]
     }
 ]
@@ -147,7 +147,6 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-    // mode: 'history', // require service support
     scrollBehavior: () => ({ y: 0 }),
     routes: constantRoutes
 })
