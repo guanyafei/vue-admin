@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
+  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :disabled="isDisabled(itemConfig)" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
 </template>
 
 <script>
@@ -25,8 +25,8 @@ export default {
       default: true
     },
     disabled: {
-      type: Boolean,
-      default: false
+      type: String,
+      default: '0'
     },
     placeholder: {
       type: String,
@@ -51,6 +51,9 @@ export default {
   mounted() {
   },
   methods: {
+    isDisabled(item){
+      return item.disabled ? Boolean(item.disabled): Boolean(0);
+    },
     handleModelInput(value) {
       this.$emit('input', value)
       // if (this.$parent.$options.componentName === 'ElFormItem') {

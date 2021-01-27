@@ -132,15 +132,26 @@ export const asyncRoutes = [
     // },
 
     {
-        path: '/xmlDemo',
+        path: '/demo',
         component: Layout,
+        name: 'demo',
+        meta: { title: 'demo', icon: 'icon' },
+        alwaysShow: true,
         children: [{
-            path: 'index',
-            component: () =>
-                import ('@/views/xmlDemo/index'),
-            name: 'xmlDemo',
-            meta: { title: 'xmlDemo', icon: 'icon', noCache: true }
-        }]
+                path: '/demo/demo1',
+                component: () =>
+                    import ('@/views/demo/demo1/index'),
+                name: 'demo1',
+                meta: { title: 'demo1', icon: 'icon' }
+            },
+            {
+                path: 'demo2/index',
+                component: () =>
+                    import ('@/views/demo/demo2/index'),
+                name: 'demo2',
+                meta: { title: 'demo2', icon: 'icon' }
+            }
+        ]
     },
     // 404 page must be placed at the end !!!
     { path: '*', redirect: '/404', hidden: true }

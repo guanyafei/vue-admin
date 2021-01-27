@@ -1,5 +1,3 @@
-## Features
-
 ```
 - Login / Logout
 
@@ -25,45 +23,18 @@
   - Mock data
   - Screenfull
   - Responsive Sidebar
-
-- Editor
-  - Rich Text Editor
-  - Markdown Editor
-  - JSON Editor
-
-- Excel
-  - Export Excel
-  - Upload Excel
-  - Visualization Excel
-  - Export zip
-
-- Table
-  - Dynamic Table
-  - Drag And Drop Table
-  - Inline Edit Table
-
+  
 - Error Page
   - 401
   - 404
 
 - Components
-  - Avatar Upload
-  - Back To Top
-  - Drag Dialog
-  - Drag Select
-  - Drag Kanban
-  - Drag List
-  - SplitPane
-  - Dropzone
-  - Sticky
-  - CountTo
 
 - Advanced Example
 - Error Log
 - Dashboard
 - Guide Page
 - ECharts
-- Clipboard
 - Markdown to html
 ```
 
@@ -71,7 +42,7 @@
 
 ```bash
 # clone the project
-git clone https://github.com/PanJiaChen/vue-element-admin.git
+git clone https://github.com/guanyafei/vue-admin.git
 
 # enter the project directory
 cd vue-element-admin

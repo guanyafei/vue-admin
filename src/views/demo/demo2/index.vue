@@ -17,8 +17,10 @@
 import xmlConfig from './demo.xml'
 import pageConfig from 'pageConfig'
 import request from '@/utils/request'
+import requestFn from '@/utils/requestFn'
 import { isEmptyObj } from '@/utils/validate'
 import { deepClone } from '@/utils/index'
+import {get as getReq,post as postReq} from '@/utils/requestFn'
 
 export default {
   name: 'PageDemo',
@@ -102,29 +104,68 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
-                request({
-                  method: this.handleMapping[itemKey].method || 'GET',
-                  url: this.handleMapping[itemKey].action,
-                  params: {
+                
+                if(this.handleMapping[itemKey].method  === 'post'){
+                  postReq().then(res=>{
+                    if (res.retcode === 0) {
+                      this.$message({
+                        type: 'success',
+                        message: '操作成功!'
+                      })
+                      if (tableId !== '') {
+                        (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
+                      }
+                    } else {
+                      this.$message({
+                        type: 'info',
+                        message: res.retmesg
+                      })
+                    }
+                  });
+                }else{
+                  getReq(this.handleMapping[itemKey].action,{
                     id: this.updateDateObj[itemKey].id,
                     Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
-                  }
-                }).then(res => {
-                  if (res.retcode === 0) {
-                    this.$message({
-                      type: 'success',
-                      message: '操作成功!'
-                    })
-                    if (tableId !== '') {
-                      (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
+                  }).then(res=>{
+                    if (res.retcode === 0) {
+                      this.$message({
+                        type: 'success',
+                        message: '操作成功!'
+                      })
+                      if (tableId !== '') {
+                        (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
+                      }
+                    } else {
+                      this.$message({
+                        type: 'info',
+                        message: res.retmesg
+                      })
                     }
-                  } else {
-                    this.$message({
-                      type: 'info',
-                      message: res.retmesg
-                    })
-                  }
-                })
+                  })
+                }
+                // request({
+                //   method: this.handleMapping[itemKey].method || 'GET',
+                //   url: this.handleMapping[itemKey].action,
+                //   params: {
+                //     id: this.updateDateObj[itemKey].id,
+                //     Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
+                //   }
+                // }).then(res => {
+                //   if (res.retcode === 0) {
+                //     this.$message({
+                //       type: 'success',
+                //       message: '操作成功!'
+                //     })
+                //     if (tableId !== '') {
+                //       (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
+                //     }
+                //   } else {
+                //     this.$message({
+                //       type: 'info',
+                //       message: res.retmesg
+                //     })
+                //   }
+                // })
               }).catch(() => {
                 this.$message({
                   type: 'info',
@@ -137,21 +178,38 @@ export default {
               this.formRefs[`${formKey}`].validate((valid) => {
                 if (valid) {
                   return;
-                  request({
-                    method: this.handleMapping[itemKey].method,
-                    url: this.handleMapping[itemKey].action,
-                    params: {
-                      date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                      currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                      Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
-                      readOnly: 'YES',
-                      page: 1,
-                      rows: 20,
-                      ...this.forms[`${formKey}`]
-                    }
-                  }).then(() => {
-                    (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                if(this.handleMapping[itemKey].method === 'post'){
+                  postReq().then(res=>{
+                     (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                  });
+                }else{
+                  getReq(this.handleMapping[itemKey].action,{
+                    date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+                    currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+                    Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
+                    readOnly: 'YES',
+                    page: 1,
+                    rows: 20,
+                    ...this.forms[`${formKey}`]
+                  }).then(res=>{
+                     (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
                   })
+                }
+                  // request({
+                  //   method: this.handleMapping[itemKey].method,
+                  //   url: this.handleMapping[itemKey].action,
+                  //   params: {
+                  //     date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+                  //     currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+                  //     Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
+                  //     readOnly: 'YES',
+                  //     page: 1,
+                  //     rows: 20,
+                  //     ...this.forms[`${formKey}`]
+                  //   }
+                  // }).then(() => {
+                  //   (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                  // })
                 } else {
                   console.log('error submit!!');
                   return false;
