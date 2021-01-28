@@ -46,6 +46,7 @@ export default {
   methods: {
     // 点击确定 发送请求
     requestHandle() {
+      console.log("MDialog",this.$app,this.handleId,this.$app.tableId)
       this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
         return;
       if(this.$app.handleMapping[this.handleId].method === 'post'){
@@ -85,7 +86,7 @@ export default {
     },
     // 重置表单数据
     closeDia() {
-      console.log("dia",this.handleId)
+      console.log("MDialog",this.handleId)
       this.$app.tableId = ''
       this.dialogVisibleObj[this.dialogVisibleFlag] = false;
       this.$app['formRefs'][this.handleId].resetFields();

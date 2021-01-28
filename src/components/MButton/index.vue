@@ -49,9 +49,8 @@ export default {
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return;
-      this.tableId && (this.$app.tableId = this.tableId);
-      this.formKey && (this.$app.tableId = this.formKey);
-      this.$app.handle[this.itemConfig._id](this.rowObj, this.tableId, this.itemConfig, this.formKey);
+      this.$app.tableId = this.tableId ? this.tableId : this.formKey;
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.tableId, this.itemConfig);
     }
   }
 }

@@ -5,8 +5,8 @@
       :stripe="stripe"
     >
       <el-table-column
-        v-if="tableConfig.$.type"
-        :type="tableConfig.$.type"
+        v-if="tableConfig.$.type || type"
+        :type="tableConfig.$.type || type"
       />
       <template v-for="(item,index) in tableConfig.tableCol">
         <el-table-column
@@ -89,6 +89,7 @@ export default {
   },
   methods: {
     handleCurrentChange(val = 1) {
+      console.log("MTable",this.tableConfig.$._id)
       console.log(`当前页: ${val}`);
       if(this.tableConfig.$.method === 'post'){
         postReq().then(res=>{

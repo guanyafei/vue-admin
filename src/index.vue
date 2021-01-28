@@ -115,11 +115,11 @@ export default {
         if (isEmptyObj(this.handleMapping[itemKey]._id)) {
           // btnConfig 用于主页面查询  新增
           // tableId 用于表格内操作栏按钮
-          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}, formKey = '') => {
+          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
-              console.log(" this.tableId",tableId,formKey);
-              // return;
+              console.log(" this.tableId",this,tableId,itemKey);
+              return;
               this.$confirm(`${this.handleMapping[itemKey].tip ? this.handleMapping[itemKey].tip : this.alertTip}`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -194,9 +194,9 @@ export default {
                 })
               })
             } else if (this.handleMapping[itemKey].handleType === 'table') {
-              console.log("btnConfig.tableId",btnConfig.tableId,formKey);
+              console.log("btnConfig.tableId",btnConfig.tableId,itemKey);
               console.log("this",this);
-              this.formRefs[`${formKey}`].validate((valid) => {
+              this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
                   return;
                 if(this.handleMapping[itemKey].method === 'post'){
@@ -211,7 +211,7 @@ export default {
                     readOnly: 'YES',
                     page: 1,
                     rows: 20,
-                    ...this.forms[`${formKey}`]
+                    ...this.forms[`${tableId}`]
                   }).then(res=>{
                      (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
                   })
