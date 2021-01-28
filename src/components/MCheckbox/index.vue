@@ -1,5 +1,5 @@
 <template>
- <el-checkbox-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
+ <el-checkbox-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-checkbox v-for="item in itemConfig.options || options"
       :key="item"
       :label="item"
@@ -10,28 +10,34 @@
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCheckbox',
   props: {
     itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: Array,
-      default: []
+      default: () => ([])
     },
     clearable: {
         type: Boolean,
         default: true
     },
-    disabled: {
-        type: Boolean,
-        default: false
-    },
     placeholder: {
         type: String,
         default: '请输入'
     },
-    options: []
+    options:  {
+      type: Array,
+      default: () => ([])
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
+    }
   },
   data() {
     return {
@@ -45,6 +51,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
   },

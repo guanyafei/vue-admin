@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
+  <el-radio-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-radio
       v-for="item in itemConfig.options || options"
       :key="item.label"
@@ -11,24 +11,30 @@
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MRadio',
   props: {
     itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: String,
       default: ''
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     placeholder: {
       type: String,
       default: '请选择'
     },
-    options: []
+    options: {
+      type: Array,
+      default: () => ([])
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
+    }
   },
   data() {
     return {
@@ -42,6 +48,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
   },

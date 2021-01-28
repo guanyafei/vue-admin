@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" @input="handleModelInput">
+  <el-select v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-option
       v-for="item in optionsVal"
       :key="item.label"
@@ -11,10 +11,13 @@
 
 <script>
 import request from '@/utils/request'
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MSelect',
   props: {
     itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: String,
@@ -28,14 +31,14 @@ export default {
       type: Boolean,
       default: true
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     placeholder: {
       type: String,
       default: '请选择'
     },
+    isDisbled: {
+      type: String,
+      default: 'false'
+    }
   },
   data() {
     return {
@@ -50,6 +53,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
     this.itemConfig && this.itemConfig.action && this.getOptions();

@@ -25,11 +25,22 @@ export default {
     }
   },
   props: {
-    dialogVisibleFlag: '',
-    xmlConfigObj: {
+    dialogVisibleFlag: {
+      type: String,
+      default: ''
     },
-    handleId: '',
-    hasTable: false
+    xmlConfigObj: {
+      type: Object,
+      default: () => ({})
+    },
+    handleId: {
+      type: String,
+      default: ''
+    },
+    hasTable: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

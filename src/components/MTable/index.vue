@@ -59,9 +59,12 @@ export default {
     }
   },
   props: {
-    xmlConfigObj: {},
+    xmlConfigObj: {
+      type: Object,
+      default: () => ({})
+    },
     tableList: {
-      default: () => []
+      default: () => ([])
     },
     align: {
       type: String,

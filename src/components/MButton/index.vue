@@ -1,8 +1,9 @@
 <template>
-  <el-button :type="itemConfig.type || type" :disabled="disabled" size="mini" @click="submitHandle">{{ itemConfig.placeholder || placeholder }}</el-button>
+  <el-button :type="itemConfig.type || type"  :disabled="disabled" size="mini" @click="submitHandle">{{ itemConfig.placeholder || placeholder }}</el-button>
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MButton',
   inject: {
@@ -11,31 +12,38 @@ export default {
     }
   },
   props: {
-    itemConfig: {
+    itemConfig:{
+      type: Object,
+      default: () => ({})
     },
-    rowObj: {},
+    rowObj: {
+      type: Object,
+      default: () => ({})
+    },
     type: {
       type: String,
       default: 'success'
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     },
     placeholder: {
       type: String,
       default: '查询'
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     formData: {
       type: Object,
-      default: () => {}
+      default: () => ({})
     },
-    tableId: '',
-    formKey: ''
+    tableId:  {
+      type: String,
+      default: ''
+    },
+    formKey:  {
+      type: String,
+      default: ''
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
+    }
   },
   data() {
     return {
@@ -44,13 +52,19 @@ export default {
   },
   created() {
   },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
+  },
   mounted() {
   },
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
+      console.log("MButton",this.tableId , this.formKey)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
-      this.$app.handle[this.itemConfig._id](this.rowObj, this.tableId, this.itemConfig)
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig)
     }
   }
 }

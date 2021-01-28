@@ -1,29 +1,32 @@
 <template>
-  <el-cascader v-model="formItemVal" :options="options" :placeholder="itemConfig.placeholder || placeholder" @change="handleChange"/>
+  <el-cascader v-model="formItemVal" :options="options" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @change="handleChange"/>
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCascader',
   props: {
     itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: Array,
-      default: []
+      default: () => ([])
     },
     clearable: {
       type: Boolean,
       default: true
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     placeholder: {
       type: String,
       default: '请选择地区'
     },
+    isDisbled: {
+      type: String,
+      default: 'false'
+    }
   },
   data() {
     return {
@@ -58,6 +61,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
   },

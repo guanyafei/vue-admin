@@ -6,16 +6,20 @@
     range-separator="至"
     :clearable="clearable"
     value-format="yyyy-MM-dd"
+    :disabled="disabled"
     @change="handleModelInput"
     >
   </el-date-picker>
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MDate',
   props: {
     itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value:  {
       type: String,
@@ -25,10 +29,6 @@ export default {
       type: String,
       default: 'date'
     },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
     placeholder: {
       type: String,
       default: '选择日期'
@@ -36,6 +36,10 @@ export default {
     clearable:{
       type: Boolean,
       default: true
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
     }
   },
   data() {
@@ -50,6 +54,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
   },

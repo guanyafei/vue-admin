@@ -1,22 +1,24 @@
 <template>
   <div class="container">
-    <section v-if="xmlConfig.root.main" class="main">
-      <component :is="pageConfig['form']" v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" main-box-flag="Y" :form-key="xmlConfig.root.main[0].$._id" :xml-config-obj="xmlConfig.root.main[0].formBox[0]" />
-      <component :is="pageConfig['table']" v-if="xmlConfig.root.main[0].table&&xmlConfig.root.main[0].table.length" :ref="`${xmlConfig.root.main[0].table[0].$._id}Table`" :xml-config-obj="xmlConfig.root.main[0].table[0]" :table-list="(handleMapping[`${xmlConfig.root.main[0].table[0].$._id}`])[`${xmlConfig.root.main[0].table[0].$._id}BaseDate`]" />
+    <section v-if="rootData.main" class="main">
+      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
+      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :table-list="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
     </section>
-    <section v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length" class="list">
-      <component :is="pageConfig['dialog']" v-for="(item) in xmlConfig.root.dialog" :ref="item.$._id" :key="item.$._id" :has-table="!!item.table" :dialog-visible-flag="`${item.$._id}DialogVisible`" :handle-id="item.$._id" :xml-config-obj="item">
-        <component :is="pageConfig['form']" v-if="item.formBox" :ref="`${item.$._id}Form`" :form-key="item.$._id" :update-date="updateDateObj[item.$._id]" :xml-config-obj="item.formBox[0]" />
-        <component :is="pageConfig['table']" v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :table-list="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
-      </component>
+    <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
+      <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :has-table="!!item.table" :dialog-visible-flag="`${item.$._id}DialogVisible`" :handle-id="item.$._id" :xml-config-obj="item">
+        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$._isDisabledId" :form-key="item.$._id" :update-date="updateDateObj[item.$._id]" :xml-config-obj="item.form[0]" />
+        <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :table-list="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
+      </m-dialog>
     </section>
   </div>
 </template>
 
 <script>
-import pageConfig from 'pageConfig'
 import requestFn from '@/utils/requestFn'
 import { isEmptyObj } from '@/utils/validate'
+import MTable from "@/components/MTable"
+import MForm from "@/components/MForm"
+import MDialog from "@/components/MDialog"
 import { deepClone } from '@/utils/index'
 import { get as getReq, post as postReq } from '@/utils/requestFn'
 
@@ -28,29 +30,33 @@ export default {
     }
   },
   props: {
-    xmlConfigObj: null
+    xmlConfigObj: {
+      type: Object,
+      default: () => ({})
+    }
   },
+  components: { MDialog, MTable, MForm},
   data() {
     return {
       alertTip: '此操作将永久删除该数据, 是否继续?',
-      pageConfig: pageConfig,
       xmlConfig: this.xmlConfigObj,
       handle: {},
       updateDateObj: {},
       handleMapping: {},
       forms: {},
       formRefs: {},
-      tableId: ''
+      tableId: '',
+      rootData:{},
     }
   },
   created() {
     const root = this.xmlConfig.root || {}
     console.log('wwwwwwwwwww', this.xmlConfig.root, this.xmlConfig.root.main[0].table[0].$._id)
-    this.setPopups(root)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
+    this.setPopups(root)
     this.idToHandle(root)
+    this.rootData = Object.assign(this.rootData,root) 
     this.idToFun()
-    console.log('this.handleMapping', this.handleMapping)
   },
   mounted() {
   },
@@ -76,19 +82,16 @@ export default {
           itemObj[`${item.$._id}BaseDate`] = []
           tempObj[itemObj._id] = itemObj
           this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
-          // if (item.formBox && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
-          //   this.handleMapping[itemObj._id].forms = deepClone(item.formBox[0])
-          // }
           if (item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
             const tempObj = {}; const obj = deepClone(item.table[0].$)
             obj['handleType'] = 'table'
-            // obj['forms'] = {}
             obj[`${obj._id}BaseDate`] = []
             tempObj[obj._id] = obj
             this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
           }
         }
       })
+      return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
     setPopups(root) {
@@ -101,6 +104,8 @@ export default {
           for (let i = 0; i < ids.length; i++) {
             temp = []
             temp = deepClone(item)
+            temp.$._isDisabledId && temp.$._isDisabledId !== ids[i] && delete temp.$._isDisabledId
+            temp.$._isDisabledId && temp.$._isDisabledId === ids[i] && this.$set(temp.$,'_isDisabledId','true')
             temp.$._id = ids[i]
             tempDia.push(temp)
           }
@@ -193,14 +198,15 @@ export default {
                 })
               })
             } else if (this.handleMapping[itemKey].handleType === 'table') {
-              console.log('btnConfig.tableId', btnConfig.tableId, itemKey)
+              console.log('btnConfig._tableId', btnConfig._tableId, itemKey)
               console.log('this', this)
+              console.log('this.formRefs[`${tableId}`]', this.formRefs[`${tableId}`],tableId)
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
                   return
                   if (this.handleMapping[itemKey].method === 'post') {
                     postReq().then(res => {
-                      (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                      (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
                     })
                   } else {
                     getReq(this.handleMapping[itemKey].action, {
@@ -212,7 +218,7 @@ export default {
                       rows: 20,
                       ...this.forms[`${tableId}`]
                     }).then(res => {
-                      (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                      (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
                     })
                   }
                   // request({
@@ -228,7 +234,7 @@ export default {
                   //     ...this.forms[`${formKey}`]
                   //   }
                   // }).then(() => {
-                  //   (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                  //   (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
                   // })
                 } else {
                   console.log('error submit!!')

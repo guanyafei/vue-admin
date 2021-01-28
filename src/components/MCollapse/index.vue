@@ -25,14 +25,13 @@ export default {
   props: {
   },
   methods: {
-    
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .box{
-    height:130px;
+    height:auto;
     width: 100%;
     background-color:#fff;
     overflow-y: auto;

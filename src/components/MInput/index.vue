@@ -1,12 +1,15 @@
 <template>
-  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :disabled="isDisabled(itemConfig)" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
+  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :disabled="disabled" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
 </template>
 
 <script>
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MInput',
   props: {
-    itemConfig: {
+    itemConfig:{
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: String,
@@ -18,19 +21,19 @@ export default {
     },
     maxlength: {
       type: String,
-      default: '10'
+      default: '50'
     },
     clearable: {
       type: Boolean,
       default: true
     },
-    disabled: {
-      type: String,
-      default: '0'
-    },
     placeholder: {
       type: String,
       default: '请输入'
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
     }
   },
   data() {
@@ -46,14 +49,16 @@ export default {
       deep: true
     }
   },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
+  },
   created() {
   },
   mounted() {
   },
   methods: {
-    isDisabled(item){
-      return item.disabled ? Boolean(item.disabled): Boolean(0);
-    },
     handleModelInput(value) {
       this.$emit('input', value)
       // if (this.$parent.$options.componentName === 'ElFormItem') {

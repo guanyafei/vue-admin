@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-input v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="isDisabled(itemConfig)" readonly>
-      <el-button :disabled="isDisabled(itemConfig)" slot="append" icon="el-icon-search" @click="openDia()" />
+    <el-input v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" readonly>
+      <el-button :disabled="disabled" slot="append" icon="el-icon-search" @click="openDia()" />
     </el-input>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="40%" append-to-body :closed="closeDia" destroy-on-close>
       <el-form ref="zoomForm" :model="zoom" :inline="true">
@@ -36,10 +36,13 @@
 
 <script>
 import {get as getReq,post as postReq} from '@/utils/requestFn'
+import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MZoom',
   props: {
     itemConfig: {
+      type: Object,
+      default: () => ({})
     },
     value: {
       type: String,
@@ -48,6 +51,10 @@ export default {
     placeholder: {
       type: String,
       default: '请输入'
+    },
+    isDisbled: {
+      type: String,
+      default: 'false'
     }
   },
   data() {
@@ -68,6 +75,11 @@ export default {
       },
       deep: true
     }
+  },
+  computed:{
+     disabled:function (){
+       return isDisabledFn(this.itemConfig,this.isDisbled);
+     }
   },
   created() {
     this.parseDate()
@@ -97,10 +109,6 @@ export default {
           this.$set(this.tableColLable,item,tempList[idx]);
         });
       }
-    },
-    // 是否禁用
-    isDisabled(item){
-      return item.disabled ? Boolean(item.disabled): Boolean(0);
     },
     openDia() {
       this.dialogVisible = true

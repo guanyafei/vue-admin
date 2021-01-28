@@ -55,8 +55,7 @@ module.exports = {
         name: name,
         resolve: {
             alias: {
-                '@': resolve('src'),
-                'pageConfig': resolve('public/pageConfig/index.js')
+                '@': resolve('src')
             }
         }
     },
