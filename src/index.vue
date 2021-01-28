@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section v-if="xmlConfig.root.main" class="main">
-      <component mainBoxFlag='Y' :is="pageConfig['form']" v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" :form-key="xmlConfig.root.main[0].$._id" :xml-config-obj="xmlConfig.root.main[0].formBox[0]" />
+      <component :is="pageConfig['form']" v-if="xmlConfig.root.main[0].formBox&&xmlConfig.root.main[0].formBox.length" :ref="`${xmlConfig.root.main[0].$._id}Form`" main-box-flag="Y" :form-key="xmlConfig.root.main[0].$._id" :xml-config-obj="xmlConfig.root.main[0].formBox[0]" />
       <component :is="pageConfig['table']" v-if="xmlConfig.root.main[0].table&&xmlConfig.root.main[0].table.length" :ref="`${xmlConfig.root.main[0].table[0].$._id}Table`" :xml-config-obj="xmlConfig.root.main[0].table[0]" :table-list="(handleMapping[`${xmlConfig.root.main[0].table[0].$._id}`])[`${xmlConfig.root.main[0].table[0].$._id}BaseDate`]" />
     </section>
     <section v-if="xmlConfig.root.dialog&&xmlConfig.root.dialog.length" class="list">
@@ -18,7 +18,7 @@ import pageConfig from 'pageConfig'
 import requestFn from '@/utils/requestFn'
 import { isEmptyObj } from '@/utils/validate'
 import { deepClone } from '@/utils/index'
-import {get as getReq,post as postReq} from '@/utils/requestFn'
+import { get as getReq, post as postReq } from '@/utils/requestFn'
 
 export default {
   name: 'PageDemo',
@@ -45,12 +45,12 @@ export default {
   },
   created() {
     const root = this.xmlConfig.root || {}
-    console.log('wwwwwwwwwww', this.xmlConfig.root,this.xmlConfig.root.main[0].table[0].$._id)
+    console.log('wwwwwwwwwww', this.xmlConfig.root, this.xmlConfig.root.main[0].table[0].$._id)
     this.setPopups(root)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     this.idToHandle(root)
     this.idToFun()
-    console.log("this.handleMapping",this.handleMapping)
+    console.log('this.handleMapping', this.handleMapping)
   },
   mounted() {
   },
@@ -91,14 +91,14 @@ export default {
       })
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopups(root){
-      if(root.dialog && root.dialog.length>0){
-        let ids = [],tempDia=[],temp=[],tempId=0;
-        root.dialog.map((item,idx)=>{
-          tempId = item.$._id 
-          if(!tempId || !tempId.includes('|')) return
+    setPopups(root) {
+      if (root.dialog && root.dialog.length > 0) {
+        let ids = []; const tempDia = []; let temp = []; let tempId = 0
+        root.dialog.map((item, idx) => {
+          tempId = item.$._id
+          if (!tempId || !tempId.includes('|')) return
           ids = tempId.split('|')
-          for(let i=0;i<ids.length;i++){
+          for (let i = 0; i < ids.length; i++) {
             temp = []
             temp = deepClone(item)
             temp.$._id = ids[i]
@@ -106,7 +106,7 @@ export default {
           }
           root.dialog.splice(idx, 1)
           root.dialog = root.dialog.concat(tempDia)
-        });
+        })
       }
     },
     // id to fun params查询参数
@@ -118,16 +118,15 @@ export default {
           this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
-              console.log(" this.tableId",this,tableId,itemKey);
-              return;
+              console.log(' this.tableId', this, tableId, itemKey)
+              return
               this.$confirm(`${this.handleMapping[itemKey].tip ? this.handleMapping[itemKey].tip : this.alertTip}`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
-                
-                if(this.handleMapping[itemKey].method  === 'post'){
-                  postReq().then(res=>{
+                if (this.handleMapping[itemKey].method === 'post') {
+                  postReq().then(res => {
                     if (res.retcode === 0) {
                       this.$message({
                         type: 'success',
@@ -142,12 +141,12 @@ export default {
                         message: res.retmesg
                       })
                     }
-                  });
-                }else{
-                  getReq(this.handleMapping[itemKey].action,{
+                  })
+                } else {
+                  getReq(this.handleMapping[itemKey].action, {
                     id: this.updateDateObj[itemKey].id,
                     Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
-                  }).then(res=>{
+                  }).then(res => {
                     if (res.retcode === 0) {
                       this.$message({
                         type: 'success',
@@ -194,28 +193,28 @@ export default {
                 })
               })
             } else if (this.handleMapping[itemKey].handleType === 'table') {
-              console.log("btnConfig.tableId",btnConfig.tableId,itemKey);
-              console.log("this",this);
+              console.log('btnConfig.tableId', btnConfig.tableId, itemKey)
+              console.log('this', this)
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
-                  return;
-                if(this.handleMapping[itemKey].method === 'post'){
-                  postReq().then(res=>{
-                     (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
-                  });
-                }else{
-                  getReq(this.handleMapping[itemKey].action,{
-                    date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                    currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                    Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
-                    readOnly: 'YES',
-                    page: 1,
-                    rows: 20,
-                    ...this.forms[`${tableId}`]
-                  }).then(res=>{
-                     (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
-                  })
-                }
+                  return
+                  if (this.handleMapping[itemKey].method === 'post') {
+                    postReq().then(res => {
+                      (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                    })
+                  } else {
+                    getReq(this.handleMapping[itemKey].action, {
+                      date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
+                      currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+                      Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
+                      readOnly: 'YES',
+                      page: 1,
+                      rows: 20,
+                      ...this.forms[`${tableId}`]
+                    }).then(res => {
+                      (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
+                    })
+                  }
                   // request({
                   //   method: this.handleMapping[itemKey].method,
                   //   url: this.handleMapping[itemKey].action,
@@ -232,10 +231,10 @@ export default {
                   //   (this.$refs[`${btnConfig.tableId}Table`]).length ? (this.$refs[`${btnConfig.tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig.tableId}Table`]).handleCurrentChange()
                   // })
                 } else {
-                  console.log('error submit!!');
-                  return false;
+                  console.log('error submit!!')
+                  return false
                 }
-              });
+              })
             } else {
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`] = true
             }

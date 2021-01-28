@@ -83,8 +83,3 @@ npm run lint -- --fix
 
 # skip pre-commit
 git commit -m '' --no-verify
-```
-# 问题
-1、查询功能 条件问题 
-2、查询返回值  与更新接口同一字段同一值key不统一
-3、select的key值每个接口不统一

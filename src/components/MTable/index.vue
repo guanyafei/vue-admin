@@ -49,7 +49,7 @@
 </template>
 <script>
 import MButton from '@/components/MButton'
-import {get as getReq,post as postReq} from '@/utils/requestFn'
+import { get as getReq, post as postReq } from '@/utils/requestFn'
 export default {
   name: 'MTable',
   components: { MButton },
@@ -89,14 +89,14 @@ export default {
   },
   methods: {
     handleCurrentChange(val = 1) {
-      console.log("MTable",this.tableConfig.$._id)
-      console.log(`当前页: ${val}`);
-      if(this.tableConfig.$.method === 'post'){
-        postReq().then(res=>{
+      console.log('MTable', this.tableConfig.$._id)
+      console.log(`当前页: ${val}`)
+      if (this.tableConfig.$.method === 'post') {
+        postReq().then(res => {
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
-        });
-      }else{
-        getReq(this.tableConfig.$.action,{
+        })
+      } else {
+        getReq(this.tableConfig.$.action, {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
@@ -104,7 +104,7 @@ export default {
           readOnly: 'YES',
           page: val,
           rows: 20
-        }).then(res=>{
+        }).then(res => {
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
         })
       }
