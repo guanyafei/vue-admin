@@ -100,4 +100,11 @@ export function post(url, data = {}) {
         })
     })
 }
+export function fetch(url, method = 'get', params = {}) {
+    if (method === 'get') {
+        return get(url, params)
+    } else {
+        return post(url, params)
+    }
+}
 // export default service

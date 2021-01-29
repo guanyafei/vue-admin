@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { get as getReq, post as postReq } from '@/utils/requestFn'
+import { fetch } from '@/utils/requestFn'
 export default {
   name: 'MDialog',
   inject: {
@@ -60,39 +60,16 @@ export default {
       console.log('MDialog', this.$app, this.handleId, this.$app.tableId)
       this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
         return
-        if (this.$app.handleMapping[this.handleId].method === 'post') {
-          const headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}
-          postReq().then(res => {
-            this.closeDia()
-            if (this.$app.tableId) {
-              const tableId = this.$app.tableId;
-              (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
-            }
-          })
-        } else {
-          getReq(this.$app.handleMapping[this.handleId].action, {
-            ...this.$app.forms[this.handleId]
-          }).then(res => {
-            this.closeDia()
-            if (this.$app.tableId) {
-              const tableId = this.$app.tableId;
-              (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
-            }
-          })
-        }
-
-        // request({
-        //   method: this.$app.handleMapping[this.handleId].method || 'Get',
-        //   url: this.$app.handleMapping[this.handleId].action || '',
-        //   headers,
-        //   ...this.$app.forms[this.handleId]
-        // }).then(res => {
-        //   this.closeDia()
-        //   if (this.$app.tableId) {
-        //     const tableId = this.$app.tableId;
-        //     (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
-        //   }
-        // });
+        fetch(this.$app.handleMapping[this.handleId].action,this.$app.handleMapping[this.handleId].method,
+        {
+          ...this.$app.forms[this.handleId]
+        }).then(res=>{
+          this.closeDia()
+          if (this.$app.tableId) {
+            const tableId = this.$app.tableId;
+            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
+          }
+        })
       })
     },
     // 重置表单数据

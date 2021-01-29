@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCascader',
@@ -68,10 +69,20 @@ export default {
      }
   },
   created() {
+    this.itemConfig && this.itemConfig.action && this.getOptions();
   },
   mounted() {
   },
   methods: {
+    getOptions () {
+      fetch(this.itemConfig.action,this.itemConfig.method,
+        {
+          Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
+        }
+      ).then(res=>{
+        this.options = res.retdata || [];
+      });
+    },
     handleChange(value) {
       this.$emit('input', value)
     },

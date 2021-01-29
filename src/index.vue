@@ -20,7 +20,7 @@ import MTable from "@/components/MTable"
 import MForm from "@/components/MForm"
 import MDialog from "@/components/MDialog"
 import { deepClone } from '@/utils/index'
-import { get as getReq, post as postReq } from '@/utils/requestFn'
+import { fetch } from '@/utils/requestFn'
 
 export default {
   name: 'PageDemo',
@@ -57,13 +57,11 @@ export default {
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root) 
     this.idToFun()
+    console.log("hhhhhhhhhh",this)
   },
   mounted() {
   },
   methods: {
-    // getTableId(item){
-    //   return (item.table && item.table[0].$._id) || '';
-    // },
     // id与handle映射
     idToHandle(root) {
       Object.keys(root).map(tagItem => {
@@ -78,7 +76,6 @@ export default {
         if (isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
           const tempObj = {}; const itemObj = deepClone(item.$)
           itemObj['handleType'] = tagItem
-          // itemObj['forms'] = {}
           itemObj[`${item.$._id}BaseDate`] = []
           tempObj[itemObj._id] = itemObj
           this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
@@ -96,17 +93,27 @@ export default {
     // 弹窗处理--多个按钮操作一个弹窗  dialog
     setPopups(root) {
       if (root.dialog && root.dialog.length > 0) {
-        let ids = []; const tempDia = []; let temp = []; let tempId = 0
+        let ids = []; const tempDia = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
+        let methods = []; let tempMethod = ''; let isDisabledId = '';
         root.dialog.map((item, idx) => {
           tempId = item.$._id
+          tempAction = item.$.action
+          tempMethod = item.$.method
+          item.$._isDisabledId && (isDisabledId = item.$._isDisabledId)
           if (!tempId || !tempId.includes('|')) return
+          tempAction && (actions = tempAction.split('|'))
+          tempMethod && (methods = tempMethod.split('|'))
           ids = tempId.split('|')
           for (let i = 0; i < ids.length; i++) {
             temp = []
             temp = deepClone(item)
-            temp.$._isDisabledId && temp.$._isDisabledId !== ids[i] && delete temp.$._isDisabledId
-            temp.$._isDisabledId && temp.$._isDisabledId === ids[i] && this.$set(temp.$,'_isDisabledId','true')
+            temp.$._isDisabledId && ids[i] !== isDisabledId && delete temp.$._isDisabledId
+            temp.$._isDisabledId && (ids[i] === isDisabledId) && this.$set(temp.$,'_isDisabledId','true')
             temp.$._id = ids[i]
+            if(actions.length === 1)  this.$set(temp.$,'action',actions[0])
+            if(actions.length === ids.length) this.$set(temp.$,'action',actions[i])
+            if(methods.length === 1)  this.$set(temp.$,'method',methods[0])
+            if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
             tempDia.push(temp)
           }
           root.dialog.splice(idx, 1)
@@ -124,73 +131,19 @@ export default {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
               console.log(' this.tableId', this, tableId, itemKey)
-              return
               this.$confirm(`${this.handleMapping[itemKey].tip ? this.handleMapping[itemKey].tip : this.alertTip}`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
-                if (this.handleMapping[itemKey].method === 'post') {
-                  postReq().then(res => {
-                    if (res.retcode === 0) {
-                      this.$message({
-                        type: 'success',
-                        message: '操作成功!'
-                      })
-                      if (tableId !== '') {
-                        (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
-                      }
-                    } else {
-                      this.$message({
-                        type: 'info',
-                        message: res.retmesg
-                      })
-                    }
-                  })
-                } else {
-                  getReq(this.handleMapping[itemKey].action, {
+                return
+                fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
+                  {
                     id: this.updateDateObj[itemKey].id,
                     Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
-                  }).then(res => {
-                    if (res.retcode === 0) {
-                      this.$message({
-                        type: 'success',
-                        message: '操作成功!'
-                      })
-                      if (tableId !== '') {
-                        (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
-                      }
-                    } else {
-                      this.$message({
-                        type: 'info',
-                        message: res.retmesg
-                      })
-                    }
-                  })
-                }
-                // request({
-                //   method: this.handleMapping[itemKey].method || 'GET',
-                //   url: this.handleMapping[itemKey].action,
-                //   params: {
-                //     id: this.updateDateObj[itemKey].id,
-                //     Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
-                //   }
-                // }).then(res => {
-                //   if (res.retcode === 0) {
-                //     this.$message({
-                //       type: 'success',
-                //       message: '操作成功!'
-                //     })
-                //     if (tableId !== '') {
-                //       (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
-                //     }
-                //   } else {
-                //     this.$message({
-                //       type: 'info',
-                //       message: res.retmesg
-                //     })
-                //   }
-                // })
+                  }).then(res=>{
+                  (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
+                })
               }).catch(() => {
                 this.$message({
                   type: 'info',
@@ -204,44 +157,20 @@ export default {
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
                   return
-                  if (this.handleMapping[itemKey].method === 'post') {
-                    postReq().then(res => {
-                      (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
-                    })
-                  } else {
-                    getReq(this.handleMapping[itemKey].action, {
-                      date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                      currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                      Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
-                      readOnly: 'YES',
-                      page: 1,
-                      rows: 20,
-                      ...this.forms[`${tableId}`]
-                    }).then(res => {
-                      (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
-                    })
-                  }
-                  // request({
-                  //   method: this.handleMapping[itemKey].method,
-                  //   url: this.handleMapping[itemKey].action,
-                  //   params: {
-                  //     date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-                  //     currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-                  //     Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
-                  //     readOnly: 'YES',
-                  //     page: 1,
-                  //     rows: 20,
-                  //     ...this.forms[`${formKey}`]
-                  //   }
-                  // }).then(() => {
-                  //   (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
-                  // })
+                  fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
+                    {
+                      id: this.updateDateObj[itemKey].id,
+                      Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
+                    }).then(res=>{
+                     (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
+                  })
                 } else {
                   console.log('error submit!!')
                   return false
                 }
               })
             } else {
+              console.log("hhhhhhhhhh",this)
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`] = true
             }
           }

@@ -14,6 +14,7 @@
           :key="index"
           :label="item.$.lable"
           :align="item.$.align || align"
+          fixed="right"
         >
           <template v-slot:default="scope">
             <el-dropdown>
@@ -41,7 +42,7 @@
       <el-pagination
         layout="total, prev, pager, next, jumper"
         :total="tableList.total"
-        :page-size="20"
+        :page-size="pageSize"
         @current-change="handleCurrentChange"
       />
     </div>
@@ -49,7 +50,7 @@
 </template>
 <script>
 import MButton from '@/components/MButton'
-import { get as getReq, post as postReq } from '@/utils/requestFn'
+import { fetch } from '@/utils/requestFn'
 export default {
   name: 'MTable',
   components: { MButton },
@@ -81,36 +82,37 @@ export default {
   },
   data() {
     return {
-      tableConfig: {}
+      tableConfig: {},
+      // size:
     }
   },
   created() {
     this.tableConfig = this.xmlConfigObj
+  },
+  computed:{
+    pageSize:function(){
+      return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
+    }
   },
   mounted() {
     this.handleCurrentChange()
   },
   methods: {
     handleCurrentChange(val = 1) {
-      console.log('MTable', this.tableConfig.$._id)
+      console.log('MTable', this.tableConfig)
       console.log(`当前页: ${val}`)
-      if (this.tableConfig.$.method === 'post') {
-        postReq().then(res => {
-          this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
-        })
-      } else {
-        getReq(this.tableConfig.$.action, {
+      fetch(this.tableConfig.$.action,this.tableConfig.$.method,
+        {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
           Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
           readOnly: 'YES',
           page: val,
-          rows: 20
-        }).then(res => {
+          rows: this.pageSize
+        }).then(res=>{
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
-        })
-      }
+      })
     }
   }
 }

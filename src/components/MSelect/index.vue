@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import request from '@/utils/request'
+import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MSelect',
@@ -67,16 +67,12 @@ export default {
   methods: {
     // 获取select值
     getOptions () {
-      request({
-        method: this.itemConfig.method,
-        url: this.itemConfig.action,
-        params:{
+      fetch(this.itemConfig.action,this.itemConfig.method,
+        {
           Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
         }
-      }).then(res=>{
-        if(res.retcode===0){
-          this.optionsVal = res.retdata || [];
-        }
+      ).then(res=>{
+        this.optionsVal = res.retdata || [];
       });
     },
     handleModelInput(val) {

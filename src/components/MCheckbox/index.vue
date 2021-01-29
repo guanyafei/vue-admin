@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCheckbox',
@@ -30,10 +31,6 @@ export default {
         type: String,
         default: '请输入'
     },
-    options:  {
-      type: Array,
-      default: () => ([])
-    },
     isDisbled: {
       type: String,
       default: 'false'
@@ -41,7 +38,8 @@ export default {
   },
   data() {
     return {
-      formItemVal:this.value
+      formItemVal:this.value,
+      optionsVal:this.itemConfig.options || [],
     }
   },
   watch:{
@@ -58,10 +56,20 @@ export default {
      }
   },
   created() {
+    this.itemConfig && this.itemConfig.action && this.getOptions();
   },
   mounted() {
   },
   methods: {
+    getOptions () {
+      fetch(this.itemConfig.action,this.itemConfig.method,
+        {
+          Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
+        }
+      ).then(res=>{
+        this.optionsVal = res.retdata || [];
+      });
+    },
     handleModelInput(value) {
       console.log("MCheckbox",value)
     },
