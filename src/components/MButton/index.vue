@@ -62,7 +62,8 @@ export default {
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
-      console.log("MButton",this.tableId , this.formKey)
+      console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey)
+      console.log("this.tableId",this.tableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
       this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig)
     }

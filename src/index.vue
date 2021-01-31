@@ -55,7 +55,7 @@ export default {
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     this.setPopups(root)
     this.idToHandle(root)
-    this.rootData = Object.assign(this.rootData,root) 
+    this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
     console.log("hhhhhhhhhh",this)
   },
@@ -94,8 +94,9 @@ export default {
     setPopups(root) {
       if (root.dialog && root.dialog.length > 0) {
         let ids = []; const tempDia = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
-        let methods = []; let tempMethod = ''; let isDisabledId = '';
-        root.dialog.map((item, idx) => {
+        let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null;
+        for(let i=root.dialog.length-1;i >= 0; i--){
+          item = root.dialog[i];
           tempId = item.$._id
           tempAction = item.$.action
           tempMethod = item.$.method
@@ -116,9 +117,9 @@ export default {
             if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
             tempDia.push(temp)
           }
-          root.dialog.splice(idx, 1)
-          root.dialog = root.dialog.concat(tempDia)
-        })
+          root.dialog.splice(i, 1)
+        }
+        root.dialog = root.dialog.concat(tempDia)
       }
     },
     // id to fun params查询参数
@@ -151,18 +152,22 @@ export default {
                 })
               })
             } else if (this.handleMapping[itemKey].handleType === 'table') {
-              console.log('btnConfig._tableId', btnConfig._tableId, itemKey)
-              console.log('this', this)
-              console.log('this.formRefs[`${tableId}`]', this.formRefs[`${tableId}`],tableId)
+              console.log('itemKey...', itemKey)
+              console.log('tableId....', tableId)
+              console.log('this.$refs...', this.$refs)
+              console.log('this.handleMapping....',this.handleMapping,tableId)
+              console.log('tableId....',tableId)
+              console.log('this.formRefs`].....',this.formRefs)
+              console.log('this.forms.....',this.forms)
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
                   return
                   fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
                     {
-                      id: this.updateDateObj[itemKey].id,
+                      ...this.froms[`${tableId}`],
                       Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
                     }).then(res=>{
-                     (this.$refs[`${btnConfig._tableId}Table`]).length ? (this.$refs[`${btnConfig._tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${btnConfig._tableId}Table`]).handleCurrentChange()
+                     (this.$refs[`${itemKey}Table`]).length ? (this.$refs[`${itemKey}Table`])[0].handleCurrentChange() : (this.$refs[`${itemKey}Table`]).handleCurrentChange()
                   })
                 } else {
                   console.log('error submit!!')

@@ -16,14 +16,22 @@
           :align="item.$.align || align"
           fixed="right"
         >
+          <template  slot="header" slot-scope="scope">
+            <template  v-if="item.HButton">
+              <m-button  v-for="(item,index) in item.HButton" :key="index"  :table-id="tableConfig.$._id" :item-config="item.$" :row-obj="scope.row" />
+            </template>
+            <template v-else>
+              操作
+            </template>
+          </template>
           <template v-slot:default="scope">
             <el-dropdown>
               <span class="el-dropdown-link">
-                下拉操作<i class="el-icon-arrow-down el-icon--right" />
+                操作<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(item,index) in item.button" :key="index">
-                  <m-button :table-id="xmlConfigObj.$._id" :item-config="item.$" :row-obj="scope.row" />
+                  <m-button :table-id="tableConfig.$._id" :item-config="item.$" :row-obj="scope.row" />
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>

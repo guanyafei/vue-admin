@@ -14,12 +14,12 @@
             <formItem tag="text" placeholder="请输入" prop="tel" lable="电话"/>
             <formItem tag="radio" required='true' placeholder="请输入" prop="xx" lable="xx" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
             <formItem tag="checkbox" required='true' placeholder="请输入" prop="yy" lable="yy" options='["黄金糕","双皮奶"]'/>
-            <button type="primary" _id="query" _tableId="query" placeholder="查询"/>
+            <button type="primary" _id="query" placeholder="查询"/>
             <button type="success" _id="add" placeholder="创建"/>
         </form>
         <table _id="query" action="/lmis-md-web/cusm/totalQuery.do"  method="get">
-            <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
-            <tableCol  prop="company" lable="客户名称" /> 
+            <tableCol  prop="accountNo" lable="客户账号" align="left"/>
+            <tableCol  prop="company" lable="客户名称" />
             <tableCol  prop="addressDetail" lable="详细地址"/>
             <tableCol  lable="操作">
                 <button type="danger" _id="statusClose"  placeholder="冻结"/>
@@ -51,22 +51,23 @@
             <formItem tag="select" placeholder="请输入" prop="parentAccountNo" lable="客户父账号" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
             <formItem tag="text" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
             <formItem tag="select" placeholder="请输入" prop="belongsBody" lable="所属公司主体" options='[{"label":"冻结","value":"2"},{"label":"开通","value":"1"}]'/>
-            <button type="warning" _id="query" _tableId="query" placeholder="保存"/>
+            <button type="warning" _id="query" placeholder="保存"/>
         </form>
         <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do" size="10" method="get">
-            <tableCol  prop="accountNo" lable="客户账号" align="left"/> 
-            <tableCol  prop="company" lable="客户名称" /> 
+            <tableCol  prop="accountNo" lable="客户账号" align="left"/>
+            <tableCol  prop="company" lable="客户名称" />
             <tableCol  prop="addressDetail" lable="详细地址"/>
             <tableCol  lable="操作">
+                <HButton type="danger" _id="tjAdd"  placeholder="新增"/>
                 <button type="danger" _id="statusClose"  placeholder="冻结"/>
                 <button type="danger" _id="statusOpen"  placeholder="开通"/>
                 <button type="warning" _id="ccc" placeholder="更新"/>
             </tableCol>
         </table>
     </dialog>
-    <dialog _id="ccc" action='url'>
+    <dialog _id="ccc|tjAdd" action='url' _isDisabledId="tjAdd">
         <form>
-            <formItem tag="text" required='true' width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <formItem tag="text" isDisabled="true" required='true' width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
             <formItem tag="date" required='true' type="date" prop="date11" placeholder="选择日期时间" lable="日期"/>
             <formItem tag="text" required='true' placeholder="请输入" prop="name" lable="联系人"/>
             <formItem tag="text" placeholder="请输入" prop="phone" lable="联系电话"/>
