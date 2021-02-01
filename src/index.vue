@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <section v-if="rootData.main" class="main">
-      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
+      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :mainTableId="mainTableId" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
       <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :table-list="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
     </section>
     <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
@@ -47,6 +47,8 @@ export default {
       formRefs: {},
       tableId: '',
       rootData:{},
+      mainFlag:'N',
+      _mainTableId:''
     }
   },
   created() {
@@ -58,6 +60,13 @@ export default {
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
     console.log("hhhhhhhhhh",this)
+  },
+  computed:{
+     mainTableId:function (){
+       let _id = this.rootData.main[0].table&&this.rootData.main[0].table.length&&this.rootData.main[0].table[0].$._id;
+       console.log("eeeeeee",_id)
+       return _id;
+     }
   },
   mounted() {
   },

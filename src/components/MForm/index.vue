@@ -17,7 +17,7 @@
             </el-form-item>
           </template>
           <el-form-item v-for="(item,index) in buttonItems" :key="index">
-            <m-button :item-config="item" :form-data="forms" mainFlag ='Y' :form-key="formKey" />
+            <m-button :item-config="item" :mainTableId="mainTableId" :form-data="forms" mainFlag ='Y' :form-key="formKey" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary"  size="mini" @click="reSetForms()">重置</el-button>
@@ -66,6 +66,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    mainTableId: {
+      type: String,
+      default: ''
     }
   },
   data() {

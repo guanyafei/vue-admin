@@ -120,6 +120,8 @@ export default {
           rows: this.pageSize
         }).then(res=>{
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
+          this.$app._mainTableId = ""
+          this.$app.mainFlag = "N"
       })
     }
   }

@@ -57,7 +57,7 @@ export default {
   methods: {
     // 点击确定 发送请求
     requestHandle() {
-      console.log('MDialog', this.$app, this.handleId, this.$app.tableId)
+      console.log('MDialog', this.$app, this.handleId, this.$app.tableId,this.$app.mainFlag,this.$app._mainTableId)
       this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
         return
         fetch(this.$app.handleMapping[this.handleId].action,this.$app.handleMapping[this.handleId].method,
@@ -65,7 +65,11 @@ export default {
           ...this.$app.forms[this.handleId]
         }).then(res=>{
           this.closeDia()
-          if (this.$app.tableId) {
+          if(this.$app.mainFlag === 'Y'){
+            const tableId = this.$app._mainTableId;
+            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
+          }else if (this.$app.tableId) {
+            alert(1)
             const tableId = this.$app.tableId;
             (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
           }
