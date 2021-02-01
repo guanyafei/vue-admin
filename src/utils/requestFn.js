@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 import { MessageBox, Message, Loading } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -18,7 +19,7 @@ function endLoading() {
 // create an axios instance
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-    timeout: 5000 // request timeout
+    timeout: 50000 // request timeout
 })
 
 // request interceptor
@@ -94,8 +95,8 @@ export function get(url, params = {}) {
 }
 export function post(url, data = {}) {
     return new Promise((resolve, reject) => {
-        const header = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' } }
-        service.post(url, data, header).then(res => {
+        const header = { headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' } }
+        service.post(url, qs.stringify(data), header).then(res => {
             resolve(res);
         }).catch(err => {
             reject(err)

@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     handleModelInput(val) {
+      console.log("xxxxxxxxxxx",val)
       this.$emit('input', val);
     },
 

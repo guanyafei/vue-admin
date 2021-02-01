@@ -71,6 +71,7 @@ export default {
       });
     },
     handleModelInput(value) {
+      this.$emit('input', value)
       console.log("MCheckbox",value)
     },
 

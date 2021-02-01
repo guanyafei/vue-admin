@@ -12,6 +12,7 @@
             <formItem tag="text" placeholder="请输入" prop="age" lable="年龄"/>
             <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
             <formItem tag="text" placeholder="请输入" prop="tel" lable="电话"/>
+            <formItem tag="date" placeholder="请输入" prop="date" lable="时间"/>
             <formItem tag="radio" required='true' placeholder="请输入" prop="xx" lable="xx" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
             <formItem tag="checkbox" required='true' placeholder="请输入" prop="yy" lable="yy" options='["黄金糕","双皮奶"]'/>
             <button type="primary" _id="query" placeholder="查询"/>

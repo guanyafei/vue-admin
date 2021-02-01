@@ -26,7 +26,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '查询'
+      default: ''
     },
     formData: {
       type: Object,
@@ -43,7 +43,11 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
-    }
+    },
+    mainFlag: {
+      type: String,
+      default: 'N'
+    },
   },
   data() {
     return {
@@ -65,7 +69,8 @@ export default {
       console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey)
       console.log("this.tableId",this.tableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
-      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig)
+      // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag)
     }
   }
 }

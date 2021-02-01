@@ -128,7 +128,8 @@ export default {
         if (isEmptyObj(this.handleMapping[itemKey]._id)) {
           // btnConfig 用于主页面查询  新增
           // tableId 用于表格内操作栏按钮
-          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
+          // this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
+          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', mainFlag = 'N') => {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
               console.log(' this.tableId', this, tableId, itemKey)
@@ -137,11 +138,11 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
               }).then(() => {
-                return
+                // return
                 fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
                   {
                     id: this.updateDateObj[itemKey].id,
-                    Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
+                    Login_SessionId: 'SESSION_AD426AF4ECBA4B62B2C0F81B440522BC'
                   }).then(res=>{
                   (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
                 })
@@ -159,10 +160,12 @@ export default {
               console.log('tableId....',tableId)
               console.log('this.formRefs`].....',this.formRefs)
               console.log('this.forms.....',this.forms)
+              console.log('mainFlag.....',mainFlag)
+              console.log('this.handleMapping[mainFlag===tableId : itemKey].....',this.handleMapping[mainFlag==='N'?tableId : itemKey])
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
                   return
-                  fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
+                  fetch(this.handleMapping[mainFlag==='N'?tableId : itemKey].action, this.handleMapping[mainFlag==='N'?tableId : itemKey].method,
                     {
                       ...this.froms[`${tableId}`],
                       Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
