@@ -19,6 +19,9 @@
       <template v-else-if="formItems[keyItem].tag === 'cascader'">
         <m-cascader v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
       </template>
+      <template v-else-if="formItems[keyItem].tag === 'daterange'">
+        <m-daterange v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
+      </template>
       <template v-else-if="formItems[keyItem].tag === 'zoom'">
         <m-zoom v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
       </template>
@@ -30,13 +33,14 @@
 import MInput from '@/components/MInput'
 import MSelect from '@/components/MSelect'
 import MDate from '@/components/MDate'
+import MDaterange from '@/components/MDateRange'
 import MRadio from '@/components/MRadio'
 import MCheckbox from '@/components/MCheckbox'
 import MCascader from '@/components/MCascader'
 import MZoom from '@/components/MZoom'
 export default {
   name: 'MFormItem',
-  components: { MInput, MSelect, MDate, MRadio, MCheckbox, MCascader,MZoom },
+  components: { MInput, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom, MDaterange },
   props: {
     formKey:{
       type: String,

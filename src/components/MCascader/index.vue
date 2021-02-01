@@ -1,5 +1,5 @@
 <template>
-  <el-cascader v-model="formItemVal" :options="options" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @change="handleChange"/>
+  <el-cascader v-model="formItemVal" :options="options" filterable clearable :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @change="handleChange"/>
 </template>
 
 <script>
@@ -15,10 +15,6 @@ export default {
     value: {
       type: Array,
       default: () => ([])
-    },
-    clearable: {
-      type: Boolean,
-      default: true
     },
     placeholder: {
       type: String,

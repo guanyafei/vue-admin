@@ -128,6 +128,7 @@ export default {
                 break;
               case 'checkbox':
               case 'cascader':
+              case 'daterange':
                 this.$set(this.forms[this.formKey], itemObj.prop, [])
                 itemObj.options && !isArray(itemObj.options) && (itemObj = Object.assign(itemObj, { 'options': JSON.parse(itemObj.options) }))
                 break;

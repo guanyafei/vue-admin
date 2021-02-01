@@ -2,23 +2,27 @@
     <main _id="main">
         <form>
             <formItem tag="text" placeholder="请输入" prop="company" lable="客户名称"/>
+            <formItem tag="textarea" placeholder="请输入" prop="addressDetail" lable="详细地址"/>
+            <formItem tag="date" placeholder="请输入" prop="date" lable="时间"/>
+            <formItem tag="daterange" placeholder="请输入" prop="date1" lable="时间1"/>
+            <formItem tag="radio" placeholder="请输入" prop="xx" lable="xx" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
+            <formItem tag="checkbox" placeholder="请输入" prop="yy" lable="yy" options='["黄金糕","双皮奶"]'/>
             <formItem tag="cascader" lable="地区" prop="zone"/>
             <formItem tag="zoom" placeholder="请选择"  prop="name2"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <formItem tag="select"  placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
+            <!-- <formItem tag="select"  placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/> -->
             <formItem tag="select" placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/>
-            <formItem tag="textarea" placeholder="请输入" prop="addressDetail" lable="详细地址"/>
-            <formItem tag="text" placeholder="请输入" prop="name" lable="联系人"/>
-            <formItem tag="text" prop="phone" lable="联系电话"/>
-            <formItem tag="text" placeholder="请输入" prop="age" lable="年龄"/>
-            <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
-            <formItem tag="text" placeholder="请输入" prop="tel" lable="电话"/>
-            <formItem tag="date" placeholder="请输入" prop="date" lable="时间"/>
-            <formItem tag="radio" required='true' placeholder="请输入" prop="xx" lable="xx" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
-            <formItem tag="checkbox" required='true' placeholder="请输入" prop="yy" lable="yy" options='["黄金糕","双皮奶"]'/>
+
+            <!-- <formItem tag="text" maxlength="5" placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <formItem tag="text" disabled="true" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
+            <formItem tag="text" required='true' placeholder="请输入" prop="name" lable="联系人"/>
+            <formItem tag="text" required='true' type="tel" prop="phone" lable="联系电话"/>
+            <formItem tag="text" required='true' type="number" placeholder="请输入" prop="age" lable="年龄"/>
+            <formItem tag="text" required='true' type="email" placeholder="请输入" prop="email" lable="Email"/> -->
+
             <button type="primary" _id="query" placeholder="查询"/>
             <button type="success" _id="add" placeholder="创建"/>
         </form>
-        <table _id="query" action="/lmis-md-web/cusm/totalQuery.do"  method="get">
+        <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" size="20"  method="get">
             <tableCol  prop="accountNo" lable="客户账号" align="left"/>
             <tableCol  prop="company" lable="客户名称" />
             <tableCol  prop="addressDetail" lable="详细地址"/>

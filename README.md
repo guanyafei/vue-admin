@@ -37,15 +37,11 @@
 - ECharts
 - Markdown to html
 ```
-
 ## Getting started
 
 ```bash
 # clone the project
 git clone https://github.com/guanyafei/vue-admin.git
-
-# enter the project directory
-cd vue-element-admin
 
 # install dependency
 npm install
