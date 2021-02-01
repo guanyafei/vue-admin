@@ -1,6 +1,7 @@
 <template>
   <el-date-picker
     v-model="formItemVal"
+    :style="widths"
     :type="itemConfig.type || type"
     :placeholder="itemConfig.placeholder || placeholder"
     range-separator="至"
@@ -42,6 +43,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -60,6 +65,9 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {

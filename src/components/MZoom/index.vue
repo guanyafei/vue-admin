@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-input v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" readonly>
+    <el-input v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" readonly>
       <el-button :disabled="disabled" slot="append" icon="el-icon-search" @click="openDia()" />
     </el-input>
     <el-dialog title="提示" :visible.sync="dialogVisible" width="40%" append-to-body :closed="closeDia" destroy-on-close>
@@ -55,6 +55,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -79,6 +83,10 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       console.log("jjjjjjjjjjj",this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`)
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {

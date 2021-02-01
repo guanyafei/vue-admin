@@ -1,5 +1,5 @@
 <template>
-  <el-cascader v-model="formItemVal" :options="options" filterable clearable :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @change="handleChange"/>
+  <el-cascader v-model="formItemVal" :style="widths" :options="options" filterable clearable :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @change="handleChange"/>
 </template>
 
 <script>
@@ -23,6 +23,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -62,6 +66,9 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {

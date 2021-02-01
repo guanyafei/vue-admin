@@ -37,10 +37,10 @@
     <alert _id="statusClose"  action='/lmis-md-web/cusm/statusClose.do' method="post" tip="确定冻结吗？"/>
     <dialog _id="add|update" action='/lmis-md-web/cusm/saveClientAdd.do' method="post" _isDisabledId="update" >
         <form>
-            <formItem tag="zoom"  required='true' width='100px' placeholder="请选择" prop="name2"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <formItem tag="zoom" required='true' isDisabled="true" width='100px' placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
-            <formItem tag="text"  width='100px' placeholder="请输入" prop="accountNo" lable="客户账号"/>
-            <formItem tag="text" required='true' isDisabled="true" width='100px' placeholder="请输入" prop="company" lable="客户名称"/>
+            <formItem tag="zoom"  required='true' placeholder="请选择" prop="name2"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="zoom" required='true' isDisabled="true" placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="text" placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            <formItem tag="text" required='true' isDisabled="true" placeholder="请输入" prop="company" lable="客户名称"/>
             <formItem tag="cascader" lable="地区" isDisabled="true" prop="province1" action="/lmis-md-web/address/queryProvince.do"/>
             <formItem tag="textarea" placeholder="请输入" isDisabled="true" prop="addressDetail" lable="详细地址"/>
             <formItem tag="text" type="number" required='true' maxlength="2" placeholder="请输入" prop="name" lable="联系人"/>
@@ -63,7 +63,7 @@
             <tableCol  prop="company" lable="客户名称" />
             <tableCol  prop="addressDetail" lable="详细地址"/>
             <tableCol  lable="操作">
-                <HButton type="danger" _id="tjAdd"  placeholder="新增"/>
+                <HButton type="primary" _id="tjAdd"  placeholder="新增"/>
                 <button type="danger" _id="statusClose"  placeholder="冻结"/>
                 <button type="danger" _id="statusOpen"  placeholder="开通"/>
                 <button type="warning" _id="ccc" placeholder="更新"/>
@@ -73,7 +73,7 @@
     <dialog _id="ccc|tjAdd" action='url' _isDisabledId="tjAdd">
         <form>
             <formItem tag="text" placeholder="请输入" prop="accountNo" lable="客户账号"/>
-            <formItem tag="text" isDisabled="true" required='true' width='100px' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <formItem tag="text" isDisabled="true" required='true' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
             <formItem tag="date" required='true' type="date" prop="date11" placeholder="选择日期时间" lable="日期"/>
             <formItem tag="text" required='true' placeholder="请输入" prop="name" lable="联系人"/>
             <formItem tag="text" placeholder="请输入" prop="phone" lable="联系电话"/>

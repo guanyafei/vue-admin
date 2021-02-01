@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
+  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-option
       v-for="item in optionsVal"
       :key="item.label"
@@ -38,6 +38,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -57,6 +61,9 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {

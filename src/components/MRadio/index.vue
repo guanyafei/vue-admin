@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="formItemVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
+  <el-radio-group v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-radio
       v-for="item in optionsVal"
       :key="item.label"
@@ -31,6 +31,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: 'auto'
     }
   },
   data() {
@@ -50,6 +54,9 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {

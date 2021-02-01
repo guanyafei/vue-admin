@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="formItemVal"  :type="itemConfig.tag || tag" :disabled="disabled" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
+  <el-input v-model="formItemVal" :style="widths" :type="itemConfig.tag || tag" :disabled="disabled" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
 </template>
 
 <script>
@@ -34,6 +34,10 @@ export default {
     isDisbled: {
       type: String,
       default: 'false'
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -52,9 +56,13 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     widths:function (){
+       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
   created() {
+    console.log("itemConfig.width?itemConfig.width+'px':''",this.itemConfig.width?this.itemConfig.width+'px':'')
   },
   mounted() {
   },

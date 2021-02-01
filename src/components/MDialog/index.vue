@@ -40,6 +40,10 @@ export default {
     hasTable: {
       type: Boolean,
       default: false
+    },
+    width: {
+      type: String,
+      default: '200px'
     }
   },
   data() {
@@ -51,6 +55,12 @@ export default {
   },
   created() {
     this.$set(this.dialogVisibleObj, this.dialogVisibleFlag, false)
+  },
+  computed:{
+    widths:function (){
+      console.log(this.xmlConfigObj,"this.xmlConfigObj.width")
+      return this.xmlConfigObj.$.width?`width:${this.xmlConfigObj.$.width}px`:`width:${this.width}`
+    }
   },
   mounted() {
   },
