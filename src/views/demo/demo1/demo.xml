@@ -35,7 +35,7 @@
     </main>
     <alert _id="statusOpen"  action='/lmis-md-web/cusm/statusOpen.do' method="post" tip="确定开通吗？"/>
     <alert _id="statusClose"  action='/lmis-md-web/cusm/statusClose.do' method="post" tip="确定冻结吗？"/>
-    <dialog _id="add|update" action='/lmis-md-web/cusm/saveClientAdd.do' method="post" _isDisabledId="update" >
+    <dialog _id="add|update"  action='/lmis-md-web/cusm/saveClientAdd.do' method="post" _isDisabledId="update" >
         <form>
             <formItem tag="zoom"  required='true' placeholder="请选择" prop="name2"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="zoom" required='true' isDisabled="true" placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>

@@ -3,7 +3,7 @@
     v-if="dialogVisibleObj[dialogVisibleFlag]"
     title="提示"
     :visible.sync="dialogVisibleObj[dialogVisibleFlag]"
-    width="80%"
+    :width="widths"
     :closed="closeDia"
   >
     <slot />
@@ -43,7 +43,7 @@ export default {
     },
     width: {
       type: String,
-      default: '200px'
+      default: '52%'
     }
   },
   data() {
@@ -58,8 +58,7 @@ export default {
   },
   computed:{
     widths:function (){
-      console.log(this.xmlConfigObj,"this.xmlConfigObj.width")
-      return this.xmlConfigObj.$.width?`width:${this.xmlConfigObj.$.width}px`:`width:${this.width}`
+      return this.xmlConfigObj.$.width?`${this.xmlConfigObj.$.width}px`:`${this.width}`
     }
   },
   mounted() {
