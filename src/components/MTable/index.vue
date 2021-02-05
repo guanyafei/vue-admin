@@ -103,11 +103,11 @@ export default {
     }
   },
   mounted() {
-    this.handleCurrentChange()
+    this.tableConfig.$ && this.tableConfig.$.lazyLoad !=='true' && this.handleCurrentChange()
+    console.log('MTable', this.tableConfig,this.$app)
   },
   methods: {
     handleCurrentChange(val = 1) {
-      console.log('MTable', this.tableConfig)
       console.log(`当前页: ${val}`)
       fetch(this.tableConfig.$.action,this.tableConfig.$.method,
         {

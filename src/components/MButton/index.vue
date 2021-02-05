@@ -71,13 +71,13 @@ export default {
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
-      console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey,this.mainFlag)
+      console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey,this.mainFlag,"this.itemConfig",this.itemConfig)
       console.log("this.tableId",this.tableId)
       this.mainFlag==='Y' && (this.$app.mainFlag ='Y')
       this.mainFlag==='Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
       // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
-      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag)
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag,this.itemConfig.isQueryBtn)
     }
   }
 }

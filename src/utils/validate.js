@@ -102,7 +102,7 @@ export function isEmptyObj(arg) {
 // 设置表单项规则 tel number email data 需特殊处理
 export function setRules(item) {
     let rulesArr = [];
-    if (item.hasOwnProperty('required')) {
+    if (item.hasOwnProperty('type') || item.hasOwnProperty('required')) {
         switch (item.type) {
             case 'tel':
                 rulesArr = [
@@ -138,7 +138,7 @@ export function setRules(item) {
                         trigger: ['blur', 'change'],
                         validator: (rule, value, callback) => {
                             if (/^[1-9]\d*$/.test(value) == false) {
-                                callback(new Error(`${item.prop}必须为数字`));
+                                callback(new Error(`${item.lable}必须为数字`));
                             } else {
                                 callback();
                             }

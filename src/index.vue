@@ -55,7 +55,8 @@ export default {
     const root = this.xmlConfig.root || {}
     console.log('wwwwwwwwwww', this.xmlConfig.root, this.xmlConfig.root.main[0].table[0].$._id)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
-    this.setPopups(root)
+    this.setPopups(root,'dialog')
+    this.setPopups(root,'alert')
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
@@ -85,7 +86,7 @@ export default {
         if (isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
           const tempObj = {}; const itemObj = deepClone(item.$)
           itemObj['handleType'] = tagItem
-          itemObj[`${item.$._id}BaseDate`] = []
+          // itemObj[`${item.$._id}BaseDate`] = []
           tempObj[itemObj._id] = itemObj
           this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
           if (item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
@@ -100,19 +101,21 @@ export default {
       return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopups(root) {
-      if (root.dialog && root.dialog.length > 0) {
-        let ids = []; const tempDia = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
-        let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null;
-        for(let i=root.dialog.length-1;i >= 0; i--){
-          item = root.dialog[i];
+    setPopups(root,key) {
+      if (root[key] && root[key].length > 0) {
+        let ids = []; const tempArr = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
+        let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null; let tips = []; let tempTip = '';
+        for(let i=root[key].length-1;i >= 0; i--){
+          item = root[key][i];
           tempId = item.$._id
           tempAction = item.$.action
           tempMethod = item.$.method
+          tempTip = item.$.tip
           item.$._isDisabledId && (isDisabledId = item.$._isDisabledId)
           if (!tempId || !tempId.includes('|')) return
           tempAction && (actions = tempAction.split('|'))
           tempMethod && (methods = tempMethod.split('|'))
+          tempTip && (tips = tempTip.split('|'))
           ids = tempId.split('|')
           for (let i = 0; i < ids.length; i++) {
             temp = []
@@ -124,11 +127,13 @@ export default {
             if(actions.length === ids.length) this.$set(temp.$,'action',actions[i])
             if(methods.length === 1)  this.$set(temp.$,'method',methods[0])
             if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
-            tempDia.push(temp)
+            if(tips.length === 1)  this.$set(temp.$,'tip',tips[0])
+            if(tips.length === ids.length) this.$set(temp.$,'tip',tips[i])
+            tempArr.push(temp)
           }
-          root.dialog.splice(i, 1)
+          root[key].splice(i, 1)
         }
-        root.dialog = root.dialog.concat(tempDia)
+        root[key] = root[key].concat(tempArr)
       }
     },
     // id to fun params查询参数
@@ -138,7 +143,7 @@ export default {
           // btnConfig 用于主页面查询  新增
           // tableId 用于表格内操作栏按钮
           // this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
-          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', mainFlag = 'N') => {
+          this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', mainFlag = 'N',isQueryBtn="false") => {
             Object.keys(data).length ? this.$set(this.updateDateObj, itemKey, data) : this.$set(this.updateDateObj, itemKey, {})
             if (this.handleMapping[itemKey].handleType === 'alert') {
               console.log(' this.tableId', this, tableId, itemKey)
@@ -173,13 +178,18 @@ export default {
               console.log('this.handleMapping[mainFlag===tableId : itemKey].....',this.handleMapping[mainFlag==='N'?tableId : itemKey])
               this.formRefs[`${tableId}`].validate((valid) => {
                 if (valid) {
+                  let mapKey = mainFlag==='N'?tableId : itemKey
                   return
-                  fetch(this.handleMapping[mainFlag==='N'?tableId : itemKey].action, this.handleMapping[mainFlag==='N'?tableId : itemKey].method,
+                  fetch(this.handleMapping[mapKey].action, this.handleMapping[mapKey].method,
                     {
-                      ...this.froms[`${tableId}`],
+                      ...this.forms[`${tableId}`],
                       Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
                     }).then(res=>{
-                     (this.$refs[`${itemKey}Table`]).length ? (this.$refs[`${itemKey}Table`])[0].handleCurrentChange() : (this.$refs[`${itemKey}Table`]).handleCurrentChange()
+                      if(isQueryBtn === "true"){
+                        this.handleMapping[itemKey][`${itemKey}BaseDate`] = res
+                      }else{
+                        (this.$refs[`${itemKey}Table`]).length ? (this.$refs[`${itemKey}Table`])[0].handleCurrentChange() : (this.$refs[`${itemKey}Table`]).handleCurrentChange()
+                      }
                   })
                 } else {
                   console.log('error submit!!')
@@ -187,7 +197,6 @@ export default {
                 }
               })
             } else {
-              console.log("hhhhhhhhhh",this)
               this.$refs[itemKey][0].dialogVisibleObj[`${itemKey}DialogVisible`] = true
             }
           }

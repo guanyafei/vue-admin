@@ -3,10 +3,10 @@
     <el-input v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" readonly>
       <el-button :disabled="disabled" slot="append" icon="el-icon-search" @click="openDia()" />
     </el-input>
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="40%" append-to-body :closed="closeDia" destroy-on-close>
+    <el-dialog title="提示" :visible.sync="dialogVisible" :width="dialogWs" append-to-body :closed="closeDia" destroy-on-close>
       <el-form ref="zoomForm" :model="zoom" :inline="true">
         <el-form-item v-for="keyItem in Object.keys(zoom)" :key="keyItem" :label="zoomLable[keyItem] || ''" :prop="keyItem" >
-          <el-input v-model="zoom[keyItem]" placeholder="请输入" />
+          <el-input v-model="zoom[keyItem]" placeholder="请输入" :style="innerTextWs"/>
         </el-form-item>
         <el-form-item align="center">
           <el-button size="mini" type="primary" @click="zoomQuery()">查询</el-button>
@@ -59,6 +59,14 @@ export default {
     width: {
       type: String,
       default: '200px'
+    },
+    innerTextW: {
+      type: String,
+      default: '200px'
+    },
+    dialogW: {
+      type: String,
+      default: '40%'
     }
   },
   data() {
@@ -85,14 +93,20 @@ export default {
        return isDisabledFn(this.itemConfig,this.isDisbled);
      },
      widths:function (){
-       console.log("jjjjjjjjjjj",this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`)
        return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
+     },
+     dialogWs:function (){
+       return this.itemConfig.dialogW?`${this.itemConfig.dialogW}px`:`${this.dialogW}`
+     },
+     innerTextWs:function (){
+       return this.itemConfig.innerTextW?`width:${this.itemConfig.innerTextW}px`:`width:${this.innerTextW}`
      }
   },
   created() {
     this.parseDate()
   },
-  mounted() {;
+  mounted() {
+    console.log("fdgfgd",this.dialogWs)
   },
   methods: {
     // search tableCol 数据解析

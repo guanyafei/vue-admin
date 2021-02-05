@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
     <el-form v-if="mainBoxFlag === 'Y'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
-      <m-collapse>
+      <m-collapse :formItemLen="Object.keys(forms[formKey]).length">
         <template v-slot:visible-slot>
           <template  v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
             <el-form-item :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx<3" :rules="setRules(formItems[keyItem])">

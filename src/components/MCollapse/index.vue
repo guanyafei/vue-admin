@@ -3,7 +3,7 @@
     <div class="item">
       <div class="visible-item">
         <slot name="visible-slot"></slot>
-        <i :class="['el-icon-arrow-up', {'icon-arrow':boxshow}]" @click="boxshow = !boxshow"></i>
+        <i v-if="formItemLen>3" :class="['el-icon-arrow-up', {'icon-arrow':boxshow}]" @click="boxshow = !boxshow"></i>
       </div>
       <transition name="draw">   
           <div class="box"  v-show="boxshow">
@@ -23,6 +23,10 @@ export default {
     }
   },
   props: {
+    formItemLen: {
+      type: Number,
+      default: 0
+    }
   },
   methods: {
   }

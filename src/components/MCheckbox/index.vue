@@ -1,10 +1,10 @@
 <template>
  <el-checkbox-group v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
     <el-checkbox v-for="item in itemConfig.options || options"
-      :key="item"
-      :label="item"
+      :key="item.label"
+      :label="item.value"
       >
-      {{item}}
+      {{item.label}}
     </el-checkbox>
   </el-checkbox-group>
 </template>
@@ -48,7 +48,7 @@ export default {
   },
   watch:{
    'value':{
-      handler: function(val, oldVal){
+      handler: function(val){
         this.formItemVal = val;
       },
       deep: true

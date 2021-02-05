@@ -6,7 +6,6 @@
     :placeholder="itemConfig.placeholder || placeholder"
     range-separator="至"
     :clearable="clearable"
-    value-format="yyyy-MM-dd"
     start-placeholder="开始日期"
     end-placeholder="结束日期"
     :disabled="disabled"
@@ -30,7 +29,7 @@ export default {
     },
     type: {
       type: String,
-      default: 'daterange'
+      default: 'datetimerange'
     },
     placeholder: {
       type: String,
@@ -46,7 +45,7 @@ export default {
     },
     width: {
       type: String,
-      default: '200px'
+      default: '250px'
     }
   },
   data() {
