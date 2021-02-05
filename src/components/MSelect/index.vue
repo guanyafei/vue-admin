@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
+  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @input="handleModelInput">
     <el-option
       v-for="item in optionsVal"
       :key="item.label"
@@ -67,13 +67,14 @@ export default {
      }
   },
   created() {
-    this.itemConfig && this.itemConfig.action && this.getOptions();
+    this.itemConfig && this.itemConfig.action && this.itemConfig.lazyLoad && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
   },
   mounted() {
   },
   methods: {
     // 获取select值
     getOptions () {
+      if(this.options.length>0) return
       fetch(this.itemConfig.action,this.itemConfig.method,
         {
           Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'

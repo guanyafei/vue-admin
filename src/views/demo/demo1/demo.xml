@@ -3,11 +3,12 @@
         <form>
             <!-- <formItem tag="text" type='tel' placeholder="请输入" prop="company" lable="客户名称"/>
             <formItem tag="textarea" required="true" placeholder="请输入" prop="addressDetail" lable="详细地址"/> -->
+            <formItem tag="cascader" action="url" lazyLoad="true" lable="地区" prop="zone"/>
             <formItem tag="date" placeholder="请输入" prop="date" lable="时间"/>
             <formItem tag="daterange" placeholder="请输入" width="500" prop="date1" lable="时间1"/>
             <formItem tag="radio" placeholder="请输入" prop="xx" lable="xx" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
             <formItem tag="checkbox" placeholder="请输入" prop="yy" lable="yy" options='[{"label":"黄金糕","value":"0"},{"label":"双皮奶","value":"1"}]'/>
-            <formItem tag="cascader" lable="地区" prop="zone"/>
+            <!-- <formItem tag="cascader" lazyLoad="true" lable="地区" prop="zone"/> -->
             <formItem tag="zoom" placeholder="请选择" width="300" innerTextW="300" dialogW="900" prop="name2"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <!-- <formItem tag="select"  placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/> -->
             <!-- <formItem tag="select" placeholder="请输入" prop="city" lable="城市" options='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/> -->
