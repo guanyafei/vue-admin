@@ -11,8 +11,11 @@
         <el-form-item align="center">
           <el-button size="mini" type="primary" @click="zoomQuery()">查询</el-button>
         </el-form-item>
+        <el-form-item align="center" v-if="itemConfig.hasReset==='true'">
+          <el-button size="mini" type="primary" @click="reSetForms">重置</el-button>
+        </el-form-item>
       </el-form>
-      <el-table :data="list.rows" stripe @row-dblclick="rowSelected">
+      <el-table :data="list.rows" @row-dblclick="rowSelected" row-class-name="row-style" stripe>
         <el-table-column type="index" />
         <template v-for="keyItem in tableCol">
           <el-table-column align="center"  :key="keyItem" :prop="keyItem" :label="tableColLable[keyItem]"/>
@@ -39,6 +42,11 @@ import {get as getReq,post as postReq} from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MZoom',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     itemConfig: {
       type: Object,
@@ -53,6 +61,10 @@ export default {
       default: '请输入'
     },
     isDisbled: {
+      type: String,
+      default: 'false'
+    },
+    hasReset: {
       type: String,
       default: 'false'
     },
@@ -106,7 +118,7 @@ export default {
     this.parseDate()
   },
   mounted() {
-    console.log("fdgfgd",this.dialogWs)
+    console.log("fdgfgd",this.itemConfig.otherProps,this.$app)
   },
   methods: {
     // search tableCol 数据解析
@@ -166,10 +178,16 @@ export default {
     closeDia() {
       this.dialogVisible = false
       this.$refs['zoomForm'].resetFields()
-    }
+    },
+    reSetForms(){
+      this.$refs['zoomForm'].resetFields()
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.el-table ::v-deep.row-style {
+    cursor: pointer;
+  }
 </style>

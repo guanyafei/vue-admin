@@ -76,11 +76,10 @@ export default {
           this.closeDia()
           if(this.$app.mainFlag === 'Y'){
             const tableId = this.$app._mainTableId;
-            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
           }else if (this.$app.tableId) {
             const tableId = this.$app.tableId;
-            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
           }
+          (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
         })
       })
     },

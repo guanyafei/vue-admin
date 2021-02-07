@@ -5,7 +5,7 @@
         <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
-        <m-button :item-config="item" :form-data="forms" :form-key="formKey" />
+        <m-button :item-config="item" :form-data="forms" mainFlag ='N' :form-key="formKey" />
       </el-form-item>
     </el-form>
     <el-form v-if="mainBoxFlag === 'Y'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
@@ -18,9 +18,6 @@
           </template>
           <el-form-item v-for="(item,index) in buttonItems" :key="index">
             <m-button :item-config="item" :mainTableId="mainTableId" :form-data="forms" mainFlag ='Y' :form-key="formKey" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary"  size="mini" @click="reSetForms()">重置</el-button>
           </el-form-item>
         </template>
         <template v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
@@ -96,9 +93,6 @@ export default {
   methods: {
     //设置表单项规则 tel number email data 需特殊处理
     setRules,
-    reSetForms(){
-      this.$app['formRefs'][`${this.formKey}`].resetFields();
-    },
     /**
      * @name: initForm
      * @msg: 更新  rowDate 赋值给 form表单

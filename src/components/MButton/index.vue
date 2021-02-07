@@ -1,5 +1,6 @@
 <template>
-  <el-button :type="itemConfig.type || type" :disabled="disabled" size="mini" @click="submitHandle">{{ itemConfig.placeholder || placeholder }}</el-button>
+  <el-button v-if="isReset" :type="itemConfig.type || type" :disabled="disabled" size="mini" @click="reSetForms">{{ itemConfig.placeholder || placeholder }}</el-button>
+  <el-button v-else :type="itemConfig.type || type" :disabled="disabled" size="mini" @click="submitHandle">{{ itemConfig.placeholder || placeholder }}</el-button>
 </template>
 
 <script>
@@ -63,22 +64,27 @@ export default {
   computed:{
      disabled:function (){
        return isDisabledFn(this.itemConfig,this.isDisbled);
+     },
+     isReset:function(){
+       return this.itemConfig._id==="reset"
      }
   },
   mounted() {
-    console.log("uuuuuuuuuuu",this.mainFlag,this.mainTableId)
   },
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
       console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey,this.mainFlag,"this.itemConfig",this.itemConfig)
       console.log("this.tableId",this.tableId)
-      this.mainFlag==='Y' && (this.$app.mainFlag ='Y')
+      this.$set(this.$app,'mainFlag',this.mainFlag)
       this.mainFlag==='Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
       // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
       this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag,this.itemConfig.isQueryBtn)
-    }
+    },
+    reSetForms(){
+      this.$app['formRefs'][`${this.formKey}`].resetFields()
+    },
   }
 }
 </script>
