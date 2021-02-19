@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {get as getReq,post as postReq} from '@/utils/requestFn'
+import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MZoom',
@@ -79,7 +79,16 @@ export default {
     dialogW: {
       type: String,
       default: '40%'
-    }
+    },
+    keyItem: {
+      type: String,
+      default: ''
+    },
+    formKey: {
+      type: String,
+      default: ''
+    },
+
   },
   data() {
     return {
@@ -94,7 +103,7 @@ export default {
   },
   watch: {
     'value': {
-      handler: function(val, oldVal) {
+      handler: function(val) {
         this.formItemVal = val
       },
       deep: true
@@ -112,13 +121,16 @@ export default {
      },
      innerTextWs:function (){
        return this.itemConfig.innerTextW?`width:${this.itemConfig.innerTextW}px`:`width:${this.innerTextW}`
-     }
+     },
+    pageSize:function(){
+      return this.itemConfig.size ? Number(this.itemConfig.size) : 20
+    }
   },
   created() {
     this.parseDate()
   },
   mounted() {
-    console.log("fdgfgd",this.itemConfig.otherProps,this.$app)
+    console.log("MZoom",this.$app,this.formKey)
   },
   methods: {
     // search tableCol 数据解析
@@ -149,35 +161,41 @@ export default {
       this.handleCurrentChange()
     },
     handleCurrentChange(val = 1) {
-      if(this.itemConfig.method === 'post'){
-        postReq().then(res=>{
-          this.list = res || []
-        });
-      }else{
-        getReq(this.itemConfig.action,{
+      fetch(this.itemConfig.action,this.itemConfig.method,
+        {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
           Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
           readOnly: 'YES',
           page: val,
-          rows: 10
-        }).then(res=>{
-          this.list = res || []
-        })
-      }
+          rows: this.pageSize
+        }
+      ).then(res=>{
+        this.list = res || [];
+      });
     },
     zoomQuery() {
       this.handleCurrentChange();
     },
     rowSelected(row) {
       this.dialogVisible = false
-      this.formItemVal = row.company
+      this.formItemVal = row[this.keyItem]
+      this.parseOtherProps(row)
       this.$emit('input', this.formItemVal)
+    },
+    parseOtherProps(row){
+      let otherProps = this.itemConfig.otherProps ? this.itemConfig.otherProps.split(','):[], propsKeys=null
+      if(otherProps.length > 0){
+        otherProps.forEach(item => {
+          item.includes("?") && (propsKeys = item.split('?')) && this.$set(this.$app.forms[this.formKey],propsKeys[0],row[propsKeys[1]])
+          !item.includes("?") && this.$set(this.$app.forms[this.formKey],item,row[item])
+        })
+      }
     },
     closeDia() {
       this.dialogVisible = false
-      this.$refs['zoomForm'].resetFields()
+      this.reSetForms()
     },
     reSetForms(){
       this.$refs['zoomForm'].resetFields()

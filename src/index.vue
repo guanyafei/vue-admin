@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import requestFn from '@/utils/requestFn'
+import { mapGetters } from 'vuex'
 import { isEmptyObj } from '@/utils/validate'
 import MTable from "@/components/MTable"
 import MForm from "@/components/MForm"
@@ -27,7 +27,7 @@ import { deepClone } from '@/utils/index'
 import { fetch } from '@/utils/requestFn'
 
 export default {
-  name: 'PageDemo',
+  name: 'mainPage',
   provide() {
     return {
       $app: this// 提供祖先组件的实例
@@ -52,26 +52,27 @@ export default {
       tableId: '',
       rootData:{},
       mainFlag:'N',
-      _mainTableId:''
+      optionItems:{}
     }
   },
   created() {
     const root = this.xmlConfig.root || {}
-    console.log('wwwwwwwwwww', this.xmlConfig.root, this.xmlConfig.root.main[0].table[0].$._id)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     this.setPopups(root,'dialog')
     this.setPopups(root,'alert')
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
-    console.log("hhhhhhhhhh",this)
+    this.optionItems=this.options[this.$route.name] || {}
   },
   computed:{
      mainTableId:function (){
        let _id = this.rootData.main[0].table&&this.rootData.main[0].table.length&&this.rootData.main[0].table[0].$._id;
-       console.log("eeeeeee",_id)
        return _id;
-     }
+     },
+     ...mapGetters([
+      'options'
+    ])
   },
   mounted() {
   },

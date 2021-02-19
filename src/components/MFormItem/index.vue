@@ -23,7 +23,7 @@
         <m-daterange v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'zoom'">
-        <m-zoom v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-zoom v-model="forms[formKey][keyItem]" :formKey="formKey" :keyItem="keyItem" :item-config="formItems[keyItem]" :isDisbled="isDisbled" />
       </template>
     </template>
   </div>

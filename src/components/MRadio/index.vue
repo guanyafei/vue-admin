@@ -15,6 +15,11 @@ import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MRadio',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     itemConfig:{
       type: Object,
@@ -40,7 +45,7 @@ export default {
   data() {
     return {
       formItemVal:this.value,
-      optionsVal:this.itemConfig.options || [],
+      optionsVal:this.$app.optionItems[this.itemConfig.optionId] || [],
     }
   },
   watch:{

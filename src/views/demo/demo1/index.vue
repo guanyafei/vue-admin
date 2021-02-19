@@ -17,6 +17,7 @@ export default {
     this.root = xmlConfig || {};
   },
   mounted() {
+    console.log("router-----",this.$route.name)
   },
   methods: {
     

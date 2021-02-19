@@ -14,6 +14,11 @@ import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MSelect',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     itemConfig:{
       type: Object,
@@ -47,7 +52,7 @@ export default {
   data() {
     return {
       formItemVal:this.value,
-      optionsVal:this.itemConfig.options || [],
+      optionsVal:this.$app.optionItems[this.itemConfig.optionId] || [],
     }
   },
   watch:{
@@ -74,7 +79,7 @@ export default {
   methods: {
     // 获取select值
     getOptions () {
-      if(this.options.length>0) return
+      if(this.optionsVal.length>0) return
       fetch(this.itemConfig.action,this.itemConfig.method,
         {
           Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'

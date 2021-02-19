@@ -1,7 +1,7 @@
 <template>
   <div class="form-item">
     <el-form v-if="mainBoxFlag === 'N'" :ref="`${formKey}Ref`" :model="forms[formKey]" inline label-width="100px" class="form-box" label-position="right">
-      <el-form-item v-for="(keyItem) in Object.keys(forms[formKey])" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem"  :rules="setRules(formItems[keyItem])">
+      <el-form-item  v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" v-for="(keyItem) in Object.keys(forms[formKey])" :key="keyItem" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem"  :rules="setRules(formItems[keyItem])">
         <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
@@ -12,7 +12,7 @@
       <m-collapse :formItemLen="Object.keys(forms[formKey]).length">
         <template v-slot:visible-slot>
           <template  v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
-            <el-form-item :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx<3" :rules="setRules(formItems[keyItem])">
+            <el-form-item  v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx<3" :rules="setRules(formItems[keyItem])">
               <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
             </el-form-item>
           </template>
@@ -21,7 +21,7 @@
           </el-form-item>
         </template>
         <template v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
-          <el-form-item :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx>=3" :rules="setRules(formItems[keyItem])">
+          <el-form-item  v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" :key="keyItem"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx>=3" :rules="setRules(formItems[keyItem])">
             <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
           </el-form-item>
         </template>

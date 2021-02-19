@@ -1,6 +1,6 @@
 <template>
  <el-checkbox-group v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @input="handleModelInput">
-    <el-checkbox v-for="item in itemConfig.options || options"
+    <el-checkbox v-for="item in optionsVal"
       :key="item.label"
       :label="item.value"
       >
@@ -14,6 +14,11 @@ import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCheckbox',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     itemConfig:{
       type: Object,
@@ -43,7 +48,7 @@ export default {
   data() {
     return {
       formItemVal:this.value,
-      optionsVal:this.itemConfig.options || [],
+      optionsVal:this.$app.optionItems[this.itemConfig.optionId] || [],
     }
   },
   watch:{
@@ -66,6 +71,7 @@ export default {
     this.itemConfig && this.itemConfig.action && this.getOptions();
   },
   mounted() {
+    console.log(":this.$app.optionItems",this.$app.optionItems,this.itemConfig.optionId)
   },
   methods: {
     getOptions () {

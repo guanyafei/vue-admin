@@ -62,7 +62,6 @@ export default {
      }
   },
   created() {
-    console.log("itemConfig.width?itemConfig.width+'px':''",this.itemConfig.width?this.itemConfig.width+'px':'')
   },
   mounted() {
   },

@@ -43,7 +43,7 @@ export default {
     },
     width: {
       type: String,
-      default: '52%'
+      default: '1000px'
     }
   },
   data() {

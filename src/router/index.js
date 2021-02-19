@@ -138,14 +138,14 @@ export const asyncRoutes = [
         meta: { title: 'demo', icon: 'icon' },
         alwaysShow: true,
         children: [{
-                path: '/demo/demo1',
+                path: 'demo1',
                 component: () =>
                     import ('@/views/demo/demo1/index'),
-                name: 'demo1',
+                name: 'demo3',
                 meta: { title: 'demo1', icon: 'icon' }
             },
             {
-                path: 'demo2/index',
+                path: 'index',
                 component: () =>
                     import ('@/views/demo/demo2/index'),
                 name: 'demo2',

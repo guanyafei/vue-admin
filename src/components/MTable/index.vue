@@ -91,7 +91,6 @@ export default {
   data() {
     return {
       tableConfig: {},
-      // size:
     }
   },
   created() {
@@ -103,7 +102,7 @@ export default {
     }
   },
   mounted() {
-    this.tableConfig.$ && this.tableConfig.$.lazyLoad ==='true' && this.handleCurrentChange()
+    this.tableConfig.$ && this.tableConfig.$.lazyLoad !=='true' && this.handleCurrentChange()
     console.log('MTable', this.tableConfig,this.$app)
   },
   methods: {
