@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-12-14 09:33:10
- * @LastEditTime: 2021-01-26 20:55:16
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \vue-admin\src\views\dashboard\editor\index.vue
--->
 <template>
   <div class="dashboard-editor-container">
     <div class=" clearfix">

@@ -1,5 +1,5 @@
 <template>
-   <m-comp :xmlConfigObj ="root" />
+   <m-comp :xmlConfigObj="root" :otherConfig="otherConfig"/>
 </template>
 
 <script>
@@ -10,11 +10,12 @@ export default {
   components: { MComp },
   data() {
     return {
-      root:null
+      root:null,
+      otherConfig:[]
     }
   },
   created() {
-    this.root = xmlConfig || {};
+    this.root = xmlConfig || {}
   },
   mounted() {
   },

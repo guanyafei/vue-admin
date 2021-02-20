@@ -15,18 +15,20 @@
           <el-button size="mini" type="primary" @click="reSetForms">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="list.rows" @row-dblclick="rowSelected" row-class-name="row-style" stripe>
-        <el-table-column type="index" />
+      <el-table :data="list.rows" @row-dblclick="rowSelected" row-class-name="row-style" stripe border>
+        <el-table-column type="index"/>
         <template v-for="keyItem in tableCol">
           <el-table-column align="center"  :key="keyItem" :prop="keyItem" :label="tableColLable[keyItem]"/>
         </template>
       </el-table>
       <div class="pagination">
         <el-pagination
-          layout="total, prev, pager, next, jumper"
+          layout="total, sizes, prev, pager, next, jumper"
           :total="list.total"
           :page-size="10"
+          :page-sizes="pageSizes"
           @current-change="handleCurrentChange"
+          @size-change="handleSizeChange"
         />
       </div>
       <span slot="footer" class="dialog-footer">
@@ -122,15 +124,22 @@ export default {
      innerTextWs:function (){
        return this.itemConfig.innerTextW?`width:${this.itemConfig.innerTextW}px`:`width:${this.innerTextW}`
      },
-    pageSize:function(){
-      return this.itemConfig.size ? Number(this.itemConfig.size) : 20
+    pageSize:{
+      get: function () {
+        return this.itemConfig.size ? Number(this.itemConfig.size) : 20
+      },
+      set: function (newValue) {
+        this.itemConfig.size = newValue
+      },
+    },
+    pageSizes:function(){
+      return this.itemConfig.sizeList ? JSON.parse(this.itemConfig.sizeList) : [20,30,40,50]
     }
   },
   created() {
     this.parseDate()
   },
   mounted() {
-    console.log("MZoom",this.$app,this.formKey)
   },
   methods: {
     // search tableCol 数据解析
@@ -160,7 +169,15 @@ export default {
       this.dialogVisible = true
       this.handleCurrentChange()
     },
+    handleSizeChange(val=20){
+      this.pageSize = val
+      this.getTablelist(1)
+    },
     handleCurrentChange(val = 1) {
+      console.log(`当前页: ${val}`)
+      this.getTablelist(val)
+    },
+    getTablelist(val){
       fetch(this.itemConfig.action,this.itemConfig.method,
         {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
@@ -172,8 +189,8 @@ export default {
           rows: this.pageSize
         }
       ).then(res=>{
-        this.list = res || [];
-      });
+        this.list = res || []
+      })
     },
     zoomQuery() {
       this.handleCurrentChange();

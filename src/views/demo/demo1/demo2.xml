@@ -1,0 +1,12 @@
+<root>
+    <dialog _id="ccc|tjAdd" action='url' _isDisabledId="tjAdd">
+        <form>
+            <formItem tag="text" placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            <formItem tag="text" isDisabled="true" required='true' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
+            <formItem tag="date" required='true' type="date" prop="date11" placeholder="选择日期时间" lable="日期"/>
+            <formItem tag="text" required='true' placeholder="请输入" prop="name" lable="联系人"/>
+            <formItem tag="text" placeholder="请输入" prop="phone" lable="联系电话"/>
+            <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
+        </form>
+    </dialog>
+</root>

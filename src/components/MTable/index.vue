@@ -3,6 +3,7 @@
     <el-table
       :data="tableList.rows"
       :stripe="stripe"
+      border
     >
       <el-table-column
         v-if="tableConfig.$.type || type"
@@ -14,6 +15,7 @@
           :key="index"
           :label="item.$.lable"
           :align="item.$.align || align"
+          :width="item.$.width || width"
           fixed="right"
         >
           <template  slot="header" slot-scope="scope">
@@ -25,7 +27,7 @@
             </template>
           </template>
           <template v-slot:default="scope">
-            <el-dropdown>
+            <el-dropdown trigger="click">
               <span class="el-dropdown-link">
                 操作<i class="el-icon-arrow-down el-icon--right" />
               </span>
@@ -43,15 +45,18 @@
           :prop="item.$.prop"
           :label="item.$.lable"
           :align="item.$.align || align"
+          :width="item.$.width || width"
         />
       </template>
     </el-table>
     <div class="pagination">
       <el-pagination
-        layout="total, prev, pager, next, jumper"
+        layout="total, sizes, prev, pager, next, jumper"
         :total="tableList.total"
         :page-size="pageSize"
+        :page-sizes="pageSizes"
         @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
       />
     </div>
   </div>
@@ -79,6 +84,10 @@ export default {
       type: String,
       default: 'center'
     },
+    width: {
+      type: String,
+      default: 'auto'
+    },
     stripe: {
       type: Boolean,
       default: false
@@ -90,24 +99,38 @@ export default {
   },
   data() {
     return {
-      tableConfig: {},
+      tableConfig: {}
     }
   },
   created() {
     this.tableConfig = this.xmlConfigObj
   },
   computed:{
-    pageSize:function(){
-      return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
+    pageSize:{
+      get: function () {
+        return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
+      },
+      set: function (newValue) {
+        this.tableConfig.$.size = newValue
+      },
+    },
+    pageSizes:function(){
+      return this.tableConfig.$.sizeList ? JSON.parse(this.tableConfig.$.sizeList) : [20,30,40,50]
     }
   },
   mounted() {
     this.tableConfig.$ && this.tableConfig.$.lazyLoad !=='true' && this.handleCurrentChange()
-    console.log('MTable', this.tableConfig,this.$app)
   },
   methods: {
+    handleSizeChange(val=20){
+      this.pageSize = val
+      this.getTablelist(1)
+    },
     handleCurrentChange(val = 1) {
       console.log(`当前页: ${val}`)
+      this.getTablelist(val)
+    },
+    getTablelist(val){
       fetch(this.tableConfig.$.action,this.tableConfig.$.method,
         {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),

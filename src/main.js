@@ -18,8 +18,6 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
-
-// import x2js from 'x2js'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -32,22 +30,20 @@ import * as filters from './filters' // global filters
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
-// Vue.prototype.$x2js =new x2js(); //xml to json
 
 Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
+    size: Cookies.get('size') || 'medium' // set element-ui default size
 })
 
 // register global utility filters
 Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
+    Vue.filter(key, filters[key])
 })
 
 Vue.config.productionTip = false
-
 new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
+    el: '#app',
+    router,
+    store,
+    render: h => h(App)
 })

@@ -14,6 +14,9 @@
         </section>
       </m-dialog>
     </section>
+    <el-backtop>
+      <div class="back">UP</div>
+    </el-backtop>
   </div>
 </template>
 
@@ -37,6 +40,10 @@ export default {
     xmlConfigObj: {
       type: Object,
       default: () => ({})
+    },
+    otherConfig: {
+      type: Array,
+      default: () => ([])
     }
   },
   components: { MDialog, MTable, MForm},
@@ -56,8 +63,9 @@ export default {
     }
   },
   created() {
-    const root = this.xmlConfig.root || {}
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
+    const root = this.xmlConfig.root || {}
+    this.mergeXmlData(root);
     this.setPopups(root,'dialog')
     this.setPopups(root,'alert')
     this.idToHandle(root)
@@ -77,6 +85,18 @@ export default {
   mounted() {
   },
   methods: {
+    // 数据合并
+    mergeXmlData(root){
+      let itemObj=null
+      if(this.otherConfig.length>0){
+          for(let i=0;i<this.otherConfig.length;i++){
+            itemObj = this.otherConfig[i].root
+            Object.keys(itemObj).forEach(key=>{
+              root.hasOwnProperty(key)?root[key]=root[key].concat(itemObj[key]):(root[key]=itemObj[key])
+            })
+          }
+      }
+    },
     // id与handle映射
     idToHandle(root) {
       Object.keys(root).map(tagItem => {
@@ -220,4 +240,13 @@ export default {
        border-bottom: 1px solid #DCDFE6;
      }
   }
+  .back{
+    height: 100%; 
+    width: 100%;
+    background-color: #f2f5f6;
+    box-shadow: 0 0 6px rgba(0,0,0, .12);
+    text-align: center;
+    line-height: 40px;
+    color: #1989fa;
+    }
 </style>
