@@ -1,5 +1,5 @@
 <template>
-  <el-cascader v-model="formItemVal" :style="widths" :options="options" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @change="handleChange" filterable clearable />
+  <el-cascader v-model="formItemVal" :style="widths" :options="optionsVal" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @change="handleChange" filterable clearable />
 </template>
 
 <script>
@@ -7,6 +7,11 @@ import { fetch } from '@/utils/requestFn'
 import { isDisabledFn} from '@/utils/index'
 export default {
   name: 'MCascader',
+  inject: {
+    $app: {
+      default: () => ({})
+    }
+  },
   props: {
     itemConfig:{
       type: Object,
@@ -18,7 +23,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请选择地区'
+      default: '请选择'
     },
     isDisbled: {
       type: String,
@@ -32,27 +37,7 @@ export default {
   data() {
     return {
       formItemVal:this.value,
-      options: [{
-        value: 'zhinan',
-        label: '指南',
-        children: [{
-          value: 'shejiyuanze',
-          label: '设计原则',
-          children: [{
-            value: 'yizhi',
-            label: '一致'
-          }, {
-            value: 'fankui',
-            label: '反馈'
-          }, {
-            value: 'xiaolv',
-            label: '效率'
-          }, {
-            value: 'kekong',
-            label: '可控'
-          }]
-        }]
-      }]
+      optionsVal:this.$app.optionItems[this.itemConfig.optionId] || []
     }
   },
   watch:{
@@ -78,13 +63,13 @@ export default {
   },
   methods: {
     getOptions () {
-      if(this.options.length>0) return
+      if(this.optionsVal.length>0) return
       fetch(this.itemConfig.action,this.itemConfig.method,
         {
           Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
         }
       ).then(res=>{
-        this.options = res.retdata || [];
+        this.optionsVal = res.retdata || [];
       });
     },
     handleChange(value) {

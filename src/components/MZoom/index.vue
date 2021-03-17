@@ -60,7 +60,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: '请输入'
+      default: '请选择'
     },
     isDisbled: {
       type: String,
@@ -78,7 +78,7 @@ export default {
       type: String,
       default: '200px'
     },
-    dialogW: {
+    zoomW: {
       type: String,
       default: '40%'
     },
@@ -119,7 +119,7 @@ export default {
        return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      },
      dialogWs:function (){
-       return this.itemConfig.dialogW?`${this.itemConfig.dialogW}px`:`${this.dialogW}`
+       return this.itemConfig.zoomW?`${this.itemConfig.zoomW}px`:`${this.zoomW}`
      },
      innerTextWs:function (){
        return this.itemConfig.innerTextW?`width:${this.itemConfig.innerTextW}px`:`width:${this.innerTextW}`
@@ -183,7 +183,7 @@ export default {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_CB8EE988F4024590954129D5B612429F',
+          Login_SessionId: 'SESSION_6ECC723CF4D6440CA5705C004A6665AC',
           readOnly: 'YES',
           page: val,
           rows: this.pageSize

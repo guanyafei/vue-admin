@@ -4,15 +4,15 @@
             <!-- <formItem tag="text" type='tel' placeholder="请输入" prop="company" lable="客户名称"/>
             <formItem tag="textarea" required="true" placeholder="请输入" prop="addressDetail" lable="详细地址"/> -->
             <formItem tag="cascader" action="url" lazyLoad="true" lable="地区" prop="zone"/>
-            <formItem tag="date" placeholder="请输入" prop="date" lable="时间"/>
+            <formItem tag="date" required='true' placeholder="请输入" prop="date" lable="时间"/>
             <formItem tag="daterange" placeholder="请输入" width="500" prop="date1" lable="时间1"/>
             <formItem tag="radio" placeholder="请输入" prop="xx" lable="xx" optionId='a'/>
             <formItem tag="checkbox" placeholder="请输入" prop="yy" lable="yy" optionId='b'/>
             <!-- <formItem tag="cascader" lazyLoad="true" lable="地区" prop="zone"/> -->
             <formItem tag="text" required='true' type="tel" prop="phone" lable="联系电话" hidden="true"/>
-            <formItem tag="zoom" placeholder="请选择" width="300" size="20" sizeList="[20,30,40,80]" innerTextW="300" dialogW="900" prop="company" otherProps="codAccountNo?id,phone" hasReset="true" lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="zoom" placeholder="请选择" width="300" size="20" sizeList="[20,30,40,80]" innerTextW="300" zoomW="900" prop="company" otherProps="codAccountNo?id,phone" hasReset="true" lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="text" disabled="true" placeholder="请输入" prop="codAccountNo" lable="客户账号" hidden="true"/>
-            <!-- <formItem tag="select"  placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/> -->
+            <formItem tag="select"  placeholder="请输入" prop="province" lable="省" action="/lmis-md-web/address/queryProvince.do" method="post"/>
             <!-- <formItem tag="select" placeholder="请输入" prop="city" lable="城市" optionId='[{"label":"黄金糕","value":"选项1"},{"label":"双皮奶","value":"选项2"}]'/> -->
 
             <!-- <formItem tag="text" maxlength="5" placeholder="请输入" prop="zipCode" lable="邮编"/>

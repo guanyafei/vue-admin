@@ -37,11 +37,11 @@ export default {
     }
   },
   props: {
-    xmlConfigObj: {
+    mainConfig: {
       type: Object,
       default: () => ({})
     },
-    otherConfig: {
+    dialogConfig: {
       type: Array,
       default: () => ([])
     }
@@ -49,8 +49,8 @@ export default {
   components: { MDialog, MTable, MForm},
   data() {
     return {
-      alertTip: '此操作将永久删除该数据, 是否继续?',
-      xmlConfig: this.xmlConfigObj,
+      alertTip: '此操作不可逆, 是否继续?',
+      xmlConfig: this.mainConfig,
       handle: {},
       updateDateObj: {},
       handleMapping: {},
@@ -88,9 +88,9 @@ export default {
     // 数据合并
     mergeXmlData(root){
       let itemObj=null
-      if(this.otherConfig.length>0){
-          for(let i=0;i<this.otherConfig.length;i++){
-            itemObj = this.otherConfig[i].root
+      if(this.dialogConfig.length>0){
+          for(let i=0;i<this.dialogConfig.length;i++){
+            itemObj = this.dialogConfig[i].root
             Object.keys(itemObj).forEach(key=>{
               root.hasOwnProperty(key)?root[key]=root[key].concat(itemObj[key]):(root[key]=itemObj[key])
             })
