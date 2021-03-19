@@ -137,31 +137,24 @@ export default {
     }
   },
   created() {
-    this.parseDate()
+    // search 数据解析
+    this.parseDate('search',this.itemConfig.search)
+    // tableCol 数据解析
+    this.parseDate('tableCol',this.itemConfig.tableCol)
   },
   mounted() {
   },
   methods: {
     // search tableCol 数据解析
-    parseDate(){
-      let search = this.itemConfig.search || [],
-          list = this.itemConfig.tableCol || [],
-          tempSearchList = [],
+    parseDate(wch,list=[]){
+      let tempSearchList = [],
           tempList = [];
-      if(search.length && search.split('|') && search.split('|').length>1){
-        tempList = search.split('|')[0].split(',');
-        tempSearchList = search.split('|')[1].split(',');
-        tempSearchList.map((item,idx)=>{
-          this.$set(this.zoom,item,'');
-          this.$set(this.zoomLable,item,tempList[idx]);
-        });
-      }
       if(list.length && list.split('|') && list.split('|').length>1){
-        tempList = list.split('|')[0].split(',');
-        tempSearchList = list.split('|')[1].split(',');
+        tempList = list.split('|')[0].split(',')
+        tempSearchList = list.split('|')[1].split(',')
         tempSearchList.map((item,idx)=>{
-          this.$set(this.tableCol,idx,item);
-          this.$set(this.tableColLable,item,tempList[idx]);
+          wch ==="search"? this.$set(this.zoom,item,'') : this.$set(this.tableCol,idx,item)
+          wch ==="search"? this.$set(this.zoomLable,item,tempList[idx]) : this.$set(this.tableColLable,item,tempList[idx])
         });
       }
     },

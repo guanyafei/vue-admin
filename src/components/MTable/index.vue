@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="tableList.rows"
+      :data="tableList.rows || []"
       :stripe="stripe"
       border
     >
@@ -52,7 +52,7 @@
     <div class="pagination">
       <el-pagination
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableList.total"
+        :total="tableList.total || 0"
         :page-size="pageSize"
         :page-sizes="pageSizes"
         @current-change="handleCurrentChange"
@@ -78,7 +78,8 @@ export default {
       default: () => ({})
     },
     tableList: {
-      default: () => ([])
+      type: Object,
+      default: () => ({})
     },
     align: {
       type: String,
@@ -104,7 +105,6 @@ export default {
   },
   created() {
     this.tableConfig = this.xmlConfigObj
-    console.log("thishtis",this.$app)
   },
   computed:{
     pageSize:{
@@ -116,6 +116,7 @@ export default {
       },
     },
     pageSizes:function(){
+    console.log("tableList",this.tableList)
       return this.tableConfig.$.sizeList ? JSON.parse(this.tableConfig.$.sizeList) : [20,30,40,50]
     }
   },
@@ -132,6 +133,8 @@ export default {
       this.getTablelist(val)
     },
     getTablelist(val){
+      // this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`]=[]
+      // return
       fetch(this.tableConfig.$.action,this.tableConfig.$.method,
         {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
@@ -142,6 +145,7 @@ export default {
           page: val,
           rows: this.pageSize
         }).then(res=>{
+          res.rows=[]
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
           this.$app._mainTableId = ""
           this.$app.mainFlag = "N"

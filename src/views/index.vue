@@ -63,13 +63,11 @@ export default {
     }
   },
   created() {
-    this.xmlConfig = deepClone(this.mainConfig)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     let root = null
     root = this.xmlConfig.root || {}
     this.mergeXmlData(root)
-    this.setPopups(root,['dialog','alert'])
-    // this.setPopups(root,'alert')
+    this.setPopupsConfig(root,['dialog','alert'])
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
@@ -121,7 +119,7 @@ export default {
           if (item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
             const tempObj = {}; const obj = deepClone(item.table[0].$)
             obj['handleType'] = 'table'
-            obj[`${obj._id}BaseDate`] = []
+            obj[`${obj._id}BaseDate`] = {}
             tempObj[obj._id] = obj
             this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
           }
@@ -130,46 +128,47 @@ export default {
       return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopups(root,keys=[]) {
+    setPopupsConfig(root,keys=[]) {
       for(let j=0;j<keys.length;j++){
         let key = keys[j]
         if (root[key] && root[key].length > 0) {
-          let ids = []; const tempArr = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
-          let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null; let tips = []; let tempTip = '';
+          const tempArr = [];let tempId = 0;let item = null;
           for(let i=root[key].length-1;i >= 0; i--){
             item = root[key][i];
             tempId = item.$._id
             if (!tempId || !tempId.includes('|')) continue
-            console.log(item)
-            tempAction = item.$.action
-            tempMethod = item.$.method
-            tempTip = item.$.tip
-            item.$._isDisabledId && (isDisabledId = item.$._isDisabledId)
-            tempAction && (actions = tempAction.split('|'))
-            tempMethod && (methods = tempMethod.split('|'))
-            tempTip && (tips = tempTip.split('|'))
-            ids = tempId.split('|')
-            for (let i = 0; i < ids.length; i++) {
-              temp = []
-              temp = deepClone(item)
-              temp.$._isDisabledId && ids[i] !== isDisabledId && delete temp.$._isDisabledId
-              temp.$._isDisabledId && (ids[i] === isDisabledId) && this.$set(temp.$,'_isDisabledId','true')
-              temp.$._id = ids[i]
-              if(actions.length === 1)  this.$set(temp.$,'action',actions[0])
-              if(actions.length === ids.length) this.$set(temp.$,'action',actions[i])
-              if(methods.length === 1)  this.$set(temp.$,'method',methods[0])
-              if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
-              if(tips.length === 1)  this.$set(temp.$,'tip',tips[0])
-              if(tips.length === ids.length) this.$set(temp.$,'tip',tips[i])
-              tempArr.push(temp)
-            }
+            tempArr.push(...this.doubleIdReset(item,tempId))
           }
           root[key].splice(0,0,...tempArr)
         }
         this.delDoubleId(root,key)
       }
     },
-    // 双_id配置剔除
+    // 双_id配置项数据重组设置
+    doubleIdReset(item={},tempId=''){
+      let ids = []; const tempArr = []; let configs = [];let tempItem = [];
+      ids = tempId.split('|')
+      for (let i = 0; i < ids.length; i++) {
+        tempItem = []
+        tempItem = deepClone(item)
+        Object.keys(item.$).forEach(key=>{
+          if(key !== '_id'){
+            configs = item.$[key].split('|')
+            if(key==='_isDisabledId'){
+              ids[i] !== tempItem.$['_isDisabledId'] && delete tempItem.$['_isDisabledId']
+              ids[i] === tempItem.$['_isDisabledId'] && this.$set(tempItem.$,'_isDisabledId','true')
+            }else{
+              if(configs.length === 1)  this.$set(tempItem.$,key,configs[0])
+              if(configs.length === ids.length) this.$set(tempItem.$,key,configs[i])
+            }
+            tempItem.$._id = ids[i]
+          }
+        })
+        tempArr.push(tempItem)
+      }
+      return tempArr
+    },
+    // 双_id配置项剔除
     delDoubleId(root,key){
       let item = null,tempId=''
       for(let i=root[key].length-1;i >= 0; i--){
@@ -177,7 +176,6 @@ export default {
         tempId = item.$._id
         if(tempId && tempId.includes('|')) root[key].splice(i, 1)
       }
-      return root
     },
     // id to fun params查询参数
     idToFun() {
