@@ -3,8 +3,8 @@
 </template>
 
 <script>
+import MComp from '@/views/index'
 import xmlConfig from './demo.xml'
-import MComp from '@/index'
 
 export default {
   components: { MComp },

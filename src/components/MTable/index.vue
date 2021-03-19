@@ -104,6 +104,7 @@ export default {
   },
   created() {
     this.tableConfig = this.xmlConfigObj
+    console.log("thishtis",this.$app)
   },
   computed:{
     pageSize:{

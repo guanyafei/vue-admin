@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @input="handleModelInput">
+  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @input="handleModelInput" clearable>
     <el-option
       v-for="item in optionsVal"
       :key="item.label"
@@ -27,14 +27,6 @@ export default {
     value: {
       type: String,
       default: ''
-    },
-    maxlength: {
-      type: String,
-      default: '6'
-    },
-    clearable: {
-      type: Boolean,
-      default: true
     },
     placeholder: {
       type: String,
@@ -72,7 +64,7 @@ export default {
      }
   },
   created() {
-    this.itemConfig && this.itemConfig.action && this.itemConfig.lazyLoad && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
+    this.itemConfig && this.itemConfig.action && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
   },
   mounted() {
   },

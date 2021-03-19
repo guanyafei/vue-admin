@@ -23,7 +23,7 @@ export default {
     },
     type: {
       type: String,
-      default: 'success'
+      default: 'primary'
     },
     placeholder: {
       type: String,
@@ -80,6 +80,13 @@ export default {
       this.mainFlag==='Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
       // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
+      if(!this.$app.handle[this.itemConfig._id]) {
+        this.$message({
+          message: '请查看是否配置_id！',
+          type: 'error'
+        });
+        return
+      }
       this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag,this.itemConfig.isQueryBtn)
     },
     reSetForms(){

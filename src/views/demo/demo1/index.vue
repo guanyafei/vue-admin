@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import MComp from '@/index'
+import MComp from '@/views/index'
 // 引入xml配置文件
 import xmlConfig from './demo.xml'
 import xmlConfig1 from './demo1.xml'

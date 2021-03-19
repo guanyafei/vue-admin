@@ -356,11 +356,6 @@ export function removeClass(ele, cls) {
     }
 }
 
-/**
- * Remove class from element
- * @param {obj,string} elm
- * @param {boolean} 
- */
 export function isDisabledFn(item, flag) {
     if (item.isDisabled && flag === "true") return true
     return item.disabled ? Boolean(item.disabled) : Boolean(0)

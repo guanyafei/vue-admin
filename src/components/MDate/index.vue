@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-22 14:56:48
+ * @LastEditTime: 2021-03-18 13:46:37
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-admin\src\components\MDate\index.vue
+-->
 <template>
   <el-date-picker
     v-model="formItemVal"
@@ -5,10 +13,10 @@
     :type="itemConfig.type || type"
     :placeholder="itemConfig.placeholder || placeholder"
     range-separator="至"
-    :clearable="clearable"
     value-format="yyyy-MM-dd"
     :disabled="disabled"
     @change="handleModelInput"
+    clearable
     >
   </el-date-picker>
 </template>
@@ -33,10 +41,6 @@ export default {
     placeholder: {
       type: String,
       default: '选择日期'
-    },
-    clearable:{
-      type: Boolean,
-      default: true
     },
     isDisbled: {
       type: String,

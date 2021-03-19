@@ -102,8 +102,8 @@ export function isEmptyObj(arg) {
 // 设置表单项规则 tel number email data 需特殊处理
 export function setRules(item) {
     let rulesArr = [];
-    if (item.hasOwnProperty('type') || item.hasOwnProperty('required')) {
-        switch (item.type) {
+    if (item['validator'] || item['required']) {
+        switch (item.validator) {
             case 'tel':
                 rulesArr = [
                     { required: true, message: '请输入手机号', trigger: 'blur' },

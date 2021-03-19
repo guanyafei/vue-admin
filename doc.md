@@ -29,6 +29,7 @@
 >> | :----: | :---  | :----: | :----: |
 >> |  tag   | 输入框类型, 可选值为 cascader date daterange radio checkbox text zoom select textarea | string | - |
 >> | lable  | 输入框左侧文本 | string | - |
+>> | labelWidth  | 标签宽度 ，单位为 px| string | 100px |
 >> | prop   | 当前输入框绑定的字段 | string | - |
 >> | hidden | 是否隐藏 true隐藏  false显示| string | - |
 >> | disabled | 是否禁用输入框 true是 false否 | string | - |
@@ -39,7 +40,7 @@
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  text  | 文本框 | string | - |
->>> | type | 输入框类型 可选值为tel、number、email用于校验  | string | - |
+>>> | validator | 校验 可选值在utils\/validate.js内setRules方法定义 例：tel、number、email  | string | - |
 >>> | placeholder| 输入框占位提示文字 | string | 请输入 |
 >>> | maxlength | 输入的最大字符数 | string | 50 |
 >>> | width | 文本宽度，单位为 px | string | 200 |
@@ -63,11 +64,13 @@
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  radio | 单选框 | string | - |
+>>> | width | 文本宽度，单位为 px | string | auto |
 >>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
 >>>  **5. tag="checkbox"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  checkbox | 复选框 | string | - |
+>>> | width | 文本宽度，单位为 px | string | auto |
 >>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
 >>>  **6. tag="date"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
@@ -88,6 +91,7 @@
 >>> | placeholder| 输入框占位提示文字 | string | 请选择 |
 >>> | action | 接口 获取下拉项 标签获取焦点时触发 optionId权重大于action | string | - |
 >>> | method | 接口请求方式 配合action使用 | string | get |
+>>> | lazyLoad | 是否进入页面自动加载数据 false true否 文本框获取焦点请求接口加载数据 | string | - |
 >>> | width | 文本宽度，单位为 px | string | 200 |
 >>>  **9. tag="zoom"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
@@ -108,7 +112,7 @@
 >> - #### button
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
->>> | type | 类型 不同类型展示样式不同| primary 、success、warning 、danger、info、text  | success |
+>>> | type | 类型 不同类型展示样式不同| primary 、success、warning 、danger、info、text  | primary |
 >>> | placeholder | 按钮文字 | string | - |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |

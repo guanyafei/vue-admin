@@ -28,10 +28,6 @@ export default {
       type: Array,
       default: () => ([])
     },
-    clearable: {
-        type: Boolean,
-        default: true
-    },
     placeholder: {
         type: String,
         default: '请输入'

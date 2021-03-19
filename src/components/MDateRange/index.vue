@@ -5,11 +5,11 @@
     :type="itemConfig.type || type"
     :placeholder="itemConfig.placeholder || placeholder"
     range-separator="至"
-    :clearable="clearable"
     start-placeholder="开始日期"
     end-placeholder="结束日期"
     :disabled="disabled"
     @change="handleModelInput"
+    clearable
     >
   </el-date-picker>
 </template>
@@ -34,10 +34,6 @@ export default {
     placeholder: {
       type: String,
       default: '选择日期'
-    },
-    clearable:{
-      type: Boolean,
-      default: true
     },
     isDisbled: {
       type: String,
@@ -75,7 +71,6 @@ export default {
   },
   methods: {
     handleModelInput(val) {
-      console.log("xxxxxxxxxxx",val)
       this.$emit('input', val);
     },
 

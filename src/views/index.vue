@@ -2,7 +2,7 @@
   <div class="container">
     <section v-if="rootData.main" class="main">
       <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :mainTableId="mainTableId" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
-      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :table-list="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
+      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :tableList="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
     </section>
     <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
       <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :has-table="!!item.table" :dialog-visible-flag="`${item.$._id}DialogVisible`" :handle-id="item.$._id" :xml-config-obj="item">
@@ -10,7 +10,7 @@
         <section v-if="item.table">
           <el-divider/>
           <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" main-box-flag="N" :form-key="item.table[0].$._id" :update-date="updateDateObj[item.table[0].$._id]" :xml-config-obj="item.table[0].form[0]" />
-          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :table-list="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
+          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
         </section>
       </m-dialog>
     </section>
@@ -43,7 +43,7 @@ export default {
     },
     dialogConfig: {
       type: Array,
-      default: () => ([])
+      default: () => []
     }
   },
   components: { MDialog, MTable, MForm},
@@ -63,11 +63,13 @@ export default {
     }
   },
   created() {
+    this.xmlConfig = deepClone(this.mainConfig)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
-    const root = this.xmlConfig.root || {}
-    this.mergeXmlData(root);
-    this.setPopups(root,'dialog')
-    this.setPopups(root,'alert')
+    let root = null
+    root = this.xmlConfig.root || {}
+    this.mergeXmlData(root)
+    this.setPopups(root,['dialog','alert'])
+    // this.setPopups(root,'alert')
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
@@ -92,7 +94,10 @@ export default {
           for(let i=0;i<this.dialogConfig.length;i++){
             itemObj = this.dialogConfig[i].root
             Object.keys(itemObj).forEach(key=>{
-              root.hasOwnProperty(key)?root[key]=root[key].concat(itemObj[key]):(root[key]=itemObj[key])
+              if(!root.hasOwnProperty(key)){
+                root[key] = []
+              }
+               root[key].splice(0,0,...itemObj[key])
             })
           }
       }
@@ -111,7 +116,6 @@ export default {
         if (isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
           const tempObj = {}; const itemObj = deepClone(item.$)
           itemObj['handleType'] = tagItem
-          // itemObj[`${item.$._id}BaseDate`] = []
           tempObj[itemObj._id] = itemObj
           this.handleMapping = Object.assign({}, this.handleMapping, tempObj)
           if (item.table && isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
@@ -126,40 +130,54 @@ export default {
       return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopups(root,key) {
-      if (root[key] && root[key].length > 0) {
-        let ids = []; const tempArr = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
-        let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null; let tips = []; let tempTip = '';
-        for(let i=root[key].length-1;i >= 0; i--){
-          item = root[key][i];
-          tempId = item.$._id
-          tempAction = item.$.action
-          tempMethod = item.$.method
-          tempTip = item.$.tip
-          item.$._isDisabledId && (isDisabledId = item.$._isDisabledId)
-          if (!tempId || !tempId.includes('|')) return
-          tempAction && (actions = tempAction.split('|'))
-          tempMethod && (methods = tempMethod.split('|'))
-          tempTip && (tips = tempTip.split('|'))
-          ids = tempId.split('|')
-          for (let i = 0; i < ids.length; i++) {
-            temp = []
-            temp = deepClone(item)
-            temp.$._isDisabledId && ids[i] !== isDisabledId && delete temp.$._isDisabledId
-            temp.$._isDisabledId && (ids[i] === isDisabledId) && this.$set(temp.$,'_isDisabledId','true')
-            temp.$._id = ids[i]
-            if(actions.length === 1)  this.$set(temp.$,'action',actions[0])
-            if(actions.length === ids.length) this.$set(temp.$,'action',actions[i])
-            if(methods.length === 1)  this.$set(temp.$,'method',methods[0])
-            if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
-            if(tips.length === 1)  this.$set(temp.$,'tip',tips[0])
-            if(tips.length === ids.length) this.$set(temp.$,'tip',tips[i])
-            tempArr.push(temp)
+    setPopups(root,keys=[]) {
+      for(let j=0;j<keys.length;j++){
+        let key = keys[j]
+        if (root[key] && root[key].length > 0) {
+          let ids = []; const tempArr = []; let temp = []; let tempId = 0; let actions = []; let tempAction = '';
+          let methods = []; let tempMethod = ''; let isDisabledId = ''; let item = null; let tips = []; let tempTip = '';
+          for(let i=root[key].length-1;i >= 0; i--){
+            item = root[key][i];
+            tempId = item.$._id
+            if (!tempId || !tempId.includes('|')) continue
+            console.log(item)
+            tempAction = item.$.action
+            tempMethod = item.$.method
+            tempTip = item.$.tip
+            item.$._isDisabledId && (isDisabledId = item.$._isDisabledId)
+            tempAction && (actions = tempAction.split('|'))
+            tempMethod && (methods = tempMethod.split('|'))
+            tempTip && (tips = tempTip.split('|'))
+            ids = tempId.split('|')
+            for (let i = 0; i < ids.length; i++) {
+              temp = []
+              temp = deepClone(item)
+              temp.$._isDisabledId && ids[i] !== isDisabledId && delete temp.$._isDisabledId
+              temp.$._isDisabledId && (ids[i] === isDisabledId) && this.$set(temp.$,'_isDisabledId','true')
+              temp.$._id = ids[i]
+              if(actions.length === 1)  this.$set(temp.$,'action',actions[0])
+              if(actions.length === ids.length) this.$set(temp.$,'action',actions[i])
+              if(methods.length === 1)  this.$set(temp.$,'method',methods[0])
+              if(methods.length === ids.length) this.$set(temp.$,'method',methods[i])
+              if(tips.length === 1)  this.$set(temp.$,'tip',tips[0])
+              if(tips.length === ids.length) this.$set(temp.$,'tip',tips[i])
+              tempArr.push(temp)
+            }
           }
-          root[key].splice(i, 1)
+          root[key].splice(0,0,...tempArr)
         }
-        root[key] = root[key].concat(tempArr)
+        this.delDoubleId(root,key)
       }
+    },
+    // 双_id配置剔除
+    delDoubleId(root,key){
+      let item = null,tempId=''
+      for(let i=root[key].length-1;i >= 0; i--){
+        item = root[key][i]
+        tempId = item.$._id
+        if(tempId && tempId.includes('|')) root[key].splice(i, 1)
+      }
+      return root
     },
     // id to fun params查询参数
     idToFun() {
@@ -208,7 +226,7 @@ export default {
                   fetch(this.handleMapping[mapKey].action, this.handleMapping[mapKey].method,
                     {
                       ...this.forms[`${tableId}`],
-                      Login_SessionId: 'SESSION_E153B681174B4940927E62F412C49D04'
+                      Login_SessionId: 'SESSION_6ECC723CF4D6440CA5705C004A6665AC'
                     }).then(res=>{
                       if(isQueryBtn === "true"){
                         this.handleMapping[itemKey][`${itemKey}BaseDate`] = res

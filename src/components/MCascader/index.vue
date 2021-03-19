@@ -57,7 +57,7 @@ export default {
      }
   },
   created() {
-    this.itemConfig && this.itemConfig.action && this.itemConfig.lazyLoad && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
+    this.itemConfig && this.itemConfig.action && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
   },
   mounted() {
   },

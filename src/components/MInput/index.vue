@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="formItemVal" :style="widths" :type="itemConfig.tag || tag" :disabled="disabled" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" />
+  <el-input v-model="formItemVal" :style="widths" :type="itemConfig.tag || tag" :disabled="disabled" :autosize="itemConfig.tag === 'textarea'" :placeholder="itemConfig.placeholder || placeholder" :maxlength="itemConfig.maxlength || maxlength" @input="handleModelInput" clearable/>
 </template>
 
 <script>
@@ -21,11 +21,7 @@ export default {
     },
     maxlength: {
       type: String,
-      default: '50'
-    },
-    clearable: {
-      type: Boolean,
-      default: true
+      default: '200'
     },
     placeholder: {
       type: String,
@@ -61,8 +57,7 @@ export default {
        return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
      }
   },
-  created() {
-  },
+  created() {},
   mounted() {
   },
   methods: {
