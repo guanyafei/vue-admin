@@ -89,20 +89,13 @@ export default {
       this.$set(this.$app.forms, this.formKey, this.forms[this.formKey])
       this.$set(this.$app.formRefs, this.formKey, this.$refs[`${this.formKey}Ref`])
     });
-    console.log("this.forms",this.forms[this.formKey])
-    console.log("this.formItems",this.formItems)
   },
   mounted() {
   },
   methods: {
-    //设置表单项规则 tel number email data 需特殊处理
+    // 设置表单项规则 tel number email data 需特殊处理
     setRules,
-    /**
-     * @name: initForm
-     * @msg: 更新  rowDate 赋值给 form表单
-     * @param {row}
-     * @return {form}
-     */
+    // 更新  rowDate 赋值给 form表单
     initForm(formOgj) {
       Object.keys(formOgj).map(keyItem => {
         this.updateDate.hasOwnProperty(keyItem) && (formOgj[keyItem] = this.updateDate[keyItem])
@@ -111,7 +104,6 @@ export default {
     // xml to json表单数据组装  初始化
     xmlToJson(searchConfig) {
       let itemObj = {}
-      console.log("searchConfig",searchConfig)
       Object.keys(searchConfig).map(key => {
         if (key === 'button') {
           searchConfig[key].map(item => {

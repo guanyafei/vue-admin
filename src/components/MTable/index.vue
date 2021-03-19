@@ -116,7 +116,6 @@ export default {
       },
     },
     pageSizes:function(){
-    console.log("tableList",this.tableList)
       return this.tableConfig.$.sizeList ? JSON.parse(this.tableConfig.$.sizeList) : [20,30,40,50]
     }
   },

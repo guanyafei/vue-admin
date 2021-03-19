@@ -39,5 +39,5 @@
             </tableCol>
         </table>
     </main>
-    <alert _id="statusOpen|statusClose"  action='/lmis-md-web/cusm/statusOpen.do|/lmis-md-web/cusm/statusClose.do' method="post" tip="确定开通吗？|确定冻结吗？"/>
+    <alert _id="statusOpen|statusClose"  action='/lmis-md-web/cusm/statusOpen.do' method="post" tip="确定开通吗？|确定冻结吗？"/>
 </root>

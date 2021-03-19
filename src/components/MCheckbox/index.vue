@@ -66,9 +66,7 @@ export default {
   created() {
     this.itemConfig && this.itemConfig.action && this.getOptions();
   },
-  mounted() {
-    console.log(":this.$app.optionItems",this.$app.optionItems,this.itemConfig.optionId)
-  },
+  mounted() {},
   methods: {
     getOptions () {
       fetch(this.itemConfig.action,this.itemConfig.method,

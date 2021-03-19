@@ -63,6 +63,7 @@ export default {
     }
   },
   created() {
+    this.xmlConfig= deepClone(this.mainConfig)
     if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
     let root = null
     root = this.xmlConfig.root || {}
