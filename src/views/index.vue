@@ -6,7 +6,7 @@
     </section>
     <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
       <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :dialogVisibleFlag="`${item.$._id}DialogVisible`" :handleId="item.$._id" :xmlConfigObj="item">
-        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$._disabledId" :formKey="item.$._id" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.form[0]" />
+        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$.disabledId" :formKey="item.$._id" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.form[0]" />
         <section v-if="item.table">
           <el-divider/>
           <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" mainBoxFlag="N" :formKey="item.table[0].$._id" :updateDate="updateDateObj[item.table[0].$._id]" :xmlConfigObj="item.table[0].form[0]" />
@@ -154,9 +154,9 @@ export default {
         Object.keys(item.$).forEach(key=>{
           if(key !== '_id'){
             configs = item.$[key].split('|')
-            if(key==='_disabledId'){
-              ids[i] !== tempItem.$['_disabledId'] && delete tempItem.$['_disabledId']
-              ids[i] === tempItem.$['_disabledId'] && this.$set(tempItem.$,'_disabledId','true')
+            if(key==='disabledId'){
+              ids[i] !== tempItem.$['disabledId'] && delete tempItem.$['disabledId']
+              ids[i] === tempItem.$['disabledId'] && this.$set(tempItem.$,'disabledId','true')
             }else{
               if(configs.length === 1)  this.$set(tempItem.$,key,configs[0])
               if(configs.length === ids.length) this.$set(tempItem.$,key,configs[i])

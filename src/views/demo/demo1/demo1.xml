@@ -1,5 +1,5 @@
 <root>
-    <dialog _id="add|update"  action='/lmis-md-web/cusm/saveClientAdd.do|update.do' method="get" _disabledId="update" saveOnShow="true">
+    <dialog _id="add|update"  action='/lmis-md-web/cusm/saveClientAdd.do|update.do' method="get" disabledId="update" saveOnShow="true">
         <form>
             <formItem tag="zoom"  required='true' placeholder="请选择" prop="company" otherProps="codAccountNo?id,phone"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="zoom" required='true' isDisabled="true" placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>

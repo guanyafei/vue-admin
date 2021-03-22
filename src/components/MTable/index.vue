@@ -148,7 +148,6 @@ export default {
           page: val,
           rows: this.pageSize
         }).then(res=>{
-          console.log("iiiiiiiiiiii",res,this.tableConfig.$._id)
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
           this.$app._mainTableId = ""
           this.$app.mainFlag = "N"
