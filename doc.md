@@ -6,9 +6,9 @@
 >> - xml配置文件： 入口文件同级
 > #### 二、主副页面配置规则
 >> - ##### 主页面
->>   \<root>\<main>表单配置\</main>\</root>
+>>   \<root>\<main  _id="main">配置项\</main>\</root>
 >> - ##### 副业面（弹窗）
->>   \<root>表单配置\</root>
+>>   \<root>配置项\</root>
 >> - **注**
 >> 1.只能有一个主页面
 >> 2.主页面只能有一个root和main标签
@@ -34,7 +34,7 @@
 >> | hidden | 是否隐藏 true隐藏  false显示| string | - |
 >> | disabled | 是否禁用输入框 true是 false否 | string | - |
 >> | required | 是否表单必填 true是 false否 | string | - |
->> | isDisabled | 是否禁用输入框 true是 false否 配合_isDisabledId使用  详细dialog的_isDisabledId说明 | string | - |
+>> | isDisabled | 是否禁用输入框 true是 false否 配合_disabledId使用  详细dialog的_disabledId说明 | string | - |
 >>> - ##### tag可选值说明
 >>>  **1. tag="text"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
@@ -146,9 +146,11 @@
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  _id | 值唯一 用途见button标签 **（注：两个button操作同一个dialog，多个_id用'\|'隔开 ）**| string | - |
+>>> | width | 列宽度 单位px | string | 1000 |
 >>> | action | 弹窗确定按钮请求接口  **（注：两个button操作同一个dialog，请求不同接口，action用'\|'隔开，多个action顺序与_id保持一致）** | string | - |
 >>> | method | 接口请求方式 配合action使用 **（注：两个button操作同一个dialog，请求不同接口，不同的请求方式，method用'\|'隔开，多个method顺序与_id保持一致）** | string | get |
->>> | _isDisabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置_isDisabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
+>>> | _disabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置_disabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
+>>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 **(注：若为true 保存成功后 保存按钮置灰不可点击）**| string | false |
 
 ## option配置
 > - 配置文件位置：common/options.js

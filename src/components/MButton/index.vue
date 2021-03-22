@@ -74,8 +74,6 @@ export default {
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
-      console.log("MButton",this.tableId ,"rrrrrrrrrrrr", this.formKey,this.mainFlag,"this.itemConfig",this.itemConfig)
-      console.log("this.tableId",this.tableId)
       this.$set(this.$app,'mainFlag',this.mainFlag)
       this.mainFlag==='Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey

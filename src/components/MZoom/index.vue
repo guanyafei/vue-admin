@@ -29,6 +29,7 @@
           :page-sizes="pageSizes"
           @current-change="handleCurrentChange"
           @size-change="handleSizeChange"
+          :hide-on-single-page="isHideSinglePage"
         />
       </div>
       <span slot="footer" class="dialog-footer">
@@ -134,6 +135,9 @@ export default {
     },
     pageSizes:function(){
       return this.itemConfig.sizeList ? JSON.parse(this.itemConfig.sizeList) : [20,30,40,50]
+    },
+    isHideSinglePage:function(){
+      return (!this.list.total || this.list.total === this.pageSize || this.list.total<this.pageSize) ? true : false
     }
   },
   created() {
@@ -176,7 +180,7 @@ export default {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_6ECC723CF4D6440CA5705C004A6665AC',
+          Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
           readOnly: 'YES',
           page: val,
           rows: this.pageSize

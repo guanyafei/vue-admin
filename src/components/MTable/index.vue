@@ -20,7 +20,7 @@
         >
           <template  slot="header" slot-scope="scope">
             <template  v-if="item.HButton">
-              <m-button  v-for="(item,index) in item.HButton" :key="index"  :table-id="tableConfig.$._id" :item-config="item.$" :row-obj="scope.row" />
+              <m-button  v-for="(item,index) in item.HButton" :key="index"  :tableId="tableConfig.$._id" :itemConfig="item.$" :rowObj="scope.row" />
             </template>
             <template v-else>
               操作
@@ -33,7 +33,7 @@
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(item,index) in item.button" :key="index">
-                  <m-button :table-id="tableConfig.$._id" :item-config="item.$" :row-obj="scope.row" />
+                  <m-button :tableId="tableConfig.$._id" :itemConfig="item.$" :rowObj="scope.row" />
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -57,6 +57,7 @@
         :page-sizes="pageSizes"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
+        :hide-on-single-page="isHideSinglePage"
       />
     </div>
   </div>
@@ -117,6 +118,9 @@ export default {
     },
     pageSizes:function(){
       return this.tableConfig.$.sizeList ? JSON.parse(this.tableConfig.$.sizeList) : [20,30,40,50]
+    },
+    isHideSinglePage:function(){
+      return (!this.tableList.total || this.tableList.total === this.pageSize || this.tableList.total<this.pageSize) ? true : false
     }
   },
   mounted() {
@@ -139,12 +143,12 @@ export default {
           date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
           conditions: '',
           currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_6ECC723CF4D6440CA5705C004A6665AC',
+          Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
           readOnly: 'YES',
           page: val,
           rows: this.pageSize
         }).then(res=>{
-          res.rows=[]
+          console.log("iiiiiiiiiiii",res,this.tableConfig.$._id)
           this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
           this.$app._mainTableId = ""
           this.$app.mainFlag = "N"

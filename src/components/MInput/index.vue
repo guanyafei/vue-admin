@@ -58,8 +58,7 @@ export default {
      }
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleModelInput(value) {
       this.$emit('input', value)

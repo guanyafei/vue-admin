@@ -5,7 +5,7 @@
         <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
-        <m-button :item-config="item" :form-data="forms" mainFlag ='N' :form-key="formKey" />
+        <m-button :itemConfig="item" :formData="forms" mainFlag ='N' :formKey="formKey" />
       </el-form-item>
     </el-form>
     <el-form v-if="mainBoxFlag === 'Y'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
@@ -17,7 +17,7 @@
             </el-form-item>
           </template>
           <el-form-item v-for="(item,index) in buttonItems" :key="index">
-            <m-button :item-config="item" :mainTableId="mainTableId" :form-data="forms" mainFlag ='Y' :form-key="formKey" />
+            <m-button :itemConfig="item" :mainTableId="mainTableId" :formData="forms" mainFlag ='Y' :formKey="formKey" />
           </el-form-item>
         </template>
         <template v-for="(keyItem,idx) in Object.keys(forms[formKey])" >

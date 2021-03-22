@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <section v-if="rootData.main" class="main">
-      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :mainTableId="mainTableId" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
-      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :tableList="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
+      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :mainTableId="mainTableId" mainBoxFlag="Y" :formKey="rootData.main[0].$._id" :xmlConfigObj="rootData.main[0].form[0]"/>
+      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xmlConfigObj="rootData.main[0].table[0]" :tableList="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
     </section>
     <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
-      <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :has-table="!!item.table" :dialog-visible-flag="`${item.$._id}DialogVisible`" :handle-id="item.$._id" :xml-config-obj="item">
-        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$._isDisabledId" :form-key="item.$._id" :update-date="updateDateObj[item.$._id]" :xml-config-obj="item.form[0]" />
+      <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :dialogVisibleFlag="`${item.$._id}DialogVisible`" :handleId="item.$._id" :xmlConfigObj="item">
+        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$._disabledId" :formKey="item.$._id" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.form[0]" />
         <section v-if="item.table">
           <el-divider/>
-          <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" main-box-flag="N" :form-key="item.table[0].$._id" :update-date="updateDateObj[item.table[0].$._id]" :xml-config-obj="item.table[0].form[0]" />
-          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
+          <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" mainBoxFlag="N" :formKey="item.table[0].$._id" :updateDate="updateDateObj[item.table[0].$._id]" :xmlConfigObj="item.table[0].form[0]" />
+          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
         </section>
       </m-dialog>
     </section>
@@ -76,15 +76,14 @@ export default {
   },
   computed:{
      mainTableId:function (){
-       let _id = this.rootData.main[0].table&&this.rootData.main[0].table.length&&this.rootData.main[0].table[0].$._id;
+       let _id = this.rootData.main[0].table&&this.rootData.main[0].table.length&&this.rootData.main[0].table[0].$._id
        return _id;
      },
      ...mapGetters([
       'options'
     ])
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 数据合并
     mergeXmlData(root){
@@ -155,9 +154,9 @@ export default {
         Object.keys(item.$).forEach(key=>{
           if(key !== '_id'){
             configs = item.$[key].split('|')
-            if(key==='_isDisabledId'){
-              ids[i] !== tempItem.$['_isDisabledId'] && delete tempItem.$['_isDisabledId']
-              ids[i] === tempItem.$['_isDisabledId'] && this.$set(tempItem.$,'_isDisabledId','true')
+            if(key==='_disabledId'){
+              ids[i] !== tempItem.$['_disabledId'] && delete tempItem.$['_disabledId']
+              ids[i] === tempItem.$['_disabledId'] && this.$set(tempItem.$,'_disabledId','true')
             }else{
               if(configs.length === 1)  this.$set(tempItem.$,key,configs[0])
               if(configs.length === ids.length) this.$set(tempItem.$,key,configs[i])
@@ -198,7 +197,7 @@ export default {
                 fetch(this.handleMapping[itemKey].action, this.handleMapping[itemKey].method,
                   {
                     id: this.updateDateObj[itemKey].id,
-                    Login_SessionId: 'SESSION_AD426AF4ECBA4B62B2C0F81B440522BC'
+                    Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6'
                   }).then(res=>{
                   (this.$refs[`${tableId}Table`]).length ? (this.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$refs[`${tableId}Table`]).handleCurrentChange()
                 })

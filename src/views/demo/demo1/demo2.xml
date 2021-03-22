@@ -1,5 +1,5 @@
 <root>
-    <dialog _id="ccc|tjAdd" action='url' _isDisabledId="tjAdd">
+    <dialog _id="ccc|tjAdd" action='url' _disabledId="tjAdd">
         <form>
             <formItem tag="text" placeholder="请输入" prop="accountNo" lable="客户账号"/>
             <formItem tag="text" isDisabled="true" required='true' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>
@@ -27,7 +27,7 @@
             </tableCol>
         </table>
     </dialog>
-    <dialog _id="kk|aa" action='url' _isDisabledId="aa">
+    <dialog _id="kk|aa" action='url' _disabledId="aa">
         <form>
             <formItem tag="text" placeholder="请输入" prop="accountNo" lable="客户账号"/>
             <formItem tag="text" isDisabled="true" required='true' placeholder="请输入啦啦啦啦" prop="name1" lable="姓名"/>

@@ -8,9 +8,8 @@
   >
     <slot />
     <span slot="footer" class="dialog-footer">
-      <el-button v-if="!hasTable" size="mini" @click="closeDia">取 消</el-button>
-      <el-button v-if="hasTable" size="mini" @click="closeDia">关 闭</el-button>
-      <el-button v-if="!hasTable" size="mini" type="primary" :loading="loading" @click="requestHandle">确 定</el-button>
+      <el-button size="mini" @click="closeDia">关 闭</el-button>
+      <el-button size="mini" type="primary" :disabled="isSaveDisable" :loading="loading" @click="save">保 存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -37,7 +36,7 @@ export default {
       type: String,
       default: ''
     },
-    hasTable: {
+    saveOnShow: {
       type: Boolean,
       default: false
     },
@@ -50,45 +49,57 @@ export default {
     return {
       dialogVisibleObj: {
       },
-      loading: false
+      loading: false,
+      isSaveDisable: false
     }
   },
   created() {
     this.$set(this.dialogVisibleObj, this.dialogVisibleFlag, false)
   },
   computed:{
-    widths:function (){
+    widths:function(){
       return this.xmlConfigObj.$.width?`${this.xmlConfigObj.$.width}px`:`${this.width}`
+    },
+    isSaveOnShow:function(){
+      return this.xmlConfigObj.$.saveOnShow==='true'?true:this.saveOnShow
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 点击确定 发送请求
-    requestHandle() {
+    save() {
       console.log('MDialog', this.$app, this.handleId, this.$app.tableId,this.$app.mainFlag,this.$app._mainTableId)
       this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
         return
-        fetch(this.$app.handleMapping[this.handleId].action,this.$app.handleMapping[this.handleId].method,
-        {
-          ...this.$app.forms[this.handleId]
-        }).then(res=>{
-          this.closeDia()
-          if(this.$app.mainFlag === 'Y'){
-            const tableId = this.$app._mainTableId;
-          }else if (this.$app.tableId) {
-            const tableId = this.$app.tableId;
-          }
-          (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
-        })
+        if (valid) {
+          fetch(this.$app.handleMapping[this.handleId].action,this.$app.handleMapping[this.handleId].method,
+          {
+            ...this.$app.forms[this.handleId]
+          }).then(res=>{
+            this.onSaveOnShow()
+            if(this.$app.mainFlag === 'Y'){
+              const tableId = this.$app._mainTableId;
+            }else if (this.$app.tableId) {
+              const tableId = this.$app.tableId;
+            }
+            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
+          })
+        }else{
+          console.log('error submit!!')
+          return false
+        }
       })
     },
     // 重置表单数据
     closeDia() {
-      console.log('MDialog', this.handleId)
       this.$app.tableId = ''
       this.dialogVisibleObj[this.dialogVisibleFlag] = false
+      this.isSaveDisable = false
       this.$app['formRefs'][this.handleId].resetFields()
+    },
+    // saveOnShow 保存后是否立即关闭弹窗
+    onSaveOnShow() {
+      this.isSaveOnShow ? (this.isSaveDisable = true):this.closeDia()
     }
   }
 }
