@@ -18,6 +18,8 @@
 >> ![主页面](./src/assets/doc_img/main.png)
 >> - 弹窗配置引入后值添加到subConfig数组，无则空数组
 >> ![弹窗](./src/assets/doc_img/sub1.png) 
+>> - 入口页面index.vue必须配置name字段 且值与路由中配置的name值一致 且必须保证唯一性 
+>> ![页面入口](./src/assets/doc_img/name.png) 
 
 ## 标签配置
 > ### 一、表单
@@ -51,6 +53,7 @@
 >>> | maxlength | 输入的最大字符数 | string | 50 |
 >>> | width | 文本宽度，单位为 px | string | 200 |
 >>> | placeholder| 输入框占位提示文字 | string | 请输入 |
+>>> | rows| 输入框行数 | string | 1 |
 >>>  **3. tag="select"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
