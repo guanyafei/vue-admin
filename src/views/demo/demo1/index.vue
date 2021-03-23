@@ -10,6 +10,7 @@ import xmlConfig1 from './demo1.xml'
 import xmlConfig2 from './demo2.xml'
 
 export default {
+  name: 'demo1',
   components: { MComp },
   data() {
     return {
@@ -17,9 +18,7 @@ export default {
       subConfig:[xmlConfig1,xmlConfig2]
     }
   },
-  created() {
-    // this.root = xmlConfig || {}
-  },
+  created() {},
   mounted() {
   },
   methods: {

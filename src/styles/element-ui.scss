@@ -100,7 +100,9 @@
 
 // to fixe el-input el-textarea css style
 .el-textarea__inner {
-    height: 36px;
+    // height: 36px;
+    height: auto !important;
+    min-height: 36px !important;
 }
 
 // to fixe el-dropdown css style

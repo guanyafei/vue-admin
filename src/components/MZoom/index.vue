@@ -171,7 +171,8 @@ export default {
       this.getTablelist(1)
     },
     handleCurrentChange(val = 1) {
-      console.log(`当前页: ${val}`)
+      console.log(`当前页: ${val}`,this.zoom)
+      // return
       this.getTablelist(val)
     },
     getTablelist(val){

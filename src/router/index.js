@@ -141,11 +141,11 @@ export const asyncRoutes = [
                 path: 'demo1',
                 component: () =>
                     import ('@/views/demo/demo1/index'),
-                name: 'demo3',
+                name: 'demo1',
                 meta: { title: 'demo1', icon: 'icon' }
             },
             {
-                path: 'index',
+                path: 'demo2',
                 component: () =>
                     import ('@/views/demo/demo2/index'),
                 name: 'demo2',

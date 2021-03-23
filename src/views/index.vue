@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import options from '@/common/options.js'
 import { isEmptyObj } from '@/utils/validate'
 import MTable from "@/components/MTable"
 import MForm from "@/components/MForm"
@@ -72,16 +72,13 @@ export default {
     this.idToHandle(root)
     this.rootData = Object.assign(this.rootData,root)
     this.idToFun()
-    this.optionItems=this.options[this.$route.name] || {}
+    this.optionItems = options[this.$route.name] || {}
   },
   computed:{
      mainTableId:function (){
        let _id = this.rootData.main[0].table&&this.rootData.main[0].table.length&&this.rootData.main[0].table[0].$._id
        return _id;
-     },
-     ...mapGetters([
-      'options'
-    ])
+     }
   },
   mounted() {},
   methods: {

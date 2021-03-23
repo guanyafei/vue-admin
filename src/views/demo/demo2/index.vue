@@ -10,6 +10,7 @@ import xmlConfig1 from './demo1.xml'
 // import xmlConfig2 from './demo2.xml'
 
 export default {
+  name: 'demo2',
   components: { MComp },
   data() {
     return {
