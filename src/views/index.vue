@@ -61,8 +61,8 @@ export default {
   created() {
     this.xmlConfig= deepClone(this.xmlObj)
     if (this.xmlConfig === null || this.xmlConfig.length===0) return
-    this.mergeXmlData(this.xmlConfig)
     this.setPopupsConfig(this.xmlConfig,['dialog','alert'])
+    this.mergeXmlData(this.xmlConfig)
     this.idToHandle(this.rootData)
     this.idToSubmitFun()
     this.optionItems = options[this.$route.name] || {}
