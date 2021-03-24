@@ -2,28 +2,28 @@
   <div class="form-item">
     <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
       <template v-if="formItems[keyItem].tag === 'text' || formItems[keyItem].tag === 'textarea'">
-        <m-input v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled"/>
+        <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled"/>
       </template>
       <template v-else-if="formItems[keyItem].tag === 'select'">
-        <m-select v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-select v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'date'">
-        <m-date v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-date v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'radio'">
-        <m-radio v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-radio v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'checkbox'">
-        <m-checkbox v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-checkbox v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'cascader'">
-        <m-cascader v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-cascader v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'daterange'">
-        <m-daterange v-model="forms[formKey][keyItem]" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-daterange v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'zoom'">
-        <m-zoom v-model="forms[formKey][keyItem]" :formKey="formKey" :keyItem="keyItem" :itemConfig="formItems[keyItem]" :isDisbled="isDisbled" />
+        <m-zoom v-model="forms[formKey][keyItem]" :form-key="formKey" :key-item="keyItem" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
     </template>
   </div>

@@ -2,10 +2,10 @@
   <div class="form-item">
     <el-form v-if="mainBoxFlag === 'N'" :ref="`${formKey}Ref`" :model="forms[formKey]" inline class="form-box" label-position="right">
       <el-form-item  v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" v-for="(keyItem) in Object.keys(forms[formKey])" :key="keyItem" :label-width="setLabelWidth(formItems[keyItem])" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem"  :rules="setRules(formItems[keyItem])">
-        <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
+        <m-form-item :forms="forms" :form-key="formKey" :form-items="formItems" :key-item="keyItem" :is-disbled="isDisbled"/>
       </el-form-item>
       <el-form-item v-for="(item,index) in buttonItems" :key="index">
-        <m-button :itemConfig="item" :formData="forms" mainFlag ='N' :formKey="formKey" />
+        <m-button :item-config="item" :form-data="forms" main-flag ='N' :form-key="formKey" />
       </el-form-item>
     </el-form>
     <el-form v-if="mainBoxFlag === 'Y'" :ref="`${formKey}Ref`" class="form-box" inline :model="forms[formKey]" label-width="100px" label-position="right">
@@ -13,16 +13,16 @@
         <template v-slot:visible-slot>
           <template  v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
             <el-form-item v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" :key="keyItem" :label-width="setLabelWidth(formItems[keyItem])" :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx<3" :rules="setRules(formItems[keyItem])">
-              <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
+              <m-form-item :forms="forms" :form-key="formKey" :form-items="formItems" :key-item="keyItem" :is-disbled="isDisbled"/>
             </el-form-item>
           </template>
           <el-form-item v-for="(item,index) in buttonItems" :key="index">
-            <m-button :itemConfig="item" :mainTableId="mainTableId" :formData="forms" mainFlag ='Y' :formKey="formKey" />
+            <m-button :item-config="item" :mainTableId="mainTableId" :form-data="forms" main-flag ='Y' :form-key="formKey" />
           </el-form-item>
         </template>
         <template v-for="(keyItem,idx) in Object.keys(forms[formKey])" >
           <el-form-item  v-show="formItems[keyItem]&&formItems[keyItem].hidden !=='true'" :key="keyItem" :label-width="setLabelWidth(formItems[keyItem])"  :label="(formItems[keyItem]&&formItems[keyItem].lable) || ''" :prop="keyItem" v-if="idx>=3" :rules="setRules(formItems[keyItem])">
-            <m-form-item :forms="forms" :formKey="formKey" :formItems="formItems" :keyItem="keyItem" :isDisbled="isDisbled"/>
+            <m-form-item :forms="forms" :form-key="formKey" :form-items="formItems" :key-item="keyItem" :is-disbled="isDisbled"/>
           </el-form-item>
         </template>
       </m-collapse>

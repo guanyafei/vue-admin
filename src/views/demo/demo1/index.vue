@@ -1,5 +1,5 @@
 <template>
-   <m-comp :xmlObj="xmlObj"/>
+   <m-comp :xml-obj="xmlObj"/>
 </template>
 
 <script>

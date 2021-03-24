@@ -1,16 +1,16 @@
 <template>
   <div class="container">
     <section v-if="rootData.main" class="main">
-      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :mainTableId="mainTableId" mainBoxFlag="Y" :formKey="rootData.main[0].$._id" :xmlConfigObj="rootData.main[0].form[0]"/>
-      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xmlConfigObj="rootData.main[0].table[0]" :tableList="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
+      <m-form v-if="rootData.main[0].form&&rootData.main[0].form.length" :ref="`${rootData.main[0].$._id}Form`" :main-table-id="mainTableId" main-box-flag="Y" :form-key="rootData.main[0].$._id" :xml-config-obj="rootData.main[0].form[0]"/>
+      <m-table v-if="rootData.main[0].table&&rootData.main[0].table.length" :ref="`${rootData.main[0].table[0].$._id}Table`" :xml-config-obj="rootData.main[0].table[0]" :table-list="(handleMapping[`${rootData.main[0].table[0].$._id}`])[`${rootData.main[0].table[0].$._id}BaseDate`]"/>
     </section>
     <section v-if="rootData.dialog&&rootData.dialog.length" class="list">
-      <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :dialogVisibleFlag="`${item.$._id}DialogVisible`" :handleId="item.$._id" :xmlConfigObj="item">
-        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :isDisbled="item.$.disabledId" :formKey="item.$._id" :updateDate="updateDateObj[item.$._id]" :xmlConfigObj="item.form[0]" />
+      <m-dialog v-for="(item) in rootData.dialog" :ref="item.$._id" :key="item.$._id" :dialog-visible-flag="`${item.$._id}DialogVisible`" :handle-id="item.$._id" :xml-config-obj="item">
+        <m-form v-if="item.form" :ref="`${item.$._id}Form`" :is-disbled="item.$.disabledId" :form-key="item.$._id" :update-date="updateDateObj[item.$._id]" :xml-config-obj="item.form[0]" />
         <section v-if="item.table">
           <el-divider/>
-          <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" mainBoxFlag="N" :formKey="item.table[0].$._id" :updateDate="updateDateObj[item.table[0].$._id]" :xmlConfigObj="item.table[0].form[0]" />
-          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xmlConfigObj="item.table[0]" :tableList="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
+          <m-form v-if="item.table && item.table[0].form" :ref="`${item.table[0].$._id}Form`" main-box-flag="N" :form-key="item.table[0].$._id" :update-date="updateDateObj[item.table[0].$._id]" :xml-config-obj="item.table[0].form[0]" />
+          <m-table v-if="item.table" :ref="`${item.table[0].$._id}Table`" :xml-config-obj="item.table[0]" :table-list="(handleMapping[`${item.table[0].$._id}`])[`${item.table[0].$._id}BaseDate`]" />
         </section>
       </m-dialog>
     </section>
