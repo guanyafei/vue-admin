@@ -2,23 +2,19 @@
 > #### 一、目录
 >> - 一级目录： src/views下建文件夹
 >> - 二级目录： 一级目录下建文件夹
->>- 页面入口： 二级目录下index.vue
->> - xml配置文件： 入口文件同级
+>>- 入口文件： 二级目录下index.vue
+>> - xml配置文件： 入口文件同级文件夹pageConfig下新建xml文件
+>> ![目录](./src/assets/doc_img/xml.png) 
 > #### 二、主副页面配置规则
 >> - ##### 主页面
 >>   \<root>\<main  _id="main">配置项\</main>\</root>
 >> - ##### 副业面（弹窗）
 >>   \<root>配置项\</root>
->> - **注**
+> #### **注意事项**
 >> 1.只能有一个主页面
 >> 2.主页面只能有一个root和main标签
 >> 3.副页面（弹窗）只能有一个root标签且不能有main标签
-> ### 三、引入xml配置文件规则
->> - 主页面配置引入后赋值给root，无则空对象
->> ![主页面](./src/assets/doc_img/main.png)
->> - 弹窗配置引入后值添加到subConfig数组，无则空数组
->> ![弹窗](./src/assets/doc_img/sub.png) 
->> - 入口页面index.vue必须配置name字段 且值与路由中配置的name值一致 且必须保证唯一性 
+>> 4.入口页面index.vue必须配置name字段 且值与路由中配置的name值一致 且必须保证唯一性 
 >> ![页面入口](./src/assets/doc_img/name.png) 
 
 ## 标签配置

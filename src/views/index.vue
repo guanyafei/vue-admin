@@ -37,11 +37,7 @@ export default {
     }
   },
   props: {
-    mainConfig: {
-      type: Object,
-      default: () => ({})
-    },
-    dialogConfig: {
+    xmlObj: {
       type: Array,
       default: () => []
     }
@@ -50,7 +46,7 @@ export default {
   data() {
     return {
       alertTip: '此操作不可逆, 是否继续?',
-      xmlConfig: this.mainConfig,
+      xmlConfig: null,
       handle: {},
       updateDateObj: {},
       handleMapping: {},
@@ -63,15 +59,12 @@ export default {
     }
   },
   created() {
-    this.xmlConfig= deepClone(this.mainConfig)
-    if (this.xmlConfig === null || !isEmptyObj(this.xmlConfig.root)) return
-    let root = null
-    root = this.xmlConfig.root || {}
-    this.mergeXmlData(root)
-    this.setPopupsConfig(root,['dialog','alert'])
-    this.idToHandle(root)
-    this.rootData = Object.assign(this.rootData,root)
-    this.idToFun()
+    this.xmlConfig= deepClone(this.xmlObj)
+    if (this.xmlConfig === null || this.xmlConfig.length===0) return
+    this.mergeXmlData(this.xmlConfig)
+    this.setPopupsConfig(this.xmlConfig,['dialog','alert'])
+    this.idToHandle(this.rootData)
+    this.idToSubmitFun()
     this.optionItems = options[this.$route.name] || {}
   },
   computed:{
@@ -83,19 +76,19 @@ export default {
   mounted() {},
   methods: {
     // 数据合并
-    mergeXmlData(root){
-      let itemObj=null
-      if(this.dialogConfig.length>0){
-          for(let i=0;i<this.dialogConfig.length;i++){
-            itemObj = this.dialogConfig[i].root
-            Object.keys(itemObj).forEach(key=>{
-              if(!root.hasOwnProperty(key)){
-                root[key] = []
-              }
-               root[key].splice(0,0,...itemObj[key])
-            })
+    mergeXmlData(configs){
+      if(configs.length<1) return
+      let itemObj=null,firstItem = configs.shift();
+      for(let i=0;i<configs.length;i++){
+        itemObj = configs[i].root
+        Object.keys(itemObj).forEach(key=>{
+          if(!firstItem.root.hasOwnProperty(key)){
+            firstItem.root[key] = []
           }
+            firstItem.root[key].splice(0,0,...itemObj[key])
+        })
       }
+      this.rootData = Object.assign(this.rootData,firstItem['root'])
     },
     // id与handle映射
     idToHandle(root) {
@@ -125,20 +118,24 @@ export default {
       return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopupsConfig(root,keys=[]) {
-      for(let j=0;j<keys.length;j++){
-        let key = keys[j]
-        if (root[key] && root[key].length > 0) {
-          const tempArr = [];let tempId = 0;let item = null;
-          for(let i=root[key].length-1;i >= 0; i--){
-            item = root[key][i];
-            tempId = item.$._id
-            if (!tempId || !tempId.includes('|')) continue
-            tempArr.push(...this.doubleIdReset(item,tempId))
+    setPopupsConfig(configs,keys=[]) {
+      let cfgItem = null
+      for(let i=0;i<configs.length;i++){
+        cfgItem = configs[i].root || []
+        for(let j=0;j<keys.length;j++){
+          let key = keys[j]
+          if (cfgItem[key] && cfgItem[key].length > 0) {
+            const tempArr = [];let tempId = 0;let item = null;
+            for(let i=cfgItem[key].length-1;i >= 0; i--){
+              item = cfgItem[key][i];
+              tempId = item.$._id
+              if (!tempId || !tempId.includes('|')) continue
+              tempArr.push(...this.doubleIdReset(item,tempId))
+            }
+            cfgItem[key].splice(0,0,...tempArr)
+            this.delDoubleId(cfgItem,key)
           }
-          root[key].splice(0,0,...tempArr)
         }
-        this.delDoubleId(root,key)
       }
     },
     // 双_id配置项数据重组设置
@@ -174,8 +171,8 @@ export default {
         if(tempId && tempId.includes('|')) root[key].splice(i, 1)
       }
     },
-    // id to fun params查询参数
-    idToFun() {
+    // id to fun params查询
+    idToSubmitFun() {
       Object.keys(this.handleMapping).map(itemKey => {
         if (isEmptyObj(this.handleMapping[itemKey]._id)) {
           // btnConfig 用于主页面查询  新增

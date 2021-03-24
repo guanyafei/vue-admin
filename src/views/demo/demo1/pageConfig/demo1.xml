@@ -20,8 +20,6 @@
             <formItem tag="select" placeholder="请输入" prop="parentAccountNo" lable="客户父账号" optionId='h'/>
             <formItem tag="text" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
             <formItem tag="select" placeholder="请输入" prop="belongsBody" lable="所属公司主体" optionId='i'/>
-            <!-- <button type="warning" _id="query" placeholder="保存"/> -->
-            <!-- <button type="success" _id="reset" placeholder="重置"/> -->
         </form>
         <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do"  size="10" method="get">
             <form>
