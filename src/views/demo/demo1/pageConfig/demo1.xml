@@ -21,7 +21,7 @@
             <formItem tag="text" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
             <formItem tag="select" placeholder="请输入" prop="belongsBody" lable="所属公司主体" optionId='i'/>
         </form>
-        <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do"  size="10" method="get">
+        <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do" lazyLoad="true" size="10" method="get">
             <form>
                 <formItem tag="zoom"  placeholder="请选择" prop="company"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
                 <formItem tag="zoom"  placeholder="请选择" prop="phone"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
