@@ -76,7 +76,7 @@ export default {
   mounted() {},
   methods: {
     // 数据合并
-    mergeXmlData(configs){
+    mergeXmlData(configs=[]){
       if(configs.length<1) return
       let itemObj=null,firstItem = configs.shift();
       for(let i=0;i<configs.length;i++){
@@ -91,7 +91,7 @@ export default {
       this.rootData = Object.assign(this.rootData,firstItem['root'])
     },
     // id与handle映射
-    idToHandle(root) {
+    idToHandle(root={}) {
       Object.keys(root).map(tagItem => {
         root[tagItem].map(() => {
           this.xmlToJson(root, tagItem)
@@ -99,8 +99,8 @@ export default {
       })
     },
     // xml to json
-    xmlToJson(root, tagItem) {
-      root[tagItem].map(item => {
+    xmlToJson(root={}, tagItem='') {
+      root[tagItem] && root[tagItem].map(item => {
         if (isEmptyObj(item.$) && isEmptyObj(item.$._id)) {
           const tempObj = {}; const itemObj = deepClone(item.$)
           itemObj['handleType'] = tagItem
@@ -118,10 +118,10 @@ export default {
       return root;
     },
     // 弹窗处理--多个按钮操作一个弹窗  dialog
-    setPopupsConfig(configs,keys=[]) {
+    setPopupsConfig(configs=[],keys=[]) {
       let cfgItem = null
       for(let i=0;i<configs.length;i++){
-        cfgItem = configs[i].root || []
+        cfgItem = configs[i].root
         for(let j=0;j<keys.length;j++){
           let key = keys[j]
           if (cfgItem[key] && cfgItem[key].length > 0) {
@@ -163,7 +163,7 @@ export default {
       return tempArr
     },
     // 双_id配置项剔除
-    delDoubleId(root,key){
+    delDoubleId(root={},key=''){
       let item = null,tempId=''
       for(let i=root[key].length-1;i >= 0; i--){
         item = root[key][i]
