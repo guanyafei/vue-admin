@@ -17,7 +17,7 @@
 >> - 主页面配置引入后赋值给root，无则空对象
 >> ![主页面](./src/assets/doc_img/main.png)
 >> - 弹窗配置引入后值添加到subConfig数组，无则空数组
->> ![弹窗](./src/assets/doc_img/sub1.png) 
+>> ![弹窗](./src/assets/doc_img/sub.png) 
 >> - 入口页面index.vue必须配置name字段 且值与路由中配置的name值一致 且必须保证唯一性 
 >> ![页面入口](./src/assets/doc_img/name.png) 
 
@@ -158,6 +158,11 @@
 ## option配置
 > - 配置文件位置：common/options.js
 > ![配置](./src/assets/doc_img/option.png) 
+
+## 按钮点击权限
+> - 页面name作为key值 当前用户可点击按钮id数组作为value
+> ![按钮权限](./src/assets/doc_img/btnqx.png) 
+
 
 
 

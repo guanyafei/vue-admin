@@ -1,5 +1,5 @@
 <template>
-   <m-comp :mainConfig="root" :dialogConfig="subConfig"/>
+   <m-comp :mainConfig="mainConfig" :dialogConfig="subConfig"/>
 </template>
 
 <script>
@@ -14,17 +14,9 @@ export default {
   components: { MComp },
   data() {
     return {
-      root:xmlConfig,
+      mainConfig:xmlConfig,
       subConfig:[xmlConfig1,xmlConfig2]
     }
-  },
-  created() {},
-  mounted() {
-  },
-  methods: {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>
