@@ -138,17 +138,17 @@
 >> - #### alert
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
->>> |  _id | 值唯一 用途见button标签 **（注：两个button操作同一个alert，多个_id用'\|'隔开 ）**| string | - |
->>> | action | 弹窗确定按钮请求接口  **（注：两个button操作同一个alert，请求不同接口，action用'\|'隔开，多个action顺序与_id保持一致）** | string | - |
->>> | method | 接口请求方式 配合action使用 **（注：两个button操作同一个alert，请求不同接口，不同的请求方式，method用'\|'隔开，多个method顺序与_id保持一致）** | string | get |
->>> | tip | 提示语  **（注：两个button操作同一个alert，多个tip用'\|'隔开 多个tip顺序与_id保持一致）** | string | 此操作不可逆, 是否继续？ |
+>>> |  _id | 值唯一 用途见button标签 **（注：两个button操作同一个alert，_id用'\|'隔开 ）**| string | - |
+>>> | action | 弹窗确定按钮请求接口  **（注：两个button操作同一个alert，请求不同接口，action用'\|'隔开，action顺序与_id保持一致）** | string | - |
+>>> | method | 接口请求方式 配合action使用 **（注：两个button操作同一个alert，请求不同接口，不同的请求方式，method用'\|'隔开，method顺序与_id保持一致）** | string | get |
+>>> | tip | 提示语  **（注：两个button操作同一个alert，tip用'\|'隔开 tip顺序与_id保持一致）** | string | 此操作不可逆, 是否继续？ |
 >> - #### dialog
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
->>> |  _id | 值唯一 用途见button标签 **（注：两个button操作同一个dialog，多个_id用'\|'隔开 ）**| string | - |
+>>> |  _id | 值唯一 用途见button标签 **（注：两个button操作同一个dialog，_id用'\|'隔开 ）**| string | - |
 >>> | width | 列宽度 单位px | string | 1000 |
->>> | action | 弹窗确定按钮请求接口  **（注：两个button操作同一个dialog，请求不同接口，action用'\|'隔开，多个action顺序与_id保持一致）** | string | - |
->>> | method | 接口请求方式 配合action使用 **（注：两个button操作同一个dialog，请求不同接口，不同的请求方式，method用'\|'隔开，多个method顺序与_id保持一致）** | string | get |
+>>> | action | 弹窗确定按钮请求接口  **（注：两个button操作同一个dialog，请求不同接口，action用'\|'隔开，action顺序与_id保持一致）** | string | - |
+>>> | method | 接口请求方式 配合action使用 **（注：两个button操作同一个dialog，请求不同接口，不同的请求方式，method用'\|'隔开，method顺序与_id保持一致）** | string | get |
 >>> | disabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置disabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
 >>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 **(注：若为true 保存成功后 保存按钮置灰不可点击）**| string | false |
 
