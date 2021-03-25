@@ -35,3 +35,11 @@ npm run lint -- --fix
 
 # skip pre-commit
 git commit -m '' --no-verify
+```
+## Issue
+```bash
+
+1、增加属性，设置action是否自动加载？
+2、公共信息（复选框、下拉选项等），是否可统一在一个地方配置？
+3、权限管理
+4、index.vue优化
