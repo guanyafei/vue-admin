@@ -5,16 +5,17 @@
 >>- 入口文件： 二级目录下index.vue
 >> - xml配置文件： 入口文件同级文件夹pageConfig下新建xml文件
 >> ![目录](./src/assets/doc_img/xml.png) 
-> #### 二、主副页面配置规则
+> #### 二、主页面、弹窗配置规则
 >> - ##### 主页面
 >>   \<root>\<main  _id="main">配置项\</main>\</root>
->> - ##### 副业面（弹窗）
+>> - ##### 弹窗
 >>   \<root>配置项\</root>
 > #### **注意事项**
->> 1.只能有一个主页面
->> 2.主页面只能有一个root和main标签
->> 3.副页面（弹窗）只能有一个root标签且不能有main标签
->> 4.入口页面index.vue必须配置name字段 且值与路由中配置的name值一致 且必须保证唯一性 
+>> 1.只能有一个主页面 主页面、弹窗只能配置一个根标签root
+>> 2.主页面只能配置一个root和main标签
+>> 3.弹窗不能配置main标签
+>> 4.主页面、弹窗root标签下可以设置多个弹窗配置 弹窗不可嵌套配置
+>> 5.入口页面index.vue必须配置name字段 且首字母大写 值与路由中配置的name值一致 且必须保证唯一性 
 >> ![页面入口](./src/assets/doc_img/name.png) 
 
 ## 标签配置
@@ -114,7 +115,6 @@
 >>> | :----: | :---  | :----: | :----: |
 >>> | type | 类型 不同类型展示样式不同| primary 、success、warning 、danger、info、text  | primary |
 >>> | placeholder | 按钮文字 | string | - |
->>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
 >>> | _id | 与需要操作的table、alert、dialog标签上定义的_id一致 用于指明需要操作的是哪个标签 **(注：若_id值为reset 则表示该按钮是重置按钮 用于清空查询表单项数据)**  | string | - |
 > ### 四、表格
