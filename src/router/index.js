@@ -43,7 +43,11 @@ export const constantRoutes = [{
             component: () =>
                 import ('@/views/dashboard/index'),
             name: 'Dashboard',
-            meta: { title: 'Dashboard', icon: 'dashboard', affix: false }
+            meta: {
+                title: 'Dashboard',
+                icon: 'dashboard',
+                affix: false
+            }
         }]
     }
 ]
@@ -52,30 +56,45 @@ export const asyncRoutes = [{
         path: '/demo',
         component: Layout,
         name: 'demo',
-        meta: { title: 'demo', icon: 'icon' },
+        meta: {
+            title: 'demo',
+            icon: 'icon'
+        },
         alwaysShow: true,
         children: [{
                 path: 'demo1',
                 component: () =>
                     import ('@/views/demo/demo1/index'),
                 name: 'demo1',
-                meta: { title: 'demo1', icon: 'icon' }
+                meta: {
+                    title: 'demo1',
+                    icon: 'icon'
+                }
             },
             {
                 path: 'demo2',
                 component: () =>
                     import ('@/views/demo/demo2/index'),
                 name: 'demo2',
-                meta: { title: 'demo2', icon: 'icon' }
+                meta: {
+                    title: 'demo2',
+                    icon: 'icon'
+                }
             }
         ]
     },
     // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+    {
+        path: '*',
+        redirect: '/404',
+        hidden: true
+    }
 ]
 
 const createRouter = () => new Router({
-    scrollBehavior: () => ({ y: 0 }),
+    scrollBehavior: () => ({
+        y: 0
+    }),
     routes: constantRoutes
 })
 

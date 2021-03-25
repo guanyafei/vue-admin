@@ -27,7 +27,7 @@
             <button type="success" _id="add" placeholder="创建"/>
             <button type="success" _id="reset" placeholder="重置"/>
         </form>
-        <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" size="20" sizeList="[20,30,40,80]" method="get">
+        <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" lazyLoad="true" size="20" sizeList="[20,30,40,80]" method="get">
             <tableCol  prop="accountNo" lable="客户账号" align="left" width="500px"/>
             <tableCol  prop="company" lable="客户名称" width="700px"/>
             <tableCol  prop="addressDetail" lable="详细地址"/>

@@ -1,32 +1,26 @@
 <template>
-   <m-comp :mainConfig="root" :dialogConfig="subConfig"/>
+  <m-comp :xml-obj="xmlObj" />
 </template>
 
 <script>
-import MComp from '@/views/index'
-// 引入xml配置文件
-import xmlConfig from './demo.xml'
-import xmlConfig1 from './demo1.xml'
-// import xmlConfig2 from './demo2.xml'
+  import MComp from '@/views/index'
 
-export default {
-  name: 'demo2',
-  components: { MComp },
-  data() {
-    return {
-      root:xmlConfig,
-      subConfig:[xmlConfig1]
+  // 引入xml配置文件
+  const modulesFiles = require.context('./pageConfig', true, /\.xml$/)
+  const modules = modulesFiles.keys().map(modulePath => {
+    return modulesFiles(modulePath)
+  }, {})
+
+  export default {
+    name: 'Demo2',
+    components: {
+      MComp
+    },
+    data() {
+      return {
+        xmlObj: modules
+      }
     }
-  },
-  created() {
-    // this.root = xmlConfig || {}
-  },
-  mounted() {
-  },
-  methods: {
   }
-}
-</script>
 
-<style lang="scss" scoped>
-</style>
+</script>

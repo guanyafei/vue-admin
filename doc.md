@@ -40,14 +40,15 @@
 >>> |  text  | 文本框 | string | - |
 >>> | validator | 校验 可选值在utils\/validate.js内setRules方法定义 例：tel、number、email  | string | - |
 >>> | placeholder| 输入框占位提示文字 | string | 请输入 |
->>> | maxlength | 输入的最大字符数 | string | 50 |
+>>> | maxlength | 输入的最大字符数 | string | 200 |
 >>> | width | 文本宽度，单位为 px | string | 200 |
 >>>  **2. tag="textarea"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  textarea  | 文本域 | string | - |
->>> | maxlength | 输入的最大字符数 | string | 50 |
+>>> | maxlength | 输入的最大字符数 | string | 200 |
 >>> | width | 文本宽度，单位为 px | string | 200 |
+>>> | validator | 校验 可选值在utils\/validate.js内setRules方法定义 例：tel、number、email  | string | - |
 >>> | placeholder| 输入框占位提示文字 | string | 请输入 |
 >>> | rows| 输入框行数 | string | 1 |
 >>>  **3. tag="select"**
@@ -57,20 +58,20 @@
 >>> | placeholder| 输入框占位提示文字 | string | 请选择 |
 >>> | width | 文本宽度，单位为 px | string | 200 |
 >>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
->>> | action | 接口 获取下拉项 标签获取焦点时触发 optionId权重大于action | string | - |
+>>> | action | 接口 获取下拉项 标签获取焦点时触发 optionId权重大于action| string | - |
 >>> | method | 接口请求方式 配合action使用 | string | get |
 >>>  **4. tag="radio"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  radio | 单选框 | string | - |
 >>> | width | 文本宽度，单位为 px | string | auto |
->>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
+>>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方option配置说明 | string | - |
 >>>  **5. tag="checkbox"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> |  checkbox | 复选框 | string | - |
 >>> | width | 文本宽度，单位为 px | string | auto |
->>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
+>>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方option配置说明  | string | - |
 >>>  **6. tag="date"**
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
@@ -158,7 +159,9 @@
 ## 按钮点击权限
 > - 页面name作为key值 当前用户可点击按钮id数组作为value
 > ![按钮权限](./src/assets/doc_img/btnqx.png) 
-
+## 自定义校验
+> - 页面name作为key值 当前用户可点击按钮id数组作为value
+> ![按钮权限](./src/assets/doc_img/btnqx.png) 
 
 
 
