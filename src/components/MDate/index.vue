@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-12-22 14:56:48
- * @LastEditTime: 2021-03-18 13:46:37
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \vue-admin\src\components\MDate\index.vue
--->
 <template>
   <el-date-picker
     v-model="formItemVal"
@@ -15,75 +7,73 @@
     range-separator="至"
     value-format="yyyy-MM-dd"
     :disabled="disabled"
-    @change="handleModelInput"
     clearable
-    >
-  </el-date-picker>
+    @change="handleModelInput"
+  />
 </template>
 
 <script>
-import { isDisabledFn} from '@/utils/index'
+import { isDisabledFn } from "@/utils/index";
 export default {
-  name: 'MDate',
+  name: "MDate",
   props: {
-    itemConfig:{
+    itemConfig: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
-    value:  {
+    value: {
       type: String,
-      default: ''
+      default: "",
     },
     type: {
       type: String,
-      default: 'date'
+      default: "date",
     },
     placeholder: {
       type: String,
-      default: '选择日期'
+      default: "选择日期",
     },
     isDisbled: {
       type: String,
-      default: 'false'
+      default: "false",
     },
     width: {
       type: String,
-      default: '200px'
-    }
+      default: "200px",
+    },
   },
   data() {
     return {
-      formItemVal:this.value
-    }
+      formItemVal: this.value,
+    };
   },
-  watch:{
-   'value':{
-      handler: function(val){
-        this.formItemVal =  val;
+  computed: {
+    disabled: function () {
+      return isDisabledFn(this.itemConfig, this.isDisbled);
+    },
+    widths: function () {
+      return this.itemConfig.width
+        ? `width:${this.itemConfig.width}px`
+        : `width:${this.width}`;
+    },
+  },
+  watch: {
+    value: {
+      handler: function (val) {
+        this.formItemVal = val;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
-  computed:{
-     disabled:function (){
-       return isDisabledFn(this.itemConfig,this.isDisbled);
-     },
-     widths:function (){
-       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
-     }
-  },
-  created() {
-  },
-  mounted() {
-  },
+  created() {},
+  mounted() {},
   methods: {
     handleModelInput(val) {
-      console.log("xxxxxxxxxxx",val)
-      this.$emit('input', val);
+      console.log("xxxxxxxxxxx", val);
+      this.$emit("input", val);
     },
-
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

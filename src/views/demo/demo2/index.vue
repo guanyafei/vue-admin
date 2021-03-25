@@ -3,24 +3,24 @@
 </template>
 
 <script>
-  import MComp from '@/views/index'
+import MComp from '@/views/index'
 
-  // 引入xml配置文件
-  const modulesFiles = require.context('./pageConfig', true, /\.xml$/)
-  const modules = modulesFiles.keys().map(modulePath => {
-    return modulesFiles(modulePath)
-  }, {})
+// 引入xml配置文件
+const modulesFiles = require.context('./pageConfig', true, /\.xml$/)
+const modules = modulesFiles.keys().map(modulePath => {
+  return modulesFiles(modulePath)
+}, {})
 
-  export default {
-    name: 'Demo2',
-    components: {
-      MComp
-    },
-    data() {
-      return {
-        xmlObj: modules
-      }
+export default {
+  name: 'Demo2',
+  components: {
+    MComp
+  },
+  data() {
+    return {
+      xmlObj: modules
     }
   }
+}
 
 </script>

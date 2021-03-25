@@ -2,7 +2,7 @@
   <div class="form-item">
     <template v-if="Object.keys(formItems).length>0 &&formItems[keyItem]&& formItems[keyItem].tag">
       <template v-if="formItems[keyItem].tag === 'text' || formItems[keyItem].tag === 'textarea'">
-        <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled"/>
+        <m-input v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
       </template>
       <template v-else-if="formItems[keyItem].tag === 'select'">
         <m-select v-model="forms[formKey][keyItem]" :item-config="formItems[keyItem]" :is-disbled="isDisbled" />
@@ -42,19 +42,19 @@ export default {
   name: 'MFormItem',
   components: { MInput, MSelect, MDate, MRadio, MCheckbox, MCascader, MZoom, MDaterange },
   props: {
-    formKey:{
+    formKey: {
       type: String,
       default: ''
     },
-    forms:{
+    forms: {
       type: Object,
       default: () => ({})
     },
-    formItems:{
+    formItems: {
       type: Object,
       default: () => ({})
     },
-    keyItem:{
+    keyItem: {
       type: String,
       default: ''
     },

@@ -9,7 +9,13 @@
     <slot />
     <span slot="footer" class="dialog-footer">
       <el-button size="mini" @click="closeDia">关 闭</el-button>
-      <el-button size="mini" type="primary" :disabled="isSaveDisable" :loading="loading" @click="save">保 存</el-button>
+      <el-button
+        size="mini"
+        type="primary"
+        :disabled="isSaveDisable"
+        :loading="loading"
+        @click="save"
+      >保 存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -47,44 +53,58 @@ export default {
   },
   data() {
     return {
-      dialogVisibleObj: {
-      },
+      dialogVisibleObj: {},
       loading: false,
       isSaveDisable: false
+    }
+  },
+  computed: {
+    widths: function() {
+      return this.xmlConfigObj.$.width
+        ? `${this.xmlConfigObj.$.width}px`
+        : `${this.width}`
+    },
+    isSaveOnShow: function() {
+      return this.xmlConfigObj.$.saveOnShow === 'true' ? true : this.saveOnShow
     }
   },
   created() {
     this.$set(this.dialogVisibleObj, this.dialogVisibleFlag, false)
   },
-  computed:{
-    widths:function(){
-      return this.xmlConfigObj.$.width?`${this.xmlConfigObj.$.width}px`:`${this.width}`
-    },
-    isSaveOnShow:function(){
-      return this.xmlConfigObj.$.saveOnShow==='true'?true:this.saveOnShow
-    }
-  },
   mounted() {},
   methods: {
     // 点击确定 发送请求
     save() {
-      console.log('MDialog', this.$app, this.handleId, this.$app.tableId,this.$app.mainFlag,this.$app._mainTableId)
+      console.log(
+        'MDialog',
+        this.$app,
+        this.handleId,
+        this.$app.tableId,
+        this.$app.mainFlag,
+        this.$app._mainTableId
+      )
       this.$app['formRefs'][`${this.handleId}`].validate((valid) => {
         return
         if (valid) {
-          fetch(this.$app.handleMapping[this.handleId].action,this.$app.handleMapping[this.handleId].method,
-          {
-            ...this.$app.forms[this.handleId]
-          }).then(res=>{
-            this.onSaveOnShow()
-            if(this.$app.mainFlag === 'Y'){
-              const tableId = this.$app._mainTableId;
-            }else if (this.$app.tableId) {
-              const tableId = this.$app.tableId;
+          fetch(
+            this.$app.handleMapping[this.handleId].action,
+            this.$app.handleMapping[this.handleId].method,
+            {
+              ...this.$app.forms[this.handleId]
             }
-            (this.$app.$refs[`${tableId}Table`]).length ? (this.$app.$refs[`${tableId}Table`])[0].handleCurrentChange() : (this.$app.$refs[`${tableId}Table`]).handleCurrentChange()
+          ).then((res) => {
+            this.onSaveOnShow()
+            let tableId = null
+            if (this.$app.mainFlag === 'Y') {
+              tableId = this.$app._mainTableId
+            } else if (this.$app.tableId) {
+              tableId = this.$app.tableId
+            }
+            this.$app.$refs[`${tableId}Table`].length
+              ? this.$app.$refs[`${tableId}Table`][0].handleCurrentChange()
+              : this.$app.$refs[`${tableId}Table`].handleCurrentChange()
           })
-        }else{
+        } else {
           console.log('error submit!!')
           return false
         }
@@ -99,7 +119,7 @@ export default {
     },
     // saveOnShow 保存后是否立即关闭弹窗
     onSaveOnShow() {
-      this.isSaveOnShow ? (this.isSaveDisable = true):this.closeDia()
+      this.isSaveOnShow ? (this.isSaveDisable = true) : this.closeDia()
     }
   }
 }

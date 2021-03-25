@@ -8,18 +8,17 @@
     start-placeholder="开始日期"
     end-placeholder="结束日期"
     :disabled="disabled"
-    @change="handleModelInput"
     clearable
-    >
-  </el-date-picker>
+    @change="handleModelInput"
+  />
 </template>
 
 <script>
-import { isDisabledFn} from '@/utils/index'
+import { isDisabledFn } from '@/utils/index'
 export default {
   name: 'MDateRange',
   props: {
-    itemConfig:{
+    itemConfig: {
       type: Object,
       default: () => ({})
     },
@@ -46,24 +45,24 @@ export default {
   },
   data() {
     return {
-      formItemVal:this.value
+      formItemVal: this.value
     }
   },
-  watch:{
-   'value':{
-      handler: function(val){
-        this.formItemVal =  val;
+  computed: {
+    disabled: function() {
+      return isDisabledFn(this.itemConfig, this.isDisbled)
+    },
+    widths: function() {
+      return this.itemConfig.width ? `width:${this.itemConfig.width}px` : `width:${this.width}`
+    }
+  },
+  watch: {
+    'value': {
+      handler: function(val) {
+        this.formItemVal = val
       },
       deep: true
     }
-  },
-  computed:{
-     disabled:function (){
-       return isDisabledFn(this.itemConfig,this.isDisbled);
-     },
-     widths:function (){
-       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
-     }
   },
   created() {
   },
@@ -71,8 +70,8 @@ export default {
   },
   methods: {
     handleModelInput(val) {
-      this.$emit('input', val);
-    },
+      this.$emit('input', val)
+    }
 
   }
 }

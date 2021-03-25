@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { isDisabledFn} from '@/utils/index'
+import { isDisabledFn } from '@/utils/index'
 export default {
   name: 'MButton',
   inject: {
@@ -13,7 +13,7 @@ export default {
     }
   },
   props: {
-    itemConfig:{
+    itemConfig: {
       type: Object,
       default: () => ({})
     },
@@ -33,11 +33,11 @@ export default {
       type: Object,
       default: () => ({})
     },
-    tableId:  {
+    tableId: {
       type: String,
       default: ''
     },
-    formKey:  {
+    formKey: {
       type: String,
       default: ''
     },
@@ -59,37 +59,37 @@ export default {
 
     }
   },
-  created() {
+  computed: {
+    disabled: function() {
+      return isDisabledFn(this.itemConfig, this.isDisbled)
+    },
+    isReset: function() {
+      return this.itemConfig._id === 'reset'
+    }
   },
-  computed:{
-     disabled:function (){
-       return isDisabledFn(this.itemConfig,this.isDisbled);
-     },
-     isReset:function(){
-       return this.itemConfig._id==="reset"
-     }
+  created() {
   },
   mounted() {
   },
   methods: {
     submitHandle() {
       if (!this.itemConfig._id) return
-      this.$set(this.$app,'mainFlag',this.mainFlag)
-      this.mainFlag==='Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
+      this.$set(this.$app, 'mainFlag', this.mainFlag)
+      this.mainFlag === 'Y' && this.mainTableId.length && (this.$app._mainTableId = this.mainTableId)
       this.$app.tableId = this.tableId ? this.tableId : this.formKey
       // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
-      if(!this.$app.handle[this.itemConfig._id]) {
+      if (!this.$app.handle[this.itemConfig._id]) {
         this.$message({
           message: '请查看是否配置_id！',
           type: 'error'
-        });
+        })
         return
       }
-      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag,this.itemConfig.isQueryBtn)
+      this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.mainFlag, this.itemConfig.isQueryBtn)
     },
-    reSetForms(){
+    reSetForms() {
       this.$app['formRefs'][`${this.formKey}`].resetFields()
-    },
+    }
   }
 }
 </script>

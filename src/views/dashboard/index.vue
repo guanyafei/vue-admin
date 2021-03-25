@@ -5,22 +5,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import adminDashboard from './admin'
+import { mapGetters } from "vuex";
+import adminDashboard from "./admin";
 
 export default {
-  name: 'Dashboard',
-  components: { adminDashboard},
+  name: "Dashboard",
+  components: { adminDashboard },
   data() {
     return {
-      currentRole: 'adminDashboard'
-    }
+      currentRole: "adminDashboard",
+    };
   },
   computed: {
-    ...mapGetters([
-      'roles'
-    ])
+    ...mapGetters(["roles"]),
   },
-  created() {}
-}
+  created() {},
+};
 </script>

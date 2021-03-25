@@ -1,17 +1,17 @@
 <template>
-  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" @focus="getOptions()" @input="handleModelInput" clearable>
+  <el-select v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" clearable @focus="getOptions()" @input="handleModelInput">
     <el-option
       v-for="item in optionsVal"
       :key="item.label"
       :label="item.label"
-      :value="item.value">
-    </el-option>
+      :value="item.value"
+    />
   </el-select>
 </template>
 
 <script>
 import { fetch } from '@/utils/requestFn'
-import { isDisabledFn} from '@/utils/index'
+import { isDisabledFn } from '@/utils/index'
 export default {
   name: 'MSelect',
   inject: {
@@ -20,7 +20,7 @@ export default {
     }
   },
   props: {
-    itemConfig:{
+    itemConfig: {
       type: Object,
       default: () => ({})
     },
@@ -43,46 +43,46 @@ export default {
   },
   data() {
     return {
-      formItemVal:this.value,
-      optionsVal:this.$app.optionItems[this.itemConfig.optionId] || [],
+      formItemVal: this.value,
+      optionsVal: this.$app.optionItems[this.itemConfig.optionId] || []
     }
   },
-  watch:{
-   'value':{
-      handler: function(val){
-        this.formItemVal = val;
+  computed: {
+    disabled: function() {
+      return isDisabledFn(this.itemConfig, this.isDisbled)
+    },
+    widths: function() {
+      return this.itemConfig.width ? `width:${this.itemConfig.width}px` : `width:${this.width}`
+    }
+  },
+  watch: {
+    'value': {
+      handler: function(val) {
+        this.formItemVal = val
       },
       deep: true
     }
   },
-  computed:{
-     disabled:function (){
-       return isDisabledFn(this.itemConfig,this.isDisbled);
-     },
-     widths:function (){
-       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
-     }
-  },
   created() {
-    this.itemConfig && this.itemConfig.action && (this.itemConfig.lazyLoad !=="true") && this.getOptions();
+    this.itemConfig && this.itemConfig.action && (this.itemConfig.lazyLoad !== 'true') && this.getOptions()
   },
   mounted() {
   },
   methods: {
     // 获取select值
-    getOptions () {
-      if(this.optionsVal.length>0) return
-      fetch(this.itemConfig.action,this.itemConfig.method,
+    getOptions() {
+      if (this.optionsVal.length > 0) return
+      fetch(this.itemConfig.action, this.itemConfig.method,
         {
           Login_SessionId: 'SESSION_87792E4A0E3E44FEBFDC7A989AB160BB'
         }
-      ).then(res=>{
-        this.optionsVal = res.retdata || [];
-      });
+      ).then(res => {
+        this.optionsVal = res.retdata || []
+      })
     },
     handleModelInput(val) {
       this.$emit('input', val)
-    },
+    }
 
   }
 }

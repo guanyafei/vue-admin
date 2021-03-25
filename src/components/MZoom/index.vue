@@ -1,24 +1,70 @@
 <template>
   <div>
-    <el-input v-model="formItemVal" :style="widths" :placeholder="itemConfig.placeholder || placeholder" :disabled="disabled" readonly>
-      <el-button :disabled="disabled" slot="append" icon="el-icon-search" @click="openDia()" />
+    <el-input
+      v-model="formItemVal"
+      :style="widths"
+      :placeholder="itemConfig.placeholder || placeholder"
+      :disabled="disabled"
+      readonly
+    >
+      <el-button
+        slot="append"
+        :disabled="disabled"
+        icon="el-icon-search"
+        @click="openDia()"
+      />
     </el-input>
-    <el-dialog title="提示" :visible.sync="dialogVisible" :width="dialogWs" append-to-body :closed="closeDia" destroy-on-close>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      :width="dialogWs"
+      append-to-body
+      :closed="closeDia"
+      destroy-on-close
+    >
       <el-form ref="zoomForm" :model="zoom" :inline="true">
-        <el-form-item v-for="keyItem in Object.keys(zoom)" :key="keyItem" :label="zoomLable[keyItem] || ''" :prop="keyItem" >
-          <el-input v-model="zoom[keyItem]" placeholder="请输入" :style="innerTextWs"/>
+        <el-form-item
+          v-for="keyItm in Object.keys(zoom)"
+          :key="keyItm"
+          :label="zoomLable[keyItm] || ''"
+          :prop="keyItm"
+        >
+          <el-input
+            v-model="zoom[keyItm]"
+            placeholder="请输入"
+            :style="innerTextWs"
+          />
         </el-form-item>
         <el-form-item align="center">
-          <el-button size="mini" type="primary" @click="zoomQuery()">查询</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="zoomQuery()"
+          >查询</el-button>
         </el-form-item>
-        <el-form-item align="center" v-if="itemConfig.hasReset==='true'">
-          <el-button size="mini" type="primary" @click="reSetForms">重置</el-button>
+        <el-form-item v-if="itemConfig.hasReset === 'true'" align="center">
+          <el-button
+            size="mini"
+            type="primary"
+            @click="reSetForms"
+          >重置</el-button>
         </el-form-item>
       </el-form>
-      <el-table :data="list.rows" @row-dblclick="rowSelected" row-class-name="row-style" stripe border>
-        <el-table-column type="index"/>
-        <template v-for="keyItem in tableCol">
-          <el-table-column align="center"  :key="keyItem" :prop="keyItem" :label="tableColLable[keyItem]"/>
+      <el-table
+        :data="list.rows"
+        row-class-name="row-style"
+        stripe
+        border
+        @row-dblclick="rowSelected"
+      >
+        <el-table-column type="index" />
+        <template v-for="keyItm in tableCol">
+          <el-table-column
+            :key="keyItm"
+            align="center"
+            :prop="keyItm"
+            :label="tableColLable[keyItm]"
+          />
         </template>
       </el-table>
       <div class="pagination">
@@ -27,14 +73,18 @@
           :total="list.total"
           :page-size="10"
           :page-sizes="pageSizes"
+          :hide-on-single-page="isHideSinglePage"
           @current-change="handleCurrentChange"
           @size-change="handleSizeChange"
-          :hide-on-single-page="isHideSinglePage"
         />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="closeDia">取 消</el-button>
-        <el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button
+          size="mini"
+          type="primary"
+          @click="dialogVisible = false"
+        >确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -42,7 +92,7 @@
 
 <script>
 import { fetch } from '@/utils/requestFn'
-import { isDisabledFn} from '@/utils/index'
+import { isDisabledFn } from '@/utils/index'
 export default {
   name: 'MZoom',
   inject: {
@@ -90,8 +140,7 @@ export default {
     formKey: {
       type: String,
       default: ''
-    },
-
+    }
   },
   data() {
     return {
@@ -99,99 +148,114 @@ export default {
       dialogVisible: false,
       list: [],
       zoom: {},
-      zoomLable:{},
-      tableCol:[],
-      tableColLable:{},
+      zoomLable: {},
+      tableCol: [],
+      tableColLable: {}
+    }
+  },
+  computed: {
+    disabled: function() {
+      return isDisabledFn(this.itemConfig, this.isDisbled)
+    },
+    widths: function() {
+      return this.itemConfig.width
+        ? `width:${this.itemConfig.width}px`
+        : `width:${this.width}`
+    },
+    dialogWs: function() {
+      return this.itemConfig.zoomW
+        ? `${this.itemConfig.zoomW}px`
+        : `${this.zoomW}`
+    },
+    innerTextWs: function() {
+      return this.itemConfig.innerTextW
+        ? `width:${this.itemConfig.innerTextW}px`
+        : `width:${this.innerTextW}`
+    },
+    pageSize: {
+      get: function() {
+        return this.itemConfig.size ? Number(this.itemConfig.size) : 20
+      },
+      set: function(newValue) {
+        this.itemConfig.size = newValue
+      }
+    },
+    pageSizes: function() {
+      return this.itemConfig.sizeList
+        ? JSON.parse(this.itemConfig.sizeList)
+        : [20, 30, 40, 50]
+    },
+    isHideSinglePage: function() {
+      return !!(
+        !this.list.total ||
+        this.list.total === this.pageSize ||
+        this.list.total < this.pageSize
+      )
     }
   },
   watch: {
-    'value': {
+    value: {
       handler: function(val) {
         this.formItemVal = val
       },
       deep: true
     }
   },
-  computed:{
-     disabled:function (){
-       return isDisabledFn(this.itemConfig,this.isDisbled);
-     },
-     widths:function (){
-       return this.itemConfig.width?`width:${this.itemConfig.width}px`:`width:${this.width}`
-     },
-     dialogWs:function (){
-       return this.itemConfig.zoomW?`${this.itemConfig.zoomW}px`:`${this.zoomW}`
-     },
-     innerTextWs:function (){
-       return this.itemConfig.innerTextW?`width:${this.itemConfig.innerTextW}px`:`width:${this.innerTextW}`
-     },
-    pageSize:{
-      get: function () {
-        return this.itemConfig.size ? Number(this.itemConfig.size) : 20
-      },
-      set: function (newValue) {
-        this.itemConfig.size = newValue
-      },
-    },
-    pageSizes:function(){
-      return this.itemConfig.sizeList ? JSON.parse(this.itemConfig.sizeList) : [20,30,40,50]
-    },
-    isHideSinglePage:function(){
-      return (!this.list.total || this.list.total === this.pageSize || this.list.total<this.pageSize) ? true : false
-    }
-  },
   created() {
     // search 数据解析
-    this.parseDate('search',this.itemConfig.search)
+    this.parseDate('search', this.itemConfig.search)
     // tableCol 数据解析
-    this.parseDate('tableCol',this.itemConfig.tableCol)
+    this.parseDate('tableCol', this.itemConfig.tableCol)
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // search tableCol 数据解析
-    parseDate(wch,list=[]){
-      let tempSearchList = [],
-          tempList = [];
-      if(list.length && list.split('|') && list.split('|').length>1){
+    parseDate(wch, list = []) {
+      let tempSearchList = []
+      let tempList = []
+      if (list.length && list.split('|') && list.split('|').length > 1) {
         tempList = list.split('|')[0].split(',')
         tempSearchList = list.split('|')[1].split(',')
-        tempSearchList.map((item,idx)=>{
-          wch ==="search"? this.$set(this.zoom,item,'') : this.$set(this.tableCol,idx,item)
-          wch ==="search"? this.$set(this.zoomLable,item,tempList[idx]) : this.$set(this.tableColLable,item,tempList[idx])
-        });
+        tempSearchList.map((item, idx) => {
+          wch === 'search'
+            ? this.$set(this.zoom, item, '')
+            : this.$set(this.tableCol, idx, item)
+          wch === 'search'
+            ? this.$set(this.zoomLable, item, tempList[idx])
+            : this.$set(this.tableColLable, item, tempList[idx])
+        })
       }
     },
     openDia() {
       this.dialogVisible = true
       this.handleCurrentChange()
     },
-    handleSizeChange(val=20){
+    handleSizeChange(val = 20) {
       this.pageSize = val
       this.getTablelist(1)
     },
     handleCurrentChange(val = 1) {
-      console.log(`当前页: ${val}`,this.zoom)
+      console.log(`当前页: ${val}`, this.zoom)
       // return
       this.getTablelist(val)
     },
-    getTablelist(val){
-      fetch(this.itemConfig.action,this.itemConfig.method,
-        {
-          date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-          conditions: '',
-          currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
-          readOnly: 'YES',
-          page: val,
-          rows: this.pageSize
-        }
-      ).then(res=>{
+    getTablelist(val) {
+      fetch(this.itemConfig.action, this.itemConfig.method, {
+        date: encodeURIComponent(
+          'Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'
+        ),
+        conditions: '',
+        currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+        Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
+        readOnly: 'YES',
+        page: val,
+        rows: this.pageSize
+      }).then((res) => {
         this.list = res || []
       })
     },
     zoomQuery() {
-      this.handleCurrentChange();
+      this.handleCurrentChange()
     },
     rowSelected(row) {
       this.dialogVisible = false
@@ -199,12 +263,22 @@ export default {
       this.parseOtherProps(row)
       this.$emit('input', this.formItemVal)
     },
-    parseOtherProps(row){
-      let otherProps = this.itemConfig.otherProps ? this.itemConfig.otherProps.split(','):[], propsKeys=null
-      if(otherProps.length > 0){
-        otherProps.forEach(item => {
-          item.includes("?") && (propsKeys = item.split('?')) && this.$set(this.$app.forms[this.formKey],propsKeys[0],row[propsKeys[1]])
-          !item.includes("?") && this.$set(this.$app.forms[this.formKey],item,row[item])
+    parseOtherProps(row) {
+      const otherProps = this.itemConfig.otherProps
+        ? this.itemConfig.otherProps.split(',')
+        : []
+      let propsKeys = null
+      if (otherProps.length > 0) {
+        otherProps.forEach((item) => {
+          item.includes('?') &&
+            (propsKeys = item.split('?')) &&
+            this.$set(
+              this.$app.forms[this.formKey],
+              propsKeys[0],
+              row[propsKeys[1]]
+            )
+          !item.includes('?') &&
+            this.$set(this.$app.forms[this.formKey], item, row[item])
         })
       }
     },
@@ -212,15 +286,15 @@ export default {
       this.dialogVisible = false
       this.reSetForms()
     },
-    reSetForms(){
+    reSetForms() {
       this.$refs['zoomForm'].resetFields()
-    },
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .el-table ::v-deep.row-style {
-    cursor: pointer;
-  }
+  cursor: pointer;
+}
 </style>

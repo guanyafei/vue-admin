@@ -22,7 +22,7 @@
       </el-tab-pane>
       <el-tab-pane label="Element-UI Icons">
         <div class="grid">
-          <div v-for="item of elementIcons" :key="item" >
+          <div v-for="item of elementIcons" :key="item">
             <el-tooltip placement="top">
               <div slot="content">
                 {{ generateElementIconCode(item) }}
@@ -57,7 +57,7 @@ export default {
     },
     generateElementIconCode(symbol) {
       return `<i class="el-icon-${symbol}" />`
-    },
+    }
   }
 }
 </script>

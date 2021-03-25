@@ -1,15 +1,11 @@
 <template>
   <div>
-    <el-table
-      :data="tableList.rows || []"
-      :stripe="stripe"
-      border
-    >
+    <el-table :data="tableList.rows || []" :stripe="stripe" border>
       <el-table-column
         v-if="tableConfig.$.type || type"
         :type="tableConfig.$.type || type"
       />
-      <template v-for="(item,index) in tableConfig.tableCol">
+      <template v-for="(item, index) in tableConfig.tableCol">
         <el-table-column
           v-if="item.button"
           :key="index"
@@ -18,13 +14,17 @@
           :width="item.$.width || width"
           fixed="right"
         >
-          <template  slot="header" slot-scope="scope">
-            <template  v-if="item.HButton">
-              <m-button  v-for="(item,index) in item.HButton" :key="index"  :tableId="tableConfig.$._id" :itemConfig="item.$" :rowObj="scope.row" />
+          <template slot="header" slot-scope="scope">
+            <template v-if="item.HButton">
+              <m-button
+                v-for="(itm, idx) in item.HButton"
+                :key="idx"
+                :table-id="tableConfig.$._id"
+                :item-config="itm.$"
+                :row-obj="scope.row"
+              />
             </template>
-            <template v-else>
-              操作
-            </template>
+            <template v-else> 操作 </template>
           </template>
           <template v-slot:default="scope">
             <el-dropdown trigger="click">
@@ -32,8 +32,12 @@
                 操作<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(item,index) in item.button" :key="index">
-                  <m-button :tableId="tableConfig.$._id" :itemConfig="item.$" :rowObj="scope.row" />
+                <el-dropdown-item v-for="(itm, idx) in item.button" :key="idx">
+                  <m-button
+                    :table-id="tableConfig.$._id"
+                    :item-config="itm.$"
+                    :row-obj="scope.row"
+                  />
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -55,9 +59,9 @@
         :total="tableList.total || 0"
         :page-size="pageSize"
         :page-sizes="pageSizes"
+        :hide-on-single-page="isHideSinglePage"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
-        :hide-on-single-page="isHideSinglePage"
       />
     </div>
   </div>
@@ -104,30 +108,38 @@ export default {
       tableConfig: {}
     }
   },
+  computed: {
+    pageSize: {
+      get: function() {
+        return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
+      },
+      set: function(newValue) {
+        this.tableConfig.$.size = newValue
+      }
+    },
+    pageSizes: function() {
+      return this.tableConfig.$.sizeList
+        ? JSON.parse(this.tableConfig.$.sizeList)
+        : [20, 30, 40, 50]
+    },
+    isHideSinglePage: function() {
+      return !!(
+        !this.tableList.total ||
+        this.tableList.total === this.pageSize ||
+        this.tableList.total < this.pageSize
+      )
+    }
+  },
   created() {
     this.tableConfig = this.xmlConfigObj
   },
-  computed:{
-    pageSize:{
-      get: function () {
-        return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
-      },
-      set: function (newValue) {
-        this.tableConfig.$.size = newValue
-      },
-    },
-    pageSizes:function(){
-      return this.tableConfig.$.sizeList ? JSON.parse(this.tableConfig.$.sizeList) : [20,30,40,50]
-    },
-    isHideSinglePage:function(){
-      return (!this.tableList.total || this.tableList.total === this.pageSize || this.tableList.total<this.pageSize) ? true : false
-    }
-  },
   mounted() {
-    this.tableConfig.$ && this.tableConfig.$.lazyLoad !=='true' && this.handleCurrentChange()
+    this.tableConfig.$ &&
+      this.tableConfig.$.lazyLoad !== 'true' &&
+      this.handleCurrentChange()
   },
   methods: {
-    handleSizeChange(val=20){
+    handleSizeChange(val = 20) {
       this.pageSize = val
       this.getTablelist(1)
     },
@@ -135,22 +147,25 @@ export default {
       console.log(`当前页: ${val}`)
       this.getTablelist(val)
     },
-    getTablelist(val){
+    getTablelist(val) {
       // this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`]=[]
       // return
-      fetch(this.tableConfig.$.action,this.tableConfig.$.method,
-        {
-          date: encodeURIComponent('Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'),
-          conditions: '',
-          currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-          Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
-          readOnly: 'YES',
-          page: val,
-          rows: this.pageSize
-        }).then(res=>{
-          this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`] = res
-          this.$app._mainTableId = ""
-          this.$app.mainFlag = "N"
+      fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
+        date: encodeURIComponent(
+          'Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'
+        ),
+        conditions: '',
+        currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
+        Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
+        readOnly: 'YES',
+        page: val,
+        rows: this.pageSize
+      }).then((res) => {
+        this.$app.handleMapping[this.tableConfig.$._id][
+          `${this.tableConfig.$._id}BaseDate`
+        ] = res
+        this.$app._mainTableId = ''
+        this.$app.mainFlag = 'N'
       })
     }
   }

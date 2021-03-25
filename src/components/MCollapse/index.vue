@@ -2,13 +2,13 @@
   <div>
     <div class="item">
       <div class="visible-item">
-        <slot name="visible-slot"></slot>
-        <i v-if="formItemLen>3" :class="['el-icon-arrow-up', {'icon-arrow':boxshow}]" @click="boxshow = !boxshow"></i>
+        <slot name="visible-slot" />
+        <i v-if="formItemLen>3" :class="['el-icon-arrow-up', {'icon-arrow':boxshow}]" @click="boxshow = !boxshow" />
       </div>
-      <transition name="draw">   
-          <div class="box"  v-show="boxshow">
-            <slot ></slot>
-          </div>
+      <transition name="draw">
+        <div v-show="boxshow" class="box">
+          <slot />
+        </div>
       </transition>
     </div>
   </div>
@@ -17,15 +17,15 @@
 <script>
 export default {
   name: 'MCollapse',
-  data(){
-    return {
-      boxshow:false
-    }
-  },
   props: {
     formItemLen: {
       type: Number,
       default: 0
+    }
+  },
+  data() {
+    return {
+      boxshow: false
     }
   },
   methods: {
