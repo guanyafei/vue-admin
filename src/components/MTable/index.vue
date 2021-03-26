@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableList.rows || []" :stripe="stripe" border>
+    <el-table :data="tableList.rows || []" stripe v-loading="loading" border>
       <el-table-column
         v-if="tableConfig.$.type || type"
         :type="tableConfig.$.type || type"
@@ -27,7 +27,7 @@
             <template v-else> 操作 </template>
           </template>
           <template v-slot:default="scope">
-            <el-dropdown trigger="click">
+            <el-dropdown>
               <span class="el-dropdown-link">
                 操作<i class="el-icon-arrow-down el-icon--right" />
               </span>
@@ -67,109 +67,116 @@
   </div>
 </template>
 <script>
-import MButton from '@/components/MButton'
-import { fetch } from '@/utils/requestFn'
+import MButton from "@/components/MButton";
+import { fetch } from "@/utils/requestFn";
 export default {
-  name: 'MTable',
+  name: "MTable",
   components: { MButton },
   inject: {
     $app: {
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   props: {
     xmlConfigObj: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     tableList: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     align: {
       type: String,
-      default: 'center'
+      default: "center",
     },
     width: {
       type: String,
-      default: 'auto'
-    },
-    stripe: {
-      type: Boolean,
-      default: false
+      default: "auto",
     },
     type: {
       type: String,
-      default: 'index'
-    }
+      default: "index",
+    },
   },
   data() {
     return {
-      tableConfig: {}
-    }
+      tableConfig: {},
+      loading: false,
+    };
   },
   computed: {
     pageSize: {
-      get: function() {
-        return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20
+      get: function () {
+        return this.tableConfig.$.size ? Number(this.tableConfig.$.size) : 20;
       },
-      set: function(newValue) {
-        this.tableConfig.$.size = newValue
-      }
+      set: function (newValue) {
+        this.tableConfig.$.size = newValue;
+      },
     },
-    pageSizes: function() {
+    pageSizes: function () {
       return this.tableConfig.$.sizeList
         ? JSON.parse(this.tableConfig.$.sizeList)
-        : [20, 30, 40, 50]
+        : [20, 30, 40, 50];
     },
-    isHideSinglePage: function() {
+    isHideSinglePage: function () {
       return !!(
         !this.tableList.total ||
         this.tableList.total === this.pageSize ||
         this.tableList.total < this.pageSize
-      )
-    }
+      );
+    },
   },
   created() {
-    this.tableConfig = this.xmlConfigObj
+    this.tableConfig = this.xmlConfigObj;
   },
   mounted() {
+    // loading
+    this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
     this.tableConfig.$ &&
-      this.tableConfig.$.lazyLoad !== 'true' &&
-      this.handleCurrentChange()
+      this.tableConfig.$.lazyLoad !== "true" &&
+      this.handleCurrentChange();
   },
   methods: {
     handleSizeChange(val = 20) {
-      this.pageSize = val
-      this.getTablelist(1)
+      this.pageSize = val;
+      this.getTablelist(1);
     },
     handleCurrentChange(val = 1) {
-      console.log(`当前页: ${val}`)
-      this.getTablelist(val)
+      console.log(`当前页: ${val}`);
+      this.getTablelist(val);
     },
     getTablelist(val) {
-      // this.$app.handleMapping[this.tableConfig.$._id][`${this.tableConfig.$._id}BaseDate`]=[]
-      // return
+      this.$app.handleMapping[this.tableConfig.$._id]["loading"] = true;
+      this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
+      console.log(
+        this.$app.handleMapping[this.tableConfig.$._id],
+        this.loading
+      );
       fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
         date: encodeURIComponent(
-          'Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'
+          "Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)"
         ),
-        conditions: '',
-        currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-        Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
-        readOnly: 'YES',
+        conditions: "",
+        currentDCId: "FB68C5CEEC1640C3B1D09BEBCD99FD5E",
+        Login_SessionId: "SESSION_DEF516B8598640B8804BFE30993BD0E6",
+        readOnly: "YES",
         page: val,
-        rows: this.pageSize
+        rows: this.pageSize,
       }).then((res) => {
+        this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
+        this.loading = this.$app.handleMapping[this.tableConfig.$._id][
+          "loading"
+        ];
         this.$app.handleMapping[this.tableConfig.$._id][
           `${this.tableConfig.$._id}BaseDate`
-        ] = res
-        this.$app._mainTableId = ''
-        this.$app.mainFlag = 'N'
-      })
-    }
-  }
-}
+        ] = res;
+        this.$app._mainTableId = "";
+        this.$app.mainFlag = "N";
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -57,7 +57,7 @@ export const asyncRoutes = [{
         component: Layout,
         name: 'demo',
         meta: {
-            title: 'demo',
+            title: '客户管理',
             icon: 'icon'
         },
         alwaysShow: true,
@@ -67,7 +67,7 @@ export const asyncRoutes = [{
                     import ('@/views/demo/demo1/index'),
                 name: 'demo1',
                 meta: {
-                    title: 'demo1',
+                    title: '客户信息维护',
                     icon: 'icon'
                 }
             },
@@ -77,32 +77,10 @@ export const asyncRoutes = [{
                     import ('@/views/demo/demo2/index'),
                 name: 'demo2',
                 meta: {
-                    title: 'demo2',
+                    title: '公司主体',
                     icon: 'icon'
                 }
             }
-        ]
-    },
-    {
-        path: '/demo3',
-        component: Layout,
-        name: 'demo3',
-        meta: {
-            title: 'demo3',
-            icon: 'icon'
-        },
-        alwaysShow: false,
-        children: [{
-                path: 'demo3',
-                component: () =>
-                    import ('@/views/demo/demo1/index'),
-                name: 'demo3',
-                meta: {
-                    title: 'demo3',
-                    icon: 'icon'
-                }
-            },
-
         ]
     },
     // 404 page must be placed at the end !!!

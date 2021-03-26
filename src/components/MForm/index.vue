@@ -1,5 +1,5 @@
 <template>
-  <div class="form-item">
+  <div class="form-box" v-loading="isLoading">
     <el-form
       v-if="mainBoxFlag === 'N'"
       :ref="`${formKey}Ref`"
@@ -101,68 +101,72 @@
 </template>
 
 <script>
-import { isArray, isEmptyObj, setRules } from '@/utils/validate'
-import MFormItem from '@/components/MFormItem'
-import MCollapse from '@/components/MCollapse'
-import MButton from '@/components/MButton'
+import { isArray, isEmptyObj, setRules } from "@/utils/validate";
+import MFormItem from "@/components/MFormItem";
+import MCollapse from "@/components/MCollapse";
+import MButton from "@/components/MButton";
 export default {
-  name: 'MForm',
+  name: "MForm",
   components: { MFormItem, MButton, MCollapse },
   inject: {
     $app: {
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   props: {
     xmlConfigObj: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     updateDate: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     formKey: {
       type: String,
-      default: ''
+      default: "",
     },
     mainBoxFlag: {
       type: String,
-      default: 'N'
+      default: "N",
     },
     isDisbled: {
       type: String,
-      default: 'false'
+      default: "false",
     },
     mainTableId: {
       type: String,
-      default: ''
+      default: "",
     },
     labelWidth: {
       type: String,
-      default: '100px'
-    }
+      default: "100px",
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       forms: {},
       formItems: {},
-      buttonItems: []
-    }
+      buttonItems: [],
+    };
   },
   created() {
-    const searchConfig = this.xmlConfigObj
-    this.formKey && this.$set(this.forms, this.formKey, {})
-    this.xmlToJson(searchConfig)
-    isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey])
+    const searchConfig = this.xmlConfigObj;
+    this.formKey && this.$set(this.forms, this.formKey, {});
+    this.xmlToJson(searchConfig);
+    isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey]);
     this.$nextTick(() => {
-      this.$set(this.$app.forms, this.formKey, this.forms[this.formKey])
+      this.$set(this.$app.forms, this.formKey, this.forms[this.formKey]);
       this.$set(
         this.$app.formRefs,
         this.formKey,
         this.$refs[`${this.formKey}Ref`]
-      )
-    })
+      );
+    });
   },
   mounted() {},
   methods: {
@@ -172,55 +176,55 @@ export default {
     initForm(formObj) {
       Object.keys(formObj).map((keyItem) => {
         this.updateDate[keyItem] &&
-          (formObj[keyItem] = this.updateDate[keyItem])
-      })
+          (formObj[keyItem] = this.updateDate[keyItem]);
+      });
     },
     // xml to json表单数据组装  初始化
     xmlToJson(searchConfig) {
-      let itemObj = {}
+      let itemObj = {};
       Object.keys(searchConfig).map((key) => {
-        if (key === 'button') {
+        if (key === "button") {
           searchConfig[key].map((item) => {
-            itemObj = item.$
-            this.buttonItems.push(itemObj)
-          })
-        } else if (key === 'formItem') {
+            itemObj = item.$;
+            this.buttonItems.push(itemObj);
+          });
+        } else if (key === "formItem") {
           searchConfig[key].map((item) => {
-            if (!item.$) return
-            itemObj = item.$
+            if (!item.$) return;
+            itemObj = item.$;
             switch (item.$.tag) {
-              case 'select':
-              case 'radio':
-                this.$set(this.forms[this.formKey], itemObj.prop, '')
+              case "select":
+              case "radio":
+                this.$set(this.forms[this.formKey], itemObj.prop, "");
                 itemObj.options &&
                   !isArray(itemObj.options) &&
                   (itemObj = Object.assign(itemObj, {
-                    options: JSON.parse(itemObj.options)
-                  }))
-                break
-              case 'checkbox':
-              case 'cascader':
-              case 'daterange':
-                this.$set(this.forms[this.formKey], itemObj.prop, [])
+                    options: JSON.parse(itemObj.options),
+                  }));
+                break;
+              case "checkbox":
+              case "cascader":
+              case "daterange":
+                this.$set(this.forms[this.formKey], itemObj.prop, []);
                 itemObj.options &&
                   !isArray(itemObj.options) &&
                   (itemObj = Object.assign(itemObj, {
-                    options: JSON.parse(itemObj.options)
-                  }))
-                break
+                    options: JSON.parse(itemObj.options),
+                  }));
+                break;
               default:
-                itemObj = item.$
-                this.$set(this.forms[this.formKey], itemObj.prop, '')
+                itemObj = item.$;
+                this.$set(this.forms[this.formKey], itemObj.prop, "");
             }
-            this.formItems[itemObj.prop] = itemObj
-          })
+            this.formItems[itemObj.prop] = itemObj;
+          });
         }
-      })
+      });
     },
     // 设置表单标签宽度
     setLabelWidth(obj = {}) {
-      return obj['labelWidth'] ? `${obj['labelWidth']}px` : this.labelWidth
-    }
+      return obj["labelWidth"] ? `${obj["labelWidth"]}px` : this.labelWidth;
+    },
     // rowData剔除ID
     // removeDateId(row) {
     //   const obj = {}
@@ -229,8 +233,8 @@ export default {
     //   }
     //   return obj
     // }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

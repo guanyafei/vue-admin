@@ -41,7 +41,21 @@ module.exports = {
             alias: {
                 '@': resolve('src')
             }
-        }
+        },
+        // plugins: [
+        //     new UglifyJsPlugin({
+        //         uglifyOptions: {
+        //             //生产环境自动删除console
+        //             compress: {
+        //                 drop_debugger: true,
+        //                 drop_console: true,
+        //                 pure_funcs: ['console.log']
+        //             }
+        //         },
+        //         sourceMap: false,
+        //         parallel: true
+        //     })
+        // ]
     },
     chainWebpack(config) {
         config.plugin('preload').tap(() => [{

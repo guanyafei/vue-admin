@@ -1,8 +1,8 @@
 <root>
     <main _id="main">
         <form>
-            <formItem tag="text" validator="tel" maxlength="3" prop="phone" lable="联系电话" labelWidth="200"/>
-            <formItem tag="textarea" validator="tel" maxlength="3" prop="cc" lable="cc" labelWidth="200"/>
+            <formItem tag="text" validator="tel" maxlength="3" prop="phone" lable="联系电话"/>
+            <formItem tag="textarea" validator="tel" maxlength="3" prop="cc" lable="cc"/>
             <formItem tag="cascader" action="url" lazyLoad="true" lable="地区" prop="zone"/>
             <formItem tag="date"  placeholder="请输入" prop="date" lable="时间"/>
             <formItem tag="daterange" placeholder="请输入" width="500" prop="date1" lable="时间1"/>

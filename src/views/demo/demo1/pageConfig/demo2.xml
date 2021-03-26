@@ -7,6 +7,7 @@
             <formItem tag="text" required='true' placeholder="请输入" prop="name" lable="联系人"/>
             <formItem tag="text" placeholder="请输入" prop="phone" lable="联系电话"/>
             <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <button type="primary" _id="tj" placeholder="保存"/>
         </form>
         <table _id="vv" action="/lmis-md-web/cusm/totalQuery.do" lazyLoad="true" size="10" method="get">
             <form>
