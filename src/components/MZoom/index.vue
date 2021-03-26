@@ -36,18 +36,14 @@
           />
         </el-form-item>
         <el-form-item align="center">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="zoomQuery()"
-          >查询</el-button>
+          <el-button size="mini" type="primary" @click="zoomQuery()"
+            >查询</el-button
+          >
         </el-form-item>
         <el-form-item v-if="itemConfig.hasReset === 'true'" align="center">
-          <el-button
-            size="mini"
-            type="primary"
-            @click="reSetForms"
-          >重置</el-button>
+          <el-button size="mini" type="primary" @click="reSetForms"
+            >重置</el-button
+          >
         </el-form-item>
       </el-form>
       <el-table
@@ -56,6 +52,7 @@
         stripe
         border
         @row-dblclick="rowSelected"
+        v-loading="loading"
       >
         <el-table-column type="index" />
         <template v-for="keyItm in tableCol">
@@ -79,68 +76,63 @@
         />
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="closeDia">取 消</el-button>
-        <el-button
-          size="mini"
-          type="primary"
-          @click="dialogVisible = false"
-        >确 定</el-button>
+        <el-button size="mini" @click="closeDia">关 闭</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetch } from '@/utils/requestFn'
-import { isDisabledFn } from '@/utils/index'
+import { fetch } from "@/utils/requestFn";
+import { isDisabledFn } from "@/utils/index";
 export default {
-  name: 'MZoom',
+  name: "MZoom",
   inject: {
     $app: {
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   props: {
     itemConfig: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: String,
-      default: ''
+      default: "",
     },
     placeholder: {
       type: String,
-      default: '请选择'
+      default: "请选择",
     },
     isDisbled: {
       type: String,
-      default: 'false'
+      default: "false",
     },
     hasReset: {
       type: String,
-      default: 'false'
+      default: "false",
     },
     width: {
       type: String,
-      default: '200px'
+      default: "200px",
     },
     innerTextW: {
       type: String,
-      default: '200px'
+      default: "200px",
     },
     zoomW: {
       type: String,
-      default: '40%'
+      default: "40%",
     },
     keyItem: {
       type: String,
-      default: ''
+      default: "",
     },
     formKey: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   data() {
     return {
@@ -150,147 +142,150 @@ export default {
       zoom: {},
       zoomLable: {},
       tableCol: [],
-      tableColLable: {}
-    }
+      tableColLable: {},
+      loading: false,
+    };
   },
   computed: {
-    disabled: function() {
-      return isDisabledFn(this.itemConfig, this.isDisbled)
+    disabled: function () {
+      return isDisabledFn(this.itemConfig, this.isDisbled);
     },
-    widths: function() {
+    widths: function () {
       return this.itemConfig.width
         ? `width:${this.itemConfig.width}px`
-        : `width:${this.width}`
+        : `width:${this.width}`;
     },
-    dialogWs: function() {
+    dialogWs: function () {
       return this.itemConfig.zoomW
         ? `${this.itemConfig.zoomW}px`
-        : `${this.zoomW}`
+        : `${this.zoomW}`;
     },
-    innerTextWs: function() {
+    innerTextWs: function () {
       return this.itemConfig.innerTextW
         ? `width:${this.itemConfig.innerTextW}px`
-        : `width:${this.innerTextW}`
+        : `width:${this.innerTextW}`;
     },
     pageSize: {
-      get: function() {
-        return this.itemConfig.size ? Number(this.itemConfig.size) : 20
+      get: function () {
+        return this.itemConfig.size ? Number(this.itemConfig.size) : 20;
       },
-      set: function(newValue) {
-        this.itemConfig.size = newValue
-      }
+      set: function (newValue) {
+        this.itemConfig.size = newValue;
+      },
     },
-    pageSizes: function() {
+    pageSizes: function () {
       return this.itemConfig.sizeList
         ? JSON.parse(this.itemConfig.sizeList)
-        : [20, 30, 40, 50]
+        : [20, 30, 40, 50];
     },
-    isHideSinglePage: function() {
+    isHideSinglePage: function () {
       return !!(
         !this.list.total ||
         this.list.total === this.pageSize ||
         this.list.total < this.pageSize
-      )
-    }
+      );
+    },
   },
   watch: {
     value: {
-      handler: function(val) {
-        this.formItemVal = val
+      handler: function (val) {
+        this.formItemVal = val;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   created() {
     // search 数据解析
-    this.parseDate('search', this.itemConfig.search)
+    this.parseDate("search", this.itemConfig.search);
     // tableCol 数据解析
-    this.parseDate('tableCol', this.itemConfig.tableCol)
+    this.parseDate("tableCol", this.itemConfig.tableCol);
   },
   mounted() {},
   methods: {
     // search tableCol 数据解析
     parseDate(wch, list = []) {
-      let tempSearchList = []
-      let tempList = []
-      if (list.length && list.split('|') && list.split('|').length > 1) {
-        tempList = list.split('|')[0].split(',')
-        tempSearchList = list.split('|')[1].split(',')
+      let tempSearchList = [];
+      let tempList = [];
+      if (list.length && list.split("|") && list.split("|").length > 1) {
+        tempList = list.split("|")[0].split(",");
+        tempSearchList = list.split("|")[1].split(",");
         tempSearchList.map((item, idx) => {
-          wch === 'search'
-            ? this.$set(this.zoom, item, '')
-            : this.$set(this.tableCol, idx, item)
-          wch === 'search'
+          wch === "search"
+            ? this.$set(this.zoom, item, "")
+            : this.$set(this.tableCol, idx, item);
+          wch === "search"
             ? this.$set(this.zoomLable, item, tempList[idx])
-            : this.$set(this.tableColLable, item, tempList[idx])
-        })
+            : this.$set(this.tableColLable, item, tempList[idx]);
+        });
       }
     },
     openDia() {
-      this.dialogVisible = true
-      this.handleCurrentChange()
+      this.dialogVisible = true;
+      this.handleCurrentChange();
     },
     handleSizeChange(val = 20) {
-      this.pageSize = val
-      this.getTablelist(1)
+      this.pageSize = val;
+      this.getTablelist(1);
     },
     handleCurrentChange(val = 1) {
-      console.log(`当前页: ${val}`, this.zoom)
+      console.log(`当前页: ${val}`, this.zoom);
       // return
-      this.getTablelist(val)
+      this.getTablelist(val);
     },
     getTablelist(val) {
+      this.loading = true;
       fetch(this.itemConfig.action, this.itemConfig.method, {
         date: encodeURIComponent(
-          'Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)'
+          "Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)"
         ),
-        conditions: '',
-        currentDCId: 'FB68C5CEEC1640C3B1D09BEBCD99FD5E',
-        Login_SessionId: 'SESSION_DEF516B8598640B8804BFE30993BD0E6',
-        readOnly: 'YES',
+        conditions: "",
+        currentDCId: "FB68C5CEEC1640C3B1D09BEBCD99FD5E",
+        Login_SessionId: "SESSION_DEF516B8598640B8804BFE30993BD0E6",
+        readOnly: "YES",
         page: val,
-        rows: this.pageSize
+        rows: this.pageSize,
       }).then((res) => {
-        this.list = res || []
-      })
+        this.loading = false;
+        this.list = res || [];
+      });
     },
     zoomQuery() {
-      this.handleCurrentChange()
+      this.handleCurrentChange();
     },
     rowSelected(row) {
-      this.dialogVisible = false
-      this.formItemVal = row[this.keyItem]
-      this.parseOtherProps(row)
-      this.$emit('input', this.formItemVal)
+      this.dialogVisible = false;
+      this.formItemVal = row[this.keyItem];
+      this.parseOtherProps(row);
+      this.$emit("input", this.formItemVal);
     },
     parseOtherProps(row) {
       const otherProps = this.itemConfig.otherProps
-        ? this.itemConfig.otherProps.split(',')
-        : []
-      let propsKeys = null
+        ? this.itemConfig.otherProps.split(",")
+        : [];
+      let propsKeys = null;
       if (otherProps.length > 0) {
         otherProps.forEach((item) => {
-          item.includes('?') &&
-            (propsKeys = item.split('?')) &&
+          item.includes("?") &&
+            (propsKeys = item.split("?")) &&
             this.$set(
               this.$app.forms[this.formKey],
               propsKeys[0],
               row[propsKeys[1]]
-            )
-          !item.includes('?') &&
-            this.$set(this.$app.forms[this.formKey], item, row[item])
-        })
+            );
+          !item.includes("?") &&
+            this.$set(this.$app.forms[this.formKey], item, row[item]);
+        });
       }
     },
     closeDia() {
-      this.dialogVisible = false
-      this.reSetForms()
+      this.dialogVisible = false;
+      this.reSetForms();
     },
     reSetForms() {
-      this.$refs['zoomForm'].resetFields()
-    }
-  }
-}
+      this.$refs["zoomForm"].resetFields();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
