@@ -14,22 +14,29 @@
           :width="item.$.width || width"
           fixed="right"
         >
-          <template slot="header" slot-scope="scope">
-            <template v-if="item.HButton">
+          <template slot="header"> 操作 </template>
+          <template v-slot:default="scope">
+            <template v-for="(itm, i) in item.button">
               <m-button
-                v-for="(itm, idx) in item.HButton"
-                :key="idx"
                 :table-id="tableConfig.$._id"
                 :item-config="itm.$"
                 :row-obj="scope.row"
+                :key="i"
+                v-if="!itm.$.addToMore"
               />
+              <el-divider
+                direction="vertical"
+                :key="i"
+                v-if="
+                  (!hasAddToMore(item.button) &&
+                    i !== item.button.length - 1) ||
+                  (hasAddToMore(item.button) && !itm.$.addToMore)
+                "
+              ></el-divider>
             </template>
-            <template v-else> 操作 </template>
-          </template>
-          <template v-slot:default="scope">
-            <el-dropdown>
+            <el-dropdown v-if="hasAddToMore(item.button)">
               <span class="el-dropdown-link">
-                操作<i class="el-icon-arrow-down el-icon--right" />
+                更多<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="(itm, idx) in item.button" :key="idx">
@@ -37,6 +44,7 @@
                     :table-id="tableConfig.$._id"
                     :item-config="itm.$"
                     :row-obj="scope.row"
+                    v-if="itm.$.addToMore === 'true'"
                   />
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -131,6 +139,7 @@ export default {
     this.tableConfig = this.xmlConfigObj;
   },
   mounted() {
+    console.log("wwwwwwwwwww", this.xmlConfigObj);
     // loading
     this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
     this.tableConfig.$ &&
@@ -173,6 +182,12 @@ export default {
         ] = res;
         this.$app._mainTableId = "";
         this.$app.mainFlag = "N";
+      });
+    },
+    // 按钮分类  是否加入到drop-down
+    hasAddToMore(items = []) {
+      return items.some(function (currentValue) {
+        return currentValue.$.addToMore && currentValue.$.addToMore === "true";
       });
     },
   },

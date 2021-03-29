@@ -9,7 +9,7 @@
             <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
             <button type="primary" _id="tj" placeholder="保存"/>
         </form>
-        <table _id="vv" action="/lmis-md-web/cusm/totalQuery.do" lazyLoad="true" size="10" method="get">
+        <table _id="vv" action="/lmis-md-web/cusm/totalQuery.do"  size="10" method="get">
             <form>
                 <formItem tag="zoom"  placeholder="请选择" prop="company"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
                 <formItem tag="zoom"  placeholder="请选择" prop="phone"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>

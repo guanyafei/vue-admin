@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import options from "@/common/options.js";
+import getOptions from "@/common/options.js";
 import { isEmptyObj } from "@/utils/validate";
 import MTable from "@/components/MTable";
 import MForm from "@/components/MForm";
@@ -123,7 +123,7 @@ export default {
     this.mergeXmlData(this.xmlConfig);
     this.idToHandle(this.rootData);
     this.idToSubmitFun();
-    this.optionItems = options[this.$route.name] || {};
+    this.optionItems = getOptions(this.$route.name) || {};
   },
   mounted() {
     console.log("this", this);

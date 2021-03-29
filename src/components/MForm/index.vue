@@ -1,12 +1,12 @@
 <template>
-  <div class="form-box" v-loading="isLoading">
+  <div class="form-box">
     <el-form
       v-if="mainBoxFlag === 'N'"
       :ref="`${formKey}Ref`"
       :model="forms[formKey]"
       inline
-      class="form-box"
       label-position="right"
+      v-loading="isLoading"
     >
       <el-form-item
         v-for="keyItem in Object.keys(forms[formKey])"
@@ -37,14 +37,13 @@
     <el-form
       v-if="mainBoxFlag === 'Y'"
       :ref="`${formKey}Ref`"
-      class="form-box"
       inline
       :model="forms[formKey]"
       label-width="100px"
       label-position="right"
     >
       <m-collapse :form-item-len="Object.keys(forms[formKey]).length">
-        <template v-slot:visible-slot>
+        <template v-slot:visible-form-slot>
           <template v-for="(keyItem, idx) in Object.keys(forms[formKey])">
             <el-form-item
               v-show="
@@ -66,6 +65,8 @@
               />
             </el-form-item>
           </template>
+        </template>
+        <template v-slot:visible-btn-slot>
           <el-form-item v-for="(item, index) in buttonItems" :key="index">
             <m-button
               :item-config="item"

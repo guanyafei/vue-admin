@@ -115,6 +115,7 @@
 >>> | :----: | :---  | :----: | :----: |
 >>> | type | 类型 不同类型展示样式不同| primary 、success、warning 、danger、info、text  | primary |
 >>> | placeholder | 按钮文字 | string | - |
+>>> | addToMore | 按钮是否加入更多下拉框内 true是 false否 | string | - |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
 >>> | _id | 与需要操作的table、alert、dialog标签上定义的_id一致 用于指明需要操作的是哪个标签 **(注：若_id值为reset 则表示该按钮是重置按钮 用于清空查询表单项数据)**  | string | - |
 > ### 四、表格

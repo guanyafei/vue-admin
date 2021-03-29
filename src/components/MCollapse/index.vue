@@ -2,60 +2,67 @@
   <div>
     <div class="item">
       <div class="visible-item">
-        <slot name="visible-slot" />
-        <i v-if="formItemLen>3" :class="['el-icon-arrow-up', {'icon-arrow':boxshow}]" @click="boxshow = !boxshow" />
-      </div>
-      <transition name="draw">
-        <div v-show="boxshow" class="box">
+        <slot name="visible-form-slot" />
+        <!-- <transition name="draw"> -->
+        <section v-show="boxshow" class="box">
           <slot />
-        </div>
-      </transition>
+        </section>
+        <!-- </transition> -->
+        <slot name="visible-btn-slot" />
+        <i
+          v-if="formItemLen > 3"
+          :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
+          @click="boxshow = !boxshow"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'MCollapse',
+  name: "MCollapse",
   props: {
     formItemLen: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   data() {
     return {
-      boxshow: false
-    }
+      boxshow: false,
+    };
   },
-  methods: {
-  }
-}
+  methods: {},
+};
 </script>
 
 <style lang="scss" scoped>
-.box{
-    height:auto;
-    width: 100%;
-    background-color:#fff;
-    overflow-y: auto;
-    &::-webkit-scrollbar {
-      display: none; /* Chrome Safari */
-    }
+.box {
+  display: inline;
+  height: auto;
+  width: 100%;
+  background-color: #fff;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
 }
-.icon-arrow{
+.icon-arrow {
   transform: rotateZ(180deg);
 }
-.el-icon-arrow-up{
+.el-icon-arrow-up {
   margin-top: 10px;
   cursor: pointer;
   transition: transform 0.3s, -webkit-transform 0.3s;
   -webkit-transition: -webkit-transform 0.3s;
 }
-.draw-enter-active, .draw-leave-active {
-    transition: all 1s ease;
+.draw-enter-active,
+.draw-leave-active {
+  transition: all 1s ease;
 }
-.draw-enter, .draw-leave-to {
-    height: 0;
+.draw-enter,
+.draw-leave-to {
+  height: 0;
 }
 </style>
