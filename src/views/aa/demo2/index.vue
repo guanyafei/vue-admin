@@ -12,7 +12,7 @@ const modules = modulesFiles.keys().map((modulePath) => {
 }, {});
 
 export default {
-  name: "demo2",
+  name: "aa",
   components: {
     MComp,
   },

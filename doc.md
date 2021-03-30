@@ -15,7 +15,7 @@
 >> 2.主页面只能配置一个root和main标签
 >> 3.弹窗不能配置main标签
 >> 4.主页面、弹窗root标签下可以设置多个弹窗配置 弹窗不可嵌套配置
->> 5.入口页面index.vue必须配置name字段 且首字母大写 值与路由中配置的name值一致 且必须保证唯一性 
+>> 5.入口页面index.vue必须配置name字段 值与路由中配置的name值一致 且必须保证唯一性 
 >> ![页面入口](./src/assets/doc_img/name.png) 
 
 ## 标签配置
@@ -31,6 +31,7 @@
 >> | labelWidth  | 标签宽度 ，单位为 px| string | 100px |
 >> | prop   | 当前输入框绑定的字段 | string | - |
 >> | hidden | 是否隐藏 true隐藏  false显示| string | - |
+>> | block | 是否占一行 true是  false否| string | false |
 >> | disabled | 是否禁用输入框 true是 false否 | string | - |
 >> | required | 是否表单必填 true是 false否 | string | - |
 >> | isDisabled | 是否禁用输入框 true是 false否 配合disabledId使用  详细dialog的disabledId说明 | string | - |

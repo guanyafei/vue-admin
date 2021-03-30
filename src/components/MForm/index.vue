@@ -16,6 +16,7 @@
         :label="(formItems[keyItem] && formItems[keyItem].lable) || ''"
         :prop="keyItem"
         :rules="setRules(formItems[keyItem])"
+        :style="setStyle(formItems[keyItem])"
       >
         <m-form-item
           :forms="forms"
@@ -55,6 +56,7 @@
               :label="(formItems[keyItem] && formItems[keyItem].lable) || ''"
               :prop="keyItem"
               :rules="setRules(formItems[keyItem])"
+              :style="setStyle(formItems[keyItem])"
             >
               <m-form-item
                 :forms="forms"
@@ -86,6 +88,7 @@
             :label="(formItems[keyItem] && formItems[keyItem].lable) || ''"
             :prop="keyItem"
             :rules="setRules(formItems[keyItem])"
+            :style="setStyle(formItems[keyItem])"
           >
             <m-form-item
               :forms="forms"
@@ -171,6 +174,10 @@ export default {
   },
   mounted() {},
   methods: {
+    // 设置样式
+    setStyle(param) {
+      return param && param.block === "true" ? "display:block" : "";
+    },
     // 设置表单项规则 tel number email data 需特殊处理
     setRules,
     // 更新  rowDate 赋值给 form表单

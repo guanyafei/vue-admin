@@ -46,7 +46,7 @@ export const constantRoutes = [{
             meta: {
                 title: 'Dashboard',
                 icon: 'dashboard',
-                affix: false
+                affix: true
             }
         }]
     }
@@ -78,6 +78,36 @@ export const asyncRoutes = [{
                 name: 'demo2',
                 meta: {
                     title: '公司主体',
+                    icon: 'icon'
+                }
+            }
+        ]
+    }, {
+        path: '/aa',
+        component: Layout,
+        name: 'aa',
+        meta: {
+            title: '客户管理222',
+            icon: 'icon'
+        },
+        alwaysShow: true,
+        children: [{
+                path: 'bb',
+                component: () =>
+                    import ('@/views/aa/demo1/index'),
+                name: 'demo3',
+                meta: {
+                    title: '客户信息维护11',
+                    icon: 'icon'
+                }
+            },
+            {
+                path: 'cc',
+                component: () =>
+                    import ('@/views/aa/demo2/index'),
+                name: 'demo4',
+                meta: {
+                    title: '公司主体4354',
                     icon: 'icon'
                 }
             }
