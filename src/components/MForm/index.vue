@@ -26,7 +26,19 @@
           :is-disbled="isDisbled"
         />
       </el-form-item>
-      <el-form-item v-for="(item, index) in buttonItems" :key="index">
+      <el-form-item
+        v-for="item in blockButtonItems"
+        style="display: block"
+        :key="item._id"
+      >
+        <m-button
+          :item-config="item"
+          :form-data="forms"
+          main-flag="N"
+          :form-key="formKey"
+        />
+      </el-form-item>
+      <el-form-item v-for="item in inlineButtonItems" :key="item._id">
         <m-button
           :item-config="item"
           :form-data="forms"
@@ -40,8 +52,7 @@
       :ref="`${formKey}Ref`"
       inline
       :model="forms[formKey]"
-      label-width="100px"
-      label-position="right"
+      label-position="left"
     >
       <m-collapse :form-item-len="Object.keys(forms[formKey]).length">
         <template v-slot:visible-form-slot>
@@ -68,8 +79,23 @@
             </el-form-item>
           </template>
         </template>
-        <template v-slot:visible-btn-slot>
-          <el-form-item v-for="(item, index) in buttonItems" :key="index">
+        <template v-slot:visible-block-btn-slot>
+          <el-form-item
+            v-for="item in blockButtonItems"
+            :key="item._id"
+            style="display: block"
+          >
+            <m-button
+              :item-config="item"
+              :main-table-id="mainTableId"
+              :form-data="forms"
+              main-flag="Y"
+              :form-key="formKey"
+            />
+          </el-form-item>
+        </template>
+        <template v-slot:visible-inline-btn-slot>
+          <el-form-item v-for="item in inlineButtonItems" :key="item._id">
             <m-button
               :item-config="item"
               :main-table-id="mainTableId"
@@ -144,7 +170,7 @@ export default {
     },
     labelWidth: {
       type: String,
-      default: "100px",
+      default: "",
     },
     isLoading: {
       type: Boolean,
@@ -155,7 +181,8 @@ export default {
     return {
       forms: {},
       formItems: {},
-      buttonItems: [],
+      blockButtonItems: [],
+      inlineButtonItems: [],
     };
   },
   created() {
@@ -194,7 +221,11 @@ export default {
         if (key === "button") {
           searchConfig[key].map((item) => {
             itemObj = item.$;
-            this.buttonItems.push(itemObj);
+            if (itemObj.block && itemObj.block === "true") {
+              this.blockButtonItems.push(itemObj);
+            } else {
+              this.inlineButtonItems.push(itemObj);
+            }
           });
         } else if (key === "formItem") {
           searchConfig[key].map((item) => {

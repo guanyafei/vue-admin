@@ -15,7 +15,7 @@
       />
     </el-input>
     <el-dialog
-      title="提示"
+      :title="titles"
       :visible.sync="dialogVisible"
       :width="dialogWs"
       append-to-body
@@ -115,11 +115,11 @@ export default {
     },
     width: {
       type: String,
-      default: "200px",
+      default: "250px",
     },
     innerTextW: {
       type: String,
-      default: "200px",
+      default: "250px",
     },
     zoomW: {
       type: String,
@@ -132,6 +132,10 @@ export default {
     formKey: {
       type: String,
       default: "",
+    },
+    title: {
+      type: String,
+      default: "提示",
     },
   },
   data() {
@@ -184,6 +188,9 @@ export default {
         this.list.total === this.pageSize ||
         this.list.total < this.pageSize
       );
+    },
+    titles: function () {
+      return this.itemConfig.title ? this.itemConfig.title : this.title;
     },
   },
   watch: {
@@ -291,5 +298,10 @@ export default {
 <style lang="scss" scoped>
 .el-table ::v-deep.row-style {
   cursor: pointer;
+}
+.el-button.is-disabled,
+.el-button.is-disabled:hover {
+  border-color: transparent;
+  background-color: transparent;
 }
 </style>

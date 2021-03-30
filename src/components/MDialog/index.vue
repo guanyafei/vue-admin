@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-if="dialogVisibleObj[dialogVisibleFlag]"
-    title="提示"
+    :title="titles"
     :visible.sync="dialogVisibleObj[dialogVisibleFlag]"
     :width="widths"
     :closed="closeDia"
@@ -49,7 +49,11 @@ export default {
     },
     width: {
       type: String,
-      default: "1000px",
+      default: "1050px",
+    },
+    title: {
+      type: String,
+      default: "提示",
     },
   },
   data() {
@@ -67,6 +71,9 @@ export default {
     },
     isSaveOnShow: function () {
       return this.xmlConfigObj.$.saveOnShow === "true" ? true : this.saveOnShow;
+    },
+    titles: function () {
+      return this.xmlConfigObj.$.title ? this.xmlConfigObj.$.title : this.title;
     },
   },
   created() {

@@ -8,12 +8,13 @@
           <slot />
         </section>
         <!-- </transition> -->
-        <slot name="visible-btn-slot" />
+        <slot name="visible-inline-btn-slot" />
         <i
           v-if="formItemLen > 3"
           :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
           @click="boxshow = !boxshow"
         />
+        <slot name="visible-block-btn-slot" />
       </div>
     </div>
   </div>

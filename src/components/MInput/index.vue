@@ -43,7 +43,7 @@ export default {
     },
     width: {
       type: String,
-      default: "100%",
+      default: "250px",
     },
     row: {
       type: String,

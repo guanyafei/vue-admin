@@ -1,6 +1,7 @@
 'use strict'
 const path = require('path')
 const defaultSettings = require('./src/settings.js')
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -10,7 +11,7 @@ const name = defaultSettings.title || 'vue Admin' // page title
 
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 module.exports = {
-    publicPath: '/',
+    publicPath: './',
     outputDir: 'dist',
     assetsDir: 'static',
     lintOnSave: process.env.NODE_ENV === 'development',
@@ -42,20 +43,20 @@ module.exports = {
                 '@': resolve('src')
             }
         },
-        // plugins: [
-        //     new UglifyJsPlugin({
-        //         uglifyOptions: {
-        //             //生产环境自动删除console
-        //             compress: {
-        //                 drop_debugger: true,
-        //                 drop_console: true,
-        //                 pure_funcs: ['console.log']
-        //             }
-        //         },
-        //         sourceMap: false,
-        //         parallel: true
-        //     })
-        // ]
+        plugins: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    //生产环境自动删除console
+                    compress: {
+                        drop_debugger: true,
+                        drop_console: true,
+                        pure_funcs: ['console.log']
+                    }
+                },
+                sourceMap: false,
+                parallel: true
+            })
+        ]
     },
     chainWebpack(config) {
         config.plugin('preload').tap(() => [{

@@ -60,6 +60,7 @@ export const asyncRoutes = [{
             title: '客户管理',
             icon: 'icon'
         },
+        redirect: '/demo/demo1',
         alwaysShow: true,
         children: [{
                 path: 'demo1',

@@ -1,7 +1,7 @@
 <root>
-    <dialog _id="add|update"  action='/lmis-md-web/cusm/saveClientAdd.do|update.do' method="get" disabledId="update" >
+    <dialog _id="add|update|ooo"  action='/lmis-md-web/cusm/saveClientAdd.do|update.do|ooo.do' method="get" disabledId="ooo" title="新增|修改|d">
         <form>
-            <formItem tag="zoom"  required='true' placeholder="请选择" prop="company" otherProps="codAccountNo?id,phone"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="zoom" required='true' placeholder="请选择" prop="company" otherProps="codAccountNo?id,phone"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="zoom" required='true' isDisabled="true" placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="text"  prop="accountNo" lable="客户账号"/>
             <formItem tag="cascader" lable="地区" isDisabled="true" prop="province1" optionId='j' action="/lmis-md-web/address/queryProvince.do"/>
@@ -19,7 +19,7 @@
             <formItem tag="select" placeholder="请输入" prop="parentAccountNo" lable="客户父账号" optionId='h'/>
             <formItem tag="text" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
             <formItem tag="select" placeholder="请输入" prop="belongsBody" lable="所属公司主体" optionId='i'/>
-            <button type="primary" _id="query" placeholder="保存"/>
+            <button type="primary" _id="query" block="true" placeholder="保存"/>
         </form>
         <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do" size="10" method="get">
             <form>
