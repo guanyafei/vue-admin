@@ -9,11 +9,14 @@
         </section>
         <!-- </transition> -->
         <slot name="visible-inline-btn-slot" />
-        <i
-          v-if="formItemLen > 3"
-          :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
-          @click="boxshow = !boxshow"
-        />
+        <span class="arrow-warp" @click="boxshow = !boxshow">
+          {{ !boxshow ? "展开" : "收起" }}
+          <i
+            v-if="formItemLen > 3"
+            :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
+          />
+        </span>
+
         <slot name="visible-block-btn-slot" />
       </div>
     </div>
@@ -50,13 +53,14 @@ export default {
   }
 }
 .icon-arrow {
-  transform: rotateZ(180deg);
+  transform: rotateZ(360deg) !important;
 }
 .el-icon-arrow-up {
   margin-top: 10px;
-  cursor: pointer;
-  transition: transform 0.3s, -webkit-transform 0.3s;
-  -webkit-transition: -webkit-transform 0.3s;
+  transform: rotateZ(180deg);
+  // cursor: pointer;
+  // transition: transform 0.3s, -webkit-transform 0.3s;
+  // -webkit-transition: -webkit-transform 0.3s;
 }
 .draw-enter-active,
 .draw-leave-active {
@@ -65,5 +69,12 @@ export default {
 .draw-enter,
 .draw-leave-to {
   height: 0;
+}
+.arrow-warp {
+  cursor: pointer;
+  color: #1890ff;
+  font-size: 14px;
+  // height: 56px;
+  line-height: 36px;
 }
 </style>
