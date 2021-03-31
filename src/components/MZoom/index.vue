@@ -46,34 +46,35 @@
           >
         </el-form-item>
       </el-form>
-      <el-table
-        :data="list.rows"
-        row-class-name="row-style"
-        stripe
-        border
-        @row-dblclick="rowSelected"
-        v-loading="loading"
-      >
-        <el-table-column type="index" />
-        <template v-for="keyItm in tableCol">
-          <el-table-column
-            :key="keyItm"
-            align="center"
-            :prop="keyItm"
-            :label="tableColLable[keyItm]"
+      <div v-loading="loading">
+        <el-table
+          :data="list.rows"
+          row-class-name="row-style"
+          stripe
+          border
+          @row-dblclick="rowSelected"
+        >
+          <el-table-column type="index" />
+          <template v-for="keyItm in tableCol">
+            <el-table-column
+              :key="keyItm"
+              align="center"
+              :prop="keyItm"
+              :label="tableColLable[keyItm]"
+            />
+          </template>
+        </el-table>
+        <div class="pagination">
+          <el-pagination
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="list.total"
+            :page-size="10"
+            :page-sizes="pageSizes"
+            :hide-on-single-page="isHideSinglePage"
+            @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
           />
-        </template>
-      </el-table>
-      <div class="pagination">
-        <el-pagination
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="list.total"
-          :page-size="10"
-          :page-sizes="pageSizes"
-          :hide-on-single-page="isHideSinglePage"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-        />
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button size="mini" @click="closeDia">关 闭</el-button>

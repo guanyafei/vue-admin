@@ -7,13 +7,13 @@
             <formItem tag="cascader" lable="地区" isDisabled="true" prop="province1" optionId='j' action="/lmis-md-web/address/queryProvince.do"/>
             <formItem tag="text" type="number" required='true' maxlength="2" placeholder="请输入" prop="name" lable="联系人"/>
             <formItem tag="text" type="tel" required='true' maxlength="11" placeholder="请输入" prop="phone" lable="联系电话"/>
-            <formItem tag="textarea" width="820" rows="2" placeholder="请输入" isDisabled="true" prop="addressDetail" lable="详细地址"/>
+            <formItem tag="textarea" block="true" placeholder="请输入" isDisabled="true" prop="addressDetail" lable="详细地址"/>
             <formItem tag="text" placeholder="请输入" prop="zipCode" lable="邮编"/>
             <formItem tag="text" type="email" required='true'  placeholder="请输入" prop="email" lable="Email"/>
             <formItem tag="text" placeholder="请输入" prop="dcId" lable="所属DC"/>
             <formItem tag="select" placeholder="请输入" prop="status" lable="状态" optionId='c'/>
             <formItem tag="select" placeholder="请输入" prop="industryId" lable="所属行业" optionId='d'/>
-            <formItem tag="select"  block="true" placeholder="请输入" prop="projectId" lable="项目分类" optionId='e'/>
+            <formItem tag="select" placeholder="请输入" prop="projectId" lable="项目分类" optionId='e'/>
             <formItem tag="select" placeholder="请输入" prop="xiangmu" lable="项目名称" optionId='f'/>
             <formItem tag="select" placeholder="请输入" prop="businessDepartmentss" lable="事业部" optionId='g'/>
             <formItem tag="select" placeholder="请输入" prop="parentAccountNo" lable="客户父账号" optionId='h'/>

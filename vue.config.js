@@ -1,13 +1,10 @@
 'use strict'
 const path = require('path')
-const defaultSettings = require('./src/settings.js')
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 
 function resolve(dir) {
     return path.join(__dirname, dir)
 }
-
-const name = defaultSettings.title || 'vue Admin' // page title
 
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 module.exports = {
@@ -36,29 +33,28 @@ module.exports = {
             }
         }
     },
-    configureWebpack: {
-        name: name,
-        resolve: {
-            alias: {
-                '@': resolve('src')
-            }
-        },
-        plugins: [
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    //生产环境自动删除console
-                    compress: {
-                        drop_debugger: true,
-                        drop_console: true,
-                        pure_funcs: ['console.log']
-                    }
-                },
-                sourceMap: false,
-                parallel: true
-            })
-        ]
+    configureWebpack: config => {
+        if (process.env.NODE_ENV === 'production') {
+            const plugins = [];
+            plugins.push(
+                new UglifyJsPlugin({
+                    uglifyOptions: {
+                        //生产环境自动删除console
+                        compress: {
+                            drop_debugger: true,
+                            drop_console: true,
+                            pure_funcs: ['console.log']
+                        }
+                    },
+                    sourceMap: false,
+                    parallel: true
+                })
+            );
+            config.plugins = [...config.plugins, ...plugins];
+        }
     },
     chainWebpack(config) {
+        config.resolve.alias.set("@", resolve("src"))
         config.plugin('preload').tap(() => [{
             rel: 'preload',
             fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],

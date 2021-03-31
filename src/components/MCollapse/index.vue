@@ -16,7 +16,6 @@
             :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
           />
         </span>
-
         <slot name="visible-block-btn-slot" />
       </div>
     </div>
