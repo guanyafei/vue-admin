@@ -113,6 +113,126 @@ export const asyncRoutes = [{
                 }
             }
         ]
+    }, {
+        path: '/bb',
+        component: Layout,
+        name: 'aaa',
+        meta: {
+            title: '客户管理222',
+            icon: 'icon'
+        },
+        alwaysShow: true,
+        children: [{
+                path: 'bbb',
+                component: () =>
+                    import ('@/views/bb/demo1/index'),
+                name: 'demo5',
+                meta: {
+                    title: '客户信息维护11',
+                    icon: 'icon'
+                }
+            },
+            {
+                path: 'ccc',
+                component: () =>
+                    import ('@/views/bb/demo2/index'),
+                name: 'demo6',
+                meta: {
+                    title: '公司主体4354',
+                    icon: 'icon'
+                }
+            }
+        ]
+    }, {
+        path: '/cc',
+        component: Layout,
+        name: 'aaaa',
+        meta: {
+            title: '客户管理222',
+            icon: 'icon'
+        },
+        alwaysShow: true,
+        children: [{
+                path: 'bbbb',
+                component: () =>
+                    import ('@/views/cc/demo1/index'),
+                name: 'demo7',
+                meta: {
+                    title: '客户信息维护11',
+                    icon: 'icon'
+                }
+            },
+            {
+                path: 'cccc',
+                component: () =>
+                    import ('@/views/cc/demo2/index'),
+                name: 'demo8',
+                meta: {
+                    title: '公司主体4354',
+                    icon: 'icon'
+                }
+            }
+        ]
+    }, {
+        path: '/dd',
+        component: Layout,
+        name: 'aaaaa',
+        meta: {
+            title: '客户管理222',
+            icon: 'icon'
+        },
+        alwaysShow: true,
+        children: [{
+                path: 'bbbbb',
+                component: () =>
+                    import ('@/views/dd/demo1/index'),
+                name: 'demo9',
+                meta: {
+                    title: '客户信息维护11',
+                    icon: 'icon'
+                }
+            },
+            {
+                path: 'ccccc',
+                component: () =>
+                    import ('@/views/dd/demo2/index'),
+                name: 'demo10',
+                meta: {
+                    title: '公司主体4354',
+                    icon: 'icon'
+                }
+            }
+        ]
+    }, {
+        path: '/ee',
+        component: Layout,
+        name: 'aaaaaa',
+        meta: {
+            title: '客户管理222',
+            icon: 'icon'
+        },
+        alwaysShow: true,
+        children: [{
+                path: 'bbbbbb',
+                component: () =>
+                    import ('@/views/ee/demo1/index'),
+                name: 'demo11',
+                meta: {
+                    title: '客户信息维护11',
+                    icon: 'icon'
+                }
+            },
+            {
+                path: 'cccccc',
+                component: () =>
+                    import ('@/views/ee/demo2/index'),
+                name: 'demo12',
+                meta: {
+                    title: '公司主体4354',
+                    icon: 'icon'
+                }
+            }
+        ]
     },
     // 404 page must be placed at the end !!!
     {
