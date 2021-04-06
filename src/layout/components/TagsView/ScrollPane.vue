@@ -4,7 +4,7 @@
       icon="el-icon-arrow-left"
       type="text"
       :disabled="rightDisabled"
-      @click="moveToRight()"
+      @click="moveToDir('toRight')"
       v-show="show"
     ></el-button>
     <el-scrollbar
@@ -19,7 +19,7 @@
       icon="el-icon-arrow-right"
       type="text"
       :disabled="leftDisabled"
-      @click="moveToLeft()"
+      @click="moveToDir('toLeft')"
       v-show="show"
     ></el-button>
   </div>
@@ -99,6 +99,7 @@ export default {
       (function animloop() {
         render();
         rafId = requestAnimationFrame(animloop);
+        console.log("uuuuuuuuuuu");
         if (
           $scrollWrapper.scrollLeft === endPoint ||
           ($scrollWrapper.scrollLeft >=
@@ -110,36 +111,25 @@ export default {
         }
       })();
     },
-    moveToLeft() {
+    moveToDir(dir) {
       const $container = this.$refs.scrollContainer.$el;
       const $containerWidth = $container.offsetWidth;
       const $scrollWrapper = this.scrollWrapper;
-      const endPoint = $scrollWrapper.scrollLeft + this.step;
-      this.onAnimate(endPoint, "toLeft");
+      const endPoint =
+        dir === "toLeft"
+          ? $scrollWrapper.scrollLeft + this.step
+          : $scrollWrapper.scrollLeft - this.step;
+      dir === "toLeft"
+        ? this.onAnimate(endPoint, "toLeft")
+        : this.onAnimate(endPoint, "toRight");
       if (
-        $scrollWrapper.scrollLeft <=
-        $scrollWrapper.scrollWidth - $containerWidth
+        ($scrollWrapper.scrollLeft <=
+          $scrollWrapper.scrollWidth - $containerWidth &&
+          dir === "toLeft") ||
+        ($scrollWrapper.scrollLeft >= 0 && dir === "toRight")
       ) {
-        this.rightDisabled = false;
-        this.leftDisabled = true;
-      }
-      if (
-        $scrollWrapper.scrollLeft > 0 &&
-        $scrollWrapper.scrollLeft < $scrollWrapper.scrollWidth - $containerWidth
-      ) {
-        this.rightDisabled = false;
-        this.leftDisabled = false;
-      }
-    },
-    moveToRight() {
-      const $container = this.$refs.scrollContainer.$el;
-      const $containerWidth = $container.offsetWidth;
-      const $scrollWrapper = this.scrollWrapper;
-      const endPoint = $scrollWrapper.scrollLeft - this.step;
-      this.onAnimate(endPoint, "toRight");
-      if ($scrollWrapper.scrollLeft >= 0) {
-        this.rightDisabled = true;
-        this.leftDisabled = false;
+        this.rightDisabled = dir === "toLeft" ? false : true;
+        this.leftDisabled = dir === "toLeft" ? true : false;
       }
       if (
         $scrollWrapper.scrollLeft > 0 &&
