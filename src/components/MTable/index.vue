@@ -16,7 +16,7 @@
         >
           <template slot="header"> 操作 </template>
           <template v-slot:default="scope">
-            <template v-for="(itm, i) in item.button">
+            <div :key="i" class="btnWrap" v-for="(itm, i) in item.button">
               <m-button
                 :table-id="tableConfig.$._id"
                 :item-config="itm.$"
@@ -33,7 +33,7 @@
                   (hasAddToMore(item.button) && !itm.$.addToMore)
                 "
               ></el-divider>
-            </template>
+            </div>
             <el-dropdown v-if="hasAddToMore(item.button)">
               <span class="el-dropdown-link">
                 更多<i class="el-icon-arrow-down el-icon--right" />
@@ -139,7 +139,7 @@ export default {
     this.tableConfig = this.xmlConfigObj;
   },
   mounted() {
-    console.log("wwwwwwwwwww", this.xmlConfigObj);
+    console.log("********table********", this.xmlConfigObj);
     // loading
     this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
     this.tableConfig.$ &&
@@ -195,4 +195,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btnWrap {
+  display: inline;
+}
 </style>

@@ -99,7 +99,6 @@ export default {
       (function animloop() {
         render();
         rafId = requestAnimationFrame(animloop);
-        console.log("uuuuuuuuuuu");
         if (
           $scrollWrapper.scrollLeft === endPoint ||
           ($scrollWrapper.scrollLeft >=

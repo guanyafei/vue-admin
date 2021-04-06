@@ -20,8 +20,8 @@
             <tableCol  prop="company" lable="客户名称"/>
             <tableCol  prop="addressDetail" lable="详细地址"/>
             <tableCol  lable="操作">
-                <button type="text" _id="statusClose" addToMore="true" placeholder="冻结"/>
-                <button type="text" _id="statusOpen" addToMore="true" placeholder="开通"/>
+                <button type="text" _id="statusClose"  placeholder="冻结"/>
+                <button type="text" _id="statusOpen"  placeholder="开通"/>
                 <button type="text" _id="update" placeholder="更新"/>
                 <button type="text" _id="ooo" addToMore="true" placeholder="ff"/>
             </tableCol>
