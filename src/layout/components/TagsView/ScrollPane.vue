@@ -36,6 +36,8 @@ export default {
       leftDisabled: true,
       rightDisabled: true,
       show: false,
+      step: 200,
+      scrollContainer: null,
     };
   },
   computed: {
@@ -44,16 +46,19 @@ export default {
     },
   },
   mounted() {
+    this.$nextTick(() => {
+      this.scrollContainer = this.$refs.scrollContainer.$el;
+    });
     this.scrollWrapper.addEventListener("scroll", this.emitScroll, true);
-    // window.addEventListener("resize", this.onReSize, true);
+    window.addEventListener("resize", this.onReSize, true);
   },
   beforeDestroy() {
     this.scrollWrapper.removeEventListener("scroll", this.emitScroll);
-    // window.removeEventListener("resize", this.onReSize);
+    window.removeEventListener("resize", this.onReSize);
   },
   methods: {
     onReSize() {
-      const $container = this.$refs.scrollContainer.$el;
+      const $container = this.scrollContainer;
       const $containerWidth = $container.offsetWidth;
       const $scrollWrapper = this.scrollWrapper;
       if ($containerWidth < $scrollWrapper.scrollWidth) {
@@ -78,13 +83,41 @@ export default {
         this.leftDisabled = false;
       }
     },
+    onAnimate(endPoint, dir) {
+      let rafId = null;
+      const $container = this.$refs.scrollContainer.$el;
+      const $containerWidth = $container.offsetWidth;
+      const $scrollWrapper = this.scrollWrapper;
+      const render = () => {
+        if (dir === "toLeft")
+          $scrollWrapper.scrollLeft =
+            $scrollWrapper.scrollLeft + this.step / 10;
+        if (dir === "toRight")
+          $scrollWrapper.scrollLeft =
+            $scrollWrapper.scrollLeft - this.step / 10;
+      };
+      (function animloop() {
+        render();
+        rafId = requestAnimationFrame(animloop);
+        if (
+          $scrollWrapper.scrollLeft === endPoint ||
+          ($scrollWrapper.scrollLeft >=
+            $scrollWrapper.scrollWidth - $containerWidth &&
+            dir === "toLeft") ||
+          ($scrollWrapper.scrollLeft <= 0 && dir === "toRight")
+        ) {
+          cancelAnimationFrame(rafId);
+        }
+      })();
+    },
     moveToLeft() {
       const $container = this.$refs.scrollContainer.$el;
       const $containerWidth = $container.offsetWidth;
       const $scrollWrapper = this.scrollWrapper;
-      $scrollWrapper.scrollLeft += 80;
+      const endPoint = $scrollWrapper.scrollLeft + this.step;
+      this.onAnimate(endPoint, "toLeft");
       if (
-        $scrollWrapper.scrollLeft ===
+        $scrollWrapper.scrollLeft <=
         $scrollWrapper.scrollWidth - $containerWidth
       ) {
         this.rightDisabled = false;
@@ -102,8 +135,9 @@ export default {
       const $container = this.$refs.scrollContainer.$el;
       const $containerWidth = $container.offsetWidth;
       const $scrollWrapper = this.scrollWrapper;
-      $scrollWrapper.scrollLeft -= 80;
-      if ($scrollWrapper.scrollLeft === 0) {
+      const endPoint = $scrollWrapper.scrollLeft - this.step;
+      this.onAnimate(endPoint, "toRight");
+      if ($scrollWrapper.scrollLeft >= 0) {
         this.rightDisabled = true;
         this.leftDisabled = false;
       }
@@ -124,7 +158,7 @@ export default {
       this.$emit("scroll");
     },
     moveToTarget(currentTag) {
-      // this.onReSize();
+      this.onReSize();
       const $container = this.$refs.scrollContainer.$el;
       const $containerWidth = $container.offsetWidth;
       const $scrollWrapper = this.scrollWrapper;
@@ -181,12 +215,8 @@ export default {
   ::v-deep {
     .el-scrollbar__bar {
       bottom: 0px;
-      // display: none;
-      transition: transform 3s ease-out;
+      display: none;
     }
-    // .el-scrollbar__thumb {
-    //   transition: transform 3s ease-out;
-    // }
     .el-scrollbar__wrap {
       height: 49px;
     }
