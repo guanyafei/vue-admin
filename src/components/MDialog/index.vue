@@ -143,4 +143,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dialog-footer {
+  position: sticky;
+}
 </style>

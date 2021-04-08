@@ -14,67 +14,66 @@
 </template>
 
 <script>
-import { isDisabledFn } from '@/utils/index'
+import { isDisabledFn } from "@/utils/index";
 export default {
-  name: 'MDateRange',
+  name: "MDateRange",
   props: {
     itemConfig: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     value: {
       type: Array,
-      default: () => ([])
+      default: () => [],
     },
     type: {
       type: String,
-      default: 'datetimerange'
+      default: "datetimerange",
     },
     placeholder: {
       type: String,
-      default: '选择日期'
+      default: "选择日期",
     },
     isDisbled: {
       type: String,
-      default: 'false'
+      default: "false",
     },
     width: {
       type: String,
-      default: '250px'
-    }
+      default: "250px",
+    },
   },
   data() {
     return {
-      formItemVal: this.value
-    }
+      formItemVal: this.value,
+    };
   },
   computed: {
-    disabled: function() {
-      return isDisabledFn(this.itemConfig, this.isDisbled)
+    disabled: function () {
+      return isDisabledFn(this.itemConfig, this.isDisbled);
     },
-    widths: function() {
-      return this.itemConfig.width ? `width:${this.itemConfig.width}px` : `width:${this.width}`
-    }
+    widths: function () {
+      return this.itemConfig.width
+        ? `width:${this.itemConfig.width}px`
+        : `width:${this.width}`;
+    },
   },
   watch: {
-    'value': {
-      handler: function(val) {
-        this.formItemVal = val
+    value: {
+      handler: function (val) {
+        this.formItemVal = val;
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
-  created() {
-  },
-  mounted() {
-  },
+  created() {},
+  mounted() {},
   methods: {
     handleModelInput(val) {
-      this.$emit('input', val)
-    }
-
-  }
-}
+      this.$emit("input", val);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

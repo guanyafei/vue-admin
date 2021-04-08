@@ -127,6 +127,29 @@ export default {
   },
   mounted() {
     console.log("this", this);
+
+    var obj = new Proxy(
+      {},
+      {
+        get: function (target, propKey, receiver) {
+          console.log(`getting ${propKey}!`);
+          return target[propKey];
+        },
+        set: function (target, propKey, value, receiver) {
+          console.log(`setting ${propKey}!`);
+          target[propKey] = value;
+          return target[propKey];
+        },
+      }
+    );
+    obj.count = 1;
+    //  setting count!
+    ++obj.count;
+    console.log(obj.count);
+
+    // ********************************
+    // loading
+    // this.loading = this.$app.handleMapping[this.handleId]["loading"];
   },
   methods: {
     // 数据合并
@@ -284,7 +307,7 @@ export default {
                     {
                       id: this.updateDateObj[itemKey].id,
                       Login_SessionId:
-                        "SESSION_DEF516B8598640B8804BFE30993BD0E6",
+                        "SESSION_38E1E4E178D34D5AAD86956C7B621048",
                     }
                   ).then((res) => {
                     this.$refs[`${tableId}Table`].length
@@ -322,7 +345,7 @@ export default {
                     {
                       ...this.forms[`${tableId}`],
                       Login_SessionId:
-                        "SESSION_7A6BC0CD1C424708AA86417B016F4E43",
+                        "SESSION_38E1E4E178D34D5AAD86956C7B621048",
                     }
                   ).then((res) => {
                     // 关闭form表单loading
