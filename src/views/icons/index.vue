@@ -1,9 +1,5 @@
 <template>
   <div class="icons-container">
-    <aside>
-      <a href="https://panjiachen.github.io/vue-element-admin-site/guide/advanced/icon.html" target="_blank">Add and use
-      </a>
-    </aside>
     <el-tabs type="border-card">
       <el-tab-pane label="Icons">
         <div class="grid">
@@ -40,26 +36,26 @@
 </template>
 
 <script>
-import svgIcons from './svg-icons'
-import elementIcons from './element-icons'
+import svgIcons from "./svg-icons";
+import elementIcons from "./element-icons";
 
 export default {
-  name: 'Icons',
+  name: "Icons",
   data() {
     return {
       svgIcons,
-      elementIcons
-    }
+      elementIcons,
+    };
   },
   methods: {
     generateIconCode(symbol) {
-      return `<svg-icon icon-class="${symbol}" />`
+      return `<svg-icon icon-class="${symbol}" />`;
     },
     generateElementIconCode(symbol) {
-      return `<i class="el-icon-${symbol}" />`
-    }
-  }
-}
+      return `<i class="el-icon-${symbol}" />`;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

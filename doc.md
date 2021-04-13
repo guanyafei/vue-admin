@@ -167,6 +167,16 @@
 ## 自定义校验
 > - 页面name作为key值 当前用户可点击按钮id数组作为value
 > ![按钮权限](./src/assets/doc_img/btnqx.png) 
+## 路由格式
+> | 参数 | 说明 | 类型 | 默认值 |
+> | :----: | :---  | :----: | :----: |
+> |  path | 菜单路径  一级菜单以'/'开头 二级菜单不用| string | - |
+> | component | 组件 一级菜单下该值为定值"Layout" 二级菜单下该值为index页面路径 | string | - |
+> | hidden | 是否在侧边栏显示 true不显示 false  显示 | string | false |
+> | alwaysShow | // 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面，只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面，若你想不管路由下面的 children 声明的个数都显示你的根路由，你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由 | string | - |
+> | meta | 路由元信息 title：该路由在侧边栏和面包屑中展示的名字 icon：路由的图标 | string | - |
+> | children | 子菜单项配置数组  配置说明同上 | string | - |
+> ![按钮权限](./src/assets/doc_img/router.png) 
 
 
 
