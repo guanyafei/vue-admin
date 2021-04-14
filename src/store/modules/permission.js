@@ -53,7 +53,7 @@ const actions = {
             //     accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
             // }
             commit('SET_ROUTES', menus)
-            let accessedRoutes = constantRoutes.concat(menus)
+            let accessedRoutes = [...menus]
             resolve(accessedRoutes)
         })
     }

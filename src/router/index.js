@@ -44,8 +44,28 @@ export const constantRoutes = [{
                 import ('@/views/dashboard/index'),
             name: 'Dashboard',
             meta: {
-                title: 'Dashboard',
+                title: '主页',
                 icon: 'dashboard',
+                affix: true
+            }
+        }]
+    },
+    {
+        path: '/template',
+        component: Layout,
+        meta: {
+            title: '模板',
+            icon: 'el-icon-document'
+        },
+        alwaysShow: true,
+        children: [{
+            path: 'tmp',
+            component: () =>
+                import ('@/views/template/index'),
+            name: 'tempalte',
+            meta: {
+                title: '模板1',
+                icon: 'el-icon-document',
                 affix: true
             }
         }]
@@ -53,6 +73,7 @@ export const constantRoutes = [{
     {
         path: '/icons',
         component: Layout,
+        hidden: true,
         children: [{
             path: 'icons',
             component: () =>
@@ -72,7 +93,7 @@ const createRouter = () => new Router({
     scrollBehavior: () => ({
         y: 0
     }),
-    routes: []
+    routes: constantRoutes
 })
 
 const router = createRouter()

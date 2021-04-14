@@ -3,11 +3,9 @@
     <div class="item">
       <div class="visible-item">
         <slot name="visible-form-slot" />
-        <!-- <transition name="draw"> -->
         <section v-show="boxshow" class="box">
           <slot />
         </section>
-        <!-- </transition> -->
         <slot name="visible-inline-btn-slot" />
         <span class="arrow-warp" @click="boxshow = !boxshow">
           {{ !boxshow ? "展开" : "收起" }}
@@ -36,6 +34,7 @@ export default {
       boxshow: false,
     };
   },
+  mounted() {},
   methods: {},
 };
 </script>
@@ -57,9 +56,6 @@ export default {
 .el-icon-arrow-up {
   margin-top: 10px;
   transform: rotateZ(180deg);
-  // cursor: pointer;
-  // transition: transform 0.3s, -webkit-transform 0.3s;
-  // -webkit-transition: -webkit-transform 0.3s;
 }
 .draw-enter-active,
 .draw-leave-active {
@@ -73,7 +69,6 @@ export default {
   cursor: pointer;
   color: #1890ff;
   font-size: 14px;
-  // height: 56px;
   line-height: 36px;
 }
 </style>

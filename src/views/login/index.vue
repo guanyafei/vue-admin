@@ -178,7 +178,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $bg: #283443;
 $light_gray: #fff;
 $cursor: #fff;
