@@ -142,6 +142,11 @@ export function setRules(item) {
                     }
                 ]
                 break
+            case 'region':
+                rulesArr = [
+                    { required: true, message: "请选择活动区域", trigger: "change" },
+                ]
+                break
             default:
                 rulesArr = [
                     { required: true, message: '此项为必输项', trigger: ['blur', 'change'] }

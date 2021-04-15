@@ -19,8 +19,12 @@
                   v-model="queryForm.region"
                   placeholder="请选择活动区域"
                 >
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+                  <el-option
+                    v-for="item in optionItems['region']"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="时间" required>
@@ -47,18 +51,17 @@
             <template v-slot:visible-inline-btn-slot>
               <el-form-item>
                 <el-button type="primary" @click="onQuery()">查询</el-button>
-                <el-button @click="resetForm('queryForm')">重置</el-button>
+                <el-button @click="resetForm()">重置</el-button>
               </el-form-item>
             </template>
             <el-form-item label="活动性质" prop="type">
               <el-checkbox-group v-model="queryForm.type">
                 <el-checkbox
-                  label="美食/餐厅线上活动"
-                  name="type"
-                ></el-checkbox>
-                <el-checkbox label="地推活动" name="type"></el-checkbox>
-                <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                  v-for="item in optionItems['types']"
+                  :key="item.value"
+                  :label="item.value"
+                  >{{ item.label }}</el-checkbox
+                >
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="特殊资源" prop="resource">
@@ -127,156 +130,49 @@
       </div>
     </section>
     <!-- 新增&修改 -->
-    <el-dialog
-      :title="dialogTitle"
-      :visible.sync="dialogVisible"
-      width="1050"
-      :closed="onCloseDia"
-    >
-      <el-form
-        :model="updateForm"
-        :rules="rules"
-        ref="updateForm"
-        label-width="100px"
-        inline
-        label-position="right"
-      >
-        <el-form-item label="活动名称" prop="name" style="display: block">
-          <el-input
-            v-model="updateForm.name"
-            maxlength="10"
-            style="width: 800px"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" prop="region">
-          <el-select v-model="updateForm.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="时间" required>
-          <el-form-item prop="date1">
-            <el-date-picker
-              v-model="updateForm.date"
-              type="datetimerange"
-              placeholder="请选择日期"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              clearable
-            />
-          </el-form-item>
-        </el-form-item>
-        <el-form-item label="活动性质" prop="type">
-          <el-checkbox-group v-model="updateForm.type">
-            <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-            <el-checkbox label="地推活动" name="type"></el-checkbox>
-            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
-        <el-form-item label="特殊资源" prop="resource">
-          <el-radio-group v-model="updateForm.resource">
-            <el-radio label="线上品牌商赞助"></el-radio>
-            <el-radio label="线下场地免费"></el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="活动形式" prop="desc">
-          <el-input
-            type="textarea"
-            :rows="1"
-            v-model="updateForm.desc"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="地点" prop="adr">
-          <el-cascader
-            v-model="updateForm.adr"
-            style="width: 250px"
-            :options="addressList"
-            placeholder="请选择"
-            filterable
-            clearable
-          />
-        </el-form-item>
-        <el-form-item label="客户" prop="cus">
-          <el-input v-model="updateForm.cus" placeholder=" 请选择" readonly>
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="onOpenZoom()"
-            />
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="onCloseDia('updateForm')"
-          >关 闭</el-button
-        >
-        <el-button size="mini" type="primary" @click="onSave('updateForm')"
-          >保 存</el-button
-        >
-      </span>
-    </el-dialog>
+    <m-update
+      :show-update-visible="updateVisible"
+      @onHideUpdate="onCloseUpdate"
+      @onShowZoom="onOpenZoom"
+    />
     <!-- 放大镜 -->
-    <el-dialog
-      title="放大镜"
-      :visible.sync="zoomVisible"
-      width="40%"
-      append-to-body
-      :closed="onCloseZoom"
-      destroy-on-close
-    >
-      <div v-loading="zoomLoading">
-        <el-table
-          :data="tableList || []"
-          style="width: 100%"
-          stripe
-          border
-          @row-dblclick="rowSelected"
-        >
-          <el-table-column fixed prop="date" label="日期"> </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
-          </el-table-column>
-          <el-table-column prop="province" label="省份"> </el-table-column>
-          <el-table-column prop="city" label="市区"> </el-table-column>
-          <el-table-column prop="address" label="地址"> </el-table-column>
-          <el-table-column prop="zip" label="邮编"> </el-table-column>
-        </el-table>
-        <div class="pagination">
-          <el-pagination
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="tableList.length || 0"
-            :page-size="pageSize"
-            :page-sizes="pageSizes"
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-          />
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="onCloseZoom()">关 闭</el-button>
-      </span>
-    </el-dialog>
+    <m-zoom
+      :show-visible="zoomVisible"
+      @onHideZoom="onCloseZoom"
+      @doubleClick="onSelectedRow"
+    />
     <el-backtop>
       <div class="back">UP</div>
     </el-backtop>
   </div>
 </template>
 <script>
+import getOptions from "@/common/options.js";
 import MCollapse from "@/components/MCollapse";
+import MZoom from "./components/zoom";
+import MUpdate from "./components/update";
 export default {
   name: "tempalte",
-  components: { MCollapse },
+  components: { MCollapse, MZoom, MUpdate },
   props: {},
   data() {
     return {
-      dialogVisible: false,
+      optionItems: getOptions(this.$route.name) || {},
+      updateVisible: false,
       zoomVisible: false,
-      dialogTitle: "新增",
       loading: false,
-      zoomLoading: false,
       pageSizes: [20, 30, 40, 50],
       pageSize: 20,
+      region: [
+        { label: "区域一", value: "shanghai" },
+        { label: "区域二", value: "beijing" },
+      ],
+      types: [
+        { label: "美食/餐厅线上活动", value: "1" },
+        { label: "地推活动", value: "2" },
+        { label: "线下主题活动", value: "3" },
+        { label: "单纯品牌曝光", value: "4" },
+      ],
       queryForm: {
         name: "",
         region: "",
@@ -285,16 +181,7 @@ export default {
         resource: "",
         desc: "",
       },
-      updateForm: {
-        name: "",
-        region: "",
-        date: "",
-        type: [],
-        resource: "",
-        desc: "",
-        cus: "",
-        adr: [],
-      },
+      updateForm: {},
       rules: {
         region: [
           { required: true, message: "请选择活动区域", trigger: "change" },
@@ -322,6 +209,7 @@ export default {
       },
       tableList: [
         {
+          id: 1,
           date: "2016-05-02",
           name: "王小虎1",
           province: "上海",
@@ -330,6 +218,7 @@ export default {
           zip: 200333,
         },
         {
+          id: 2,
           date: "2016-05-04",
           name: "王小虎2",
           province: "上海",
@@ -338,6 +227,7 @@ export default {
           zip: 200333,
         },
         {
+          id: 3,
           date: "2016-05-01",
           name: "王小虎3",
           province: "上海",
@@ -346,6 +236,7 @@ export default {
           zip: 200333,
         },
         {
+          id: 4,
           date: "2016-05-03",
           name: "王小虎4",
           province: "上海",
@@ -391,12 +282,12 @@ export default {
   mounted() {},
   methods: {
     // 查询
-    onQuery(formName) {
+    onQuery() {
       // 发请求
     },
     // 重置
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    resetForm() {
+      this.$refs["queryForm"].resetFields();
     },
     handleCurrentChange(val = 1) {
       console.log(`当前页: ${val}`);
@@ -408,48 +299,30 @@ export default {
     },
     // 打开放大镜
     onOpenZoom() {
-      console.log(111);
       this.zoomVisible = true;
     },
-    // guanbizoom
+    // 关闭放大镜
     onCloseZoom() {
       this.zoomVisible = false;
     },
+    // 双击选中
+    onSelectedRow(row) {
+      this.onCloseZoom();
+      this.$bus.$emit("zoomDate", row);
+    },
+    // 关闭更新弹窗
+    onCloseUpdate() {
+      this.updateVisible = false;
+    },
     // 新增
-    onAdd(formName) {
-      this.updateForm = {
-        name: "",
-        region: "",
-        date: "",
-        type: [],
-        resource: "",
-        desc: "",
-        cus: "",
-        adr: [],
-      };
-      this.dialogTitle = "新增";
-      this.dialogVisible = true;
-      this.$nextTick(() => {
-        this.$refs[formName].resetFields();
-      });
+    onAdd() {
+      this.$bus.$emit("updateDate");
+      this.updateVisible = true;
     },
     // 编辑
     onUpdate(row) {
-      this.dialogTitle = "修改";
-      this.dialogVisible = true;
-      this.updateForm = Object.assign({}, this.updateForm, row);
-    },
-    // 保存
-    onSave(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert("submit!");
-          //发请求
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+      this.$bus.$emit("updateDate", row);
+      this.updateVisible = true;
     },
     // 删除
     onDel(row) {
@@ -474,14 +347,8 @@ export default {
     },
     // 重置表单数据
     onCloseDia(formName) {
-      this.dialogVisible = false;
-      this.$refs[formName].resetFields();
-    },
-    // 双击选中
-    rowSelected(row) {
-      console.log("row", row);
-      this.zoomVisible = false;
-      this.updateForm["cus"] = row["name"];
+      this.updateVisible = false;
+      this.$refs["updateForm"].resetFields();
     },
   },
 };
@@ -505,8 +372,5 @@ export default {
 }
 .dialog-footer {
   position: sticky;
-}
-.el-table ::v-deep.el-table__row {
-  cursor: pointer;
 }
 </style>

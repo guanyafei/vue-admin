@@ -36,9 +36,21 @@ const options = {
     },
     demo2: {
         a: [{ 'label': '黄金糕', 'value': '0' }, { 'label': '双皮奶', 'value': '1' }]
+    },
+    tempalte: {
+        region: [
+            { label: "区域一", value: "shanghai" },
+            { label: "区域二", value: "beijing" },
+        ],
+        types: [
+            { label: "美食/餐厅线上活动", value: "1" },
+            { label: "地推活动", value: "2" },
+            { label: "线下主题活动", value: "3" },
+            { label: "单纯品牌曝光", value: "4" },
+        ],
     }
 }
 
 export default function getOptions(name) {
-    return Object.assign({}, options[name], common)
+    return Object.assign({}, options[name] || {}, common)
 }

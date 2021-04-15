@@ -21,7 +21,8 @@ import * as filters from './filters'
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
-
+// eventBus
+Vue.prototype.$bus = new Vue();
 Vue.use(Element, {
     size: Cookies.get('size') || 'medium'
 })
