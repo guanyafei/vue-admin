@@ -28,7 +28,7 @@
       </el-form-item>
       <el-form-item
         v-for="item in blockButtonItems"
-        style="display: block"
+        style="display: block; text-align: right"
         :key="item._id"
       >
         <m-button
@@ -170,7 +170,7 @@ export default {
     },
     labelWidth: {
       type: String,
-      default: "",
+      default: "100px",
     },
     isLoading: {
       type: Boolean,

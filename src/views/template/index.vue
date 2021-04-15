@@ -7,7 +7,7 @@
           ref="queryForm"
           label-width="100px"
           inline
-          label-position="right"
+          label-position="left"
         >
           <m-collapse :form-item-len="Object.keys(queryForm).length">
             <template v-slot:visible-form-slot>

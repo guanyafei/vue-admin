@@ -48,6 +48,7 @@
       </el-form>
       <div v-loading="loading">
         <el-table
+          style="width: 100%"
           :data="list.rows"
           row-class-name="row-style"
           stripe

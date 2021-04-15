@@ -7,7 +7,7 @@
     :before-close="onCloseZoom"
     destroy-on-close
   >
-    <el-form ref="zoomForm" :model="zoomForm" :inline="true">
+    <el-form ref="zoomForm" :model="zoomForm" inline label-position="left">
       <el-form-item label="姓名" prop="name">
         <el-input v-model="zoomForm.name" placeholder="请输入" />
       </el-form-item>

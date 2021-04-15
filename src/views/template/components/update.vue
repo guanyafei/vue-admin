@@ -11,7 +11,7 @@
       ref="updateForm"
       label-width="100px"
       inline
-      label-position="right"
+      label-position="left"
     >
       <el-form-item label="活动名称" prop="name" style="display: block">
         <el-input

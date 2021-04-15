@@ -3,5 +3,6 @@ module.exports = {
     tagsView: true,
     fixedHeader: false,
     sidebarLogo: false,
-    loading: false
+    loading: false,
+    title: "安迅物流"
 }

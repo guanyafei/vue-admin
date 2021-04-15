@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <el-table :data="tableList.rows || []" stripe border>
+    <el-table :data="tableList.rows || []" stripe border style="width: 100%">
       <el-table-column
         v-if="tableConfig.$.type || type"
         :type="tableConfig.$.type || type"
