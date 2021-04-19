@@ -18,7 +18,8 @@
 </template>
 
 <script>
-import { isDisabledFn } from "@/utils/index";
+import { isDisabledFn, setBtnStatus } from "@/utils/index";
+import getStatus from "@/common/status.js";
 export default {
   name: "MButton",
   inject: {
@@ -69,11 +70,14 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      status:
+        getStatus(this.$route.name)[this.itemConfig["statusValidateId"]] || {},
+    };
   },
   computed: {
     disabled: function () {
-      return isDisabledFn(this.itemConfig, this.isDisbled);
+      return setBtnStatus(this.status, this.rowObj);
     },
     isReset: function () {
       return this.itemConfig._id === "reset";

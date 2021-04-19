@@ -64,7 +64,7 @@ const actions = {
                                 // 只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面
                                 // 若你想不管路由下面的 children 声明的个数都显示你的根路由
                                 // 你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由
-                                alwaysShow: false,
+                                alwaysShow: true, //
                                 meta: {
                                     title: '客户管理', //该路由在侧边栏和面包屑中展示的名字
                                     icon: 'icon' //路由的图标
@@ -104,10 +104,19 @@ const actions = {
                                         component: () =>
                                             import ('@/views/aa/demo1/index'),
                                         name: 'demo3',
+                                        alwaysShow: true,
                                         meta: {
                                             title: '客户信息维护11',
                                             icon: 'icon'
-                                        }
+                                        },
+                                        children: [{
+                                            path: 'bbb',
+                                            component: () =>
+                                                import ('@/views/aa/demo1/demo1-2/index'),
+                                            name: 'demo1-2',
+                                            alwaysShow: false,
+                                            meta: { title: 'demo1-2', icon: 'icon' }
+                                        }]
                                     },
                                     {
                                         path: 'cc',

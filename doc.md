@@ -120,7 +120,9 @@
 >>> | placeholder | 按钮文字 | string | - |
 >>> | addToMore | 按钮是否加入更多下拉框内 true是 false否 | string | - |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
+>>> | statusValidateId | 按钮状态校验id 用于表格操作按钮一些状态下置灰校验 **(注：statusValidateId在common/status.js内配置 key值配置为需要校验的字段，value值数组配置哪些状态下置灰不可点击)** | string | - |
 >>> | _id | 与需要操作的table、alert、dialog标签上定义的_id一致 用于指明需要操作的是哪个标签 **(注：若_id值为reset 则表示该按钮是重置按钮 用于清空查询表单项数据)**  | string | - |
+>> ![按钮权限](./src/assets/doc_img/status.png) 
 > ### 四、表格
 >> - #### table
 >>> | 参数 | 说明 | 类型 | 默认值 |
@@ -157,7 +159,7 @@
 >>> | disabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置disabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
 >>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 **(注：若为true 保存成功后 保存按钮置灰不可点击）**| string | false |
 
-## option配置
+## options配置
 > - 配置文件位置：common/options.js
 > ![配置](./src/assets/doc_img/option.png) 
 
@@ -173,7 +175,7 @@
 > |  path | 菜单路径  一级菜单以'/'开头 二级菜单不用| string | - |
 > | component | 组件 一级菜单下该值为定值"Layout" 二级菜单下该值为index页面路径 | string | - |
 > | hidden | 是否在侧边栏显示 true不显示 false  显示 | string | false |
-> | alwaysShow | // 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面，只有一个时，会将那个子路由当做根路由显示在侧边栏--如引导页面，若你想不管路由下面的 children 声明的个数都显示你的根路由，你可以设置 alwaysShow: true，这样它就会忽略之前定义的规则，一直显示根路由 | string | - |
+> | alwaysShow | // 一级二级路由设为true，若有三级  第三级设为false| string | - |
 > | meta | 路由元信息 title：该路由在侧边栏和面包屑中展示的名字 icon：路由的图标 | string | - |
 > | children | 子菜单项配置数组  配置说明同上 | string | - |
 > ![按钮权限](./src/assets/doc_img/router.png) 

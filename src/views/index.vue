@@ -65,6 +65,7 @@
     <el-backtop>
       <div class="back">UP</div>
     </el-backtop>
+    <router-view />
   </div>
 </template>
 
@@ -287,7 +288,7 @@ export default {
                     {
                       id: this.updateDateObj[itemKey].id,
                       Login_SessionId:
-                        "SESSION_B56E8716BA234A5A89EBD776DE501EB1",
+                        "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
                     }
                   ).then((res) => {
                     this.$refs[`${tableId}Table`].length
@@ -325,7 +326,7 @@ export default {
                     {
                       ...this.forms[`${tableId}`],
                       Login_SessionId:
-                        "SESSION_B56E8716BA234A5A89EBD776DE501EB1",
+                        "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
                     }
                   ).then((res) => {
                     // 关闭form表单loading

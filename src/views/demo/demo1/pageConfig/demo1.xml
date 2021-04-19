@@ -41,8 +41,8 @@
             <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
             <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
             <tableCol  lable="操作" width="250">
-                <button type="danger" _id="statusClose"  placeholder="冻结"/>
-                <button type="danger" _id="statusOpen"  placeholder="开通"/>
+                <button type="danger" _id="statusClose" statusValidateId="a"  placeholder="冻结"/>
+                <button type="danger" _id="statusOpen" statusValidateId="a"  placeholder="开通"/>
                 <button type="warning" _id="ccc" placeholder="更新"/>
             </tableCol>
         </table>

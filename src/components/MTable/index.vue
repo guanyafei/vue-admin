@@ -164,11 +164,11 @@ export default {
       );
       fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
         date: encodeURIComponent(
-          "Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)"
+          "Mon Apr 19 2021 10:12:02 GMT 0800 (中国标准时间)"
         ),
         conditions: "",
         currentDCId: "FB68C5CEEC1640C3B1D09BEBCD99FD5E",
-        Login_SessionId: "SESSION_B56E8716BA234A5A89EBD776DE501EB1",
+        Login_SessionId: "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
         readOnly: "YES",
         page: val,
         rows: this.pageSize,

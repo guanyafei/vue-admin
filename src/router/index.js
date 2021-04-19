@@ -73,7 +73,7 @@ export const constantRoutes = [{
     {
         path: '/icons',
         component: Layout,
-        hidden: true,
+        hidden: false,
         children: [{
             path: 'icons',
             component: () =>

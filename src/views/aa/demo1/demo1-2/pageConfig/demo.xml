@@ -6,13 +6,13 @@
             <formItem tag="cascader" action="url" lazyLoad="true" lable="地区" prop="zone"/>
             <formItem tag="date"  placeholder="请输入" prop="date" lable="时间"/>
             <formItem tag="daterange" placeholder="请输入" prop="date1" lable="时间1"/>
-            <formItem tag="radio" placeholder="请输入" prop="xx" lable="xx" optionId='a'/>
+            <formItem tag="radio" placeholder="请输入" prop="xx" lable="xx" optionId='ff'/>
             <formItem tag="checkbox" placeholder="请输入" prop="yy" lable="yy" optionId='b'/>
-            <formItem tag="zoom" placeholder="请选择" width="300" size="20" sizeList="[20,30,40,80]" innerTextW="300" zoomW="900" prop="company" otherProps="codAccountNo?id,phone" hasReset="true" lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="zoom" title="mmm" placeholder="请选择" width="300" size="20" sizeList="[20,30,40,80]" innerTextW="300" zoomW="900" prop="company" otherProps="codAccountNo?id,phone" hasReset="true" lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
             <formItem tag="text" disabled="true" placeholder="请输入" prop="codAccountNo" lable="客户账号" hidden="true"/>
             <formItem tag="select" placeholder="请输入" prop="city" lable="城市" action="url" lazyLoad="true"/>
             <button type="primary" _id="query" isQueryBtn="true" placeholder="查询"/>
-            <button type="success" _id="add" placeholder="创建"/>
+            <button type="success" _id="add" block="true" statusValidateId="a" placeholder="创建"/>
             <button type="success" _id="reset" placeholder="重置"/>
         </form>
         <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" size="20" sizeList="[20,30,40,80]" method="get">
@@ -20,12 +20,12 @@
             <tableCol  prop="company" lable="客户名称"/>
             <tableCol  prop="addressDetail" lable="详细地址"/>
             <tableCol  lable="操作">
-                <button type="text" _id="statusClose" addToMore="true" placeholder="冻结"/>
-                <button type="text" _id="statusOpen" addToMore="true" placeholder="开通"/>
+                <button type="text" _id="statusClose"  placeholder="冻结"/>
+                <button type="text" _id="statusOpen"  placeholder="开通"/>
                 <button type="text" _id="update" placeholder="更新"/>
-                <button type="text" _id="d" addToMore="true" placeholder="ff"/>
+                <button type="text" _id="ooo" addToMore="true" placeholder="ff"/>
             </tableCol>
         </table>
     </main>
-    <alert _id="statusOpen|statusClose"  action='/lmis-md-web/cusm/statusOpen.do' method="post" tip="确定开通吗？|确定冻结吗？"/>
+    <alert _id="statusOpen|statusClose|nnnn"  action='/lmis-md-web/cusm/statusOpen.do' method="post" tip="确定开通吗？|确定冻结吗？|哈哈哈哈"/>
 </root>

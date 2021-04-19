@@ -356,3 +356,13 @@ export function isDisabledFn(item, flag) {
     if (item.isDisabled && flag === 'true') return true
     return item.disabled ? Boolean(item.disabled) : Boolean(0)
 }
+
+export function setBtnStatus(status, row) {
+    let flag = false;
+    if (status && Object.keys(row).length > 0) {
+        if (row[status['key']] && status['value']) {
+            flag = status['value'].includes(row[status['key']]);
+        }
+    }
+    return flag
+}
