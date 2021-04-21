@@ -366,3 +366,10 @@ export function setBtnStatus(status, row) {
     }
     return flag
 }
+
+export function onIsCanUse(btns, id) {
+    let flag = false;
+    return flag = btns.some(item => {
+        return item === id
+    });
+}

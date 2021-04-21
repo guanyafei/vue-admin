@@ -32,7 +32,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="时间" required>
-        <el-form-item prop="date1">
+        <el-form-item prop="date">
           <el-date-picker
             v-model="updateForm.date"
             type="datetimerange"
@@ -213,21 +213,21 @@ export default {
       } else {
         this.disabled = false;
         this.dialogTitle = "新增";
-        this.updateForm = Object.assign(
-          {},
-          {
-            name: "",
-            region: "",
-            date: "",
-            type: [],
-            resource: "",
-            desc: "",
-            cus: "",
-            adr: [],
-          }
-        );
         this.$nextTick(() => {
           this.$refs["updateForm"].resetFields();
+          this.updateForm = Object.assign(
+            {},
+            {
+              name: "",
+              region: "",
+              date: "",
+              type: [],
+              resource: "",
+              desc: "",
+              cus: "",
+              adr: [],
+            }
+          );
         });
       }
     });
@@ -284,6 +284,7 @@ export default {
           adr: [],
         }
       );
+      console.log("yyyyyyyyyy", this.updateForm);
       this.$emit("onHideUpdate");
     },
   },

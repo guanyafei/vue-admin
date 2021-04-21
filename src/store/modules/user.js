@@ -9,7 +9,8 @@ const state = {
     name: '',
     avatar: '',
     introduction: '',
-    roles: []
+    roles: [],
+    btns: []
 }
 
 const mutations = {
@@ -27,6 +28,9 @@ const mutations = {
     },
     SET_ROLES: (state, roles) => {
         state.roles = roles
+    },
+    SET_BTNS: (state, btns) => {
+        state.btns = btns
     }
 }
 
@@ -256,7 +260,10 @@ const actions = {
                                 redirect: '/404',
                                 hidden: true
                             }
-                        ]
+                        ],
+                        'btns': {
+                            'demo1': ['update', 'statusClose', 'ooo', 'query', 'add', 'reset', 'see']
+                        }
                     }
                 }
                 const { data } = response
@@ -265,7 +272,7 @@ const actions = {
                     reject('Verification failed, please Login again.')
                 }
 
-                const { roles, name, avatar, introduction } = data
+                const { roles, name, avatar, introduction, btns } = data
 
                 // roles must be a non-empty array
                 if (!roles || roles.length <= 0) {
@@ -273,6 +280,7 @@ const actions = {
                 }
 
                 commit('SET_ROLES', roles)
+                commit('SET_BTNS', btns)
                 commit('SET_NAME', name)
                 commit('SET_AVATAR', avatar)
                 commit('SET_INTRODUCTION', introduction)

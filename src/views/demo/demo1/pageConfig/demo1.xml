@@ -47,5 +47,44 @@
             </tableCol>
         </table>
     </dialog>
+    <dialog _id="see" title="查看" width="1200">
+        <form>
+            <formItem tag="zoom" required='true' disabled="true" placeholder="请选择" prop="company" otherProps="codAccountNo?id,phone"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="zoom" required='true' disabled="true" placeholder="请选择" prop="name1"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+            <formItem tag="text"  prop="accountNo" disabled="true" lable="客户账号"/>
+            <formItem tag="cascader" lable="地区" disabled="true" prop="province1" optionId='j' action="/lmis-md-web/address/queryProvince.do"/>
+            <formItem tag="text" type="number" disabled="true" required='true' maxlength="2" placeholder="请输入" prop="name" lable="联系人"/>
+            <formItem tag="text" type="tel" disabled="true"  required='true' maxlength="11" placeholder="请输入" prop="phone" lable="联系电话"/>
+            <formItem tag="textarea" disabled="true" block="true" placeholder="请输入" isDisabled="true" prop="addressDetail" lable="详细地址"/>
+            <formItem tag="text" disabled="true" placeholder="请输入" prop="zipCode" lable="邮编"/>
+            <formItem tag="text" disabled="true" type="email" required='true'  placeholder="请输入" prop="email" lable="Email"/>
+            <formItem tag="text" disabled="true" placeholder="请输入" prop="dcId" lable="所属DC"/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="status" lable="状态" optionId='c'/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="industryId" lable="所属行业" optionId='d'/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="projectId" lable="项目分类" optionId='e'/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="xiangmu" lable="项目名称" optionId='f'/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="businessDepartmentss" lable="事业部" optionId='g'/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="parentAccountNo" lable="客户父账号" optionId='h'/>
+            <formItem tag="text" disabled="true" placeholder="请输入" prop="codAccountNo" lable="代收款客户账号"/>
+            <formItem tag="select" disabled="true" placeholder="请输入" prop="belongsBody" lable="所属公司主体" optionId='i'/>
+        </form>
+        <table _id="tj" action="/lmis-md-web/cusm/totalQuery.do" size="10" method="get">
+            <form>
+                <formItem tag="zoom" disabled="true" placeholder="请选择" prop="company"  lable="名称2" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+                <formItem tag="zoom" disabled="true" placeholder="请选择" prop="phone"  lable="名称1" search="客户账号,客户名称|accountNo,company"  tableCol="客户账号,客户名称,电话|accountNo,company,phone" action='/lmis-md-web/cusm/totalQuery.do'/>
+                <formItem tag="text" disabled="true" placeholder="请输入" prop="accountNo" lable="客户账号"/>
+            </form>
+            <tableCol  prop="accountNo" lable="客户账号" align="left" width="200"/>
+            <tableCol  prop="company" lable="客户名称" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+            <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
+        </table>
+    </dialog>
     <alert _id="d"  action='/lmis-md-web/cusm/statusOpen.do|/lmis-md-web/cusm/statusClose.do' method="post" tip="ddd？"/>
 </root>

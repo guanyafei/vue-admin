@@ -16,7 +16,11 @@
         >
           <template slot="header"> 操作 </template>
           <template v-slot:default="scope">
-            <div :key="i" class="btnWrap" v-for="(itm, i) in item.button">
+            <div
+              :key="i"
+              class="btnWrap"
+              v-for="(itm, i) in onFilterBtn(item.button)"
+            >
               <m-button
                 :table-id="tableConfig.$._id"
                 :item-config="itm.$"
@@ -28,18 +32,21 @@
                 direction="vertical"
                 :key="i"
                 v-if="
-                  (!hasAddToMore(item.button) &&
-                    i !== item.button.length - 1) ||
-                  (hasAddToMore(item.button) && !itm.$.addToMore)
+                  (!hasAddToMore(onFilterBtn(item.button)) &&
+                    i !== onFilterBtn(item.button).length - 1) ||
+                  (hasAddToMore(onFilterBtn(item.button)) && !itm.$.addToMore)
                 "
               ></el-divider>
             </div>
-            <el-dropdown v-if="hasAddToMore(item.button)">
+            <el-dropdown v-if="hasAddToMore(onFilterBtn(item.button))">
               <span class="el-dropdown-link">
                 更多<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="(itm, idx) in item.button" :key="idx">
+                <el-dropdown-item
+                  v-for="(itm, idx) in onFilterBtn(item.button)"
+                  :key="idx"
+                >
                   <m-button
                     :table-id="tableConfig.$._id"
                     :item-config="itm.$"
@@ -111,6 +118,7 @@ export default {
     return {
       tableConfig: {},
       loading: false,
+      canUseBtns: this.$app.canUseBtns,
     };
   },
   computed: {
@@ -139,7 +147,6 @@ export default {
     this.tableConfig = this.xmlConfigObj;
   },
   mounted() {
-    console.log("********table********", this.xmlConfigObj);
     // loading
     this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
     this.tableConfig.$ &&
@@ -147,6 +154,16 @@ export default {
       this.handleCurrentChange();
   },
   methods: {
+    // 过滤当前用户无权限使用按钮
+    onFilterBtn(btns) {
+      let btnsArr = [];
+      for (let i = 0; i < btns.length; i++) {
+        if (this.canUseBtns.includes(btns[i].$._id)) {
+          btnsArr.push(btns[i]);
+        }
+      }
+      return btnsArr;
+    },
     handleSizeChange(val = 20) {
       this.pageSize = val;
       this.getTablelist(1);
@@ -186,7 +203,7 @@ export default {
     },
     // 按钮分类  是否加入到drop-down
     hasAddToMore(items = []) {
-      return items.some(function (currentValue) {
+      return items.some((currentValue) => {
         return currentValue.$.addToMore && currentValue.$.addToMore === "true";
       });
     },

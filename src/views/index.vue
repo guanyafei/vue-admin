@@ -106,6 +106,7 @@ export default {
       rootData: {},
       mainFlag: "N",
       optionItems: {},
+      canUseBtns: [],
     };
   },
   computed: {
@@ -125,6 +126,7 @@ export default {
     this.idToHandle(this.rootData);
     this.idToSubmitFun();
     this.optionItems = getOptions(this.$route.name) || {};
+    this.canUseBtns = this.$store.getters.canUseBtns[this.$route.name] || [];
   },
   mounted() {
     console.log("this", this);
@@ -371,7 +373,6 @@ export default {
     border-bottom: 1px solid #dcdfe6;
   }
 }
-
 .back {
   height: 100%;
   width: 100%;

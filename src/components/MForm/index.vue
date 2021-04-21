@@ -81,8 +81,8 @@
         </template>
         <template v-slot:visible-block-btn-slot>
           <el-form-item
-            v-for="item in blockButtonItems"
             :key="item._id"
+            v-for="item in blockButtonItems"
             style="display: block"
           >
             <m-button
@@ -95,7 +95,7 @@
           </el-form-item>
         </template>
         <template v-slot:visible-inline-btn-slot>
-          <el-form-item v-for="item in inlineButtonItems" :key="item._id">
+          <el-form-item :key="item._id" v-for="item in inlineButtonItems">
             <m-button
               :item-config="item"
               :main-table-id="mainTableId"
@@ -132,6 +132,7 @@
 
 <script>
 import { isArray, isEmptyObj, setRules } from "@/utils/validate";
+import { onIsCanUse } from "@/utils/index";
 import MFormItem from "@/components/MFormItem";
 import MCollapse from "@/components/MCollapse";
 import MButton from "@/components/MButton";
@@ -183,6 +184,7 @@ export default {
       formItems: {},
       blockButtonItems: [],
       inlineButtonItems: [],
+      canUseBtns: this.$app.canUseBtns,
     };
   },
   created() {
@@ -222,9 +224,11 @@ export default {
           searchConfig[key].map((item) => {
             itemObj = item.$;
             if (itemObj.block && itemObj.block === "true") {
-              this.blockButtonItems.push(itemObj);
+              onIsCanUse(this.canUseBtns, itemObj._id) &&
+                this.blockButtonItems.push(itemObj);
             } else {
-              this.inlineButtonItems.push(itemObj);
+              onIsCanUse(this.canUseBtns, itemObj._id) &&
+                this.inlineButtonItems.push(itemObj);
             }
           });
         } else if (key === "formItem") {

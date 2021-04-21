@@ -28,7 +28,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="时间" required>
-                <el-form-item prop="date1">
+                <el-form-item prop="date">
                   <el-date-picker
                     v-model="queryForm.date"
                     type="datetimerange"

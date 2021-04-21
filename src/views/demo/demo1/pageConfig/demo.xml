@@ -23,6 +23,7 @@
                 <button type="text" _id="statusClose" statusValidateId="a" placeholder="冻结"/>
                 <button type="text" _id="statusOpen"  placeholder="开通"/>
                 <button type="text" _id="update" placeholder="更新"/>
+                <button type="text" _id="see" placeholder="查看"/>
                 <button type="text" _id="ooo" addToMore="true" placeholder="ff"/>
             </tableCol>
         </table>
