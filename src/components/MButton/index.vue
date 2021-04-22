@@ -77,7 +77,9 @@ export default {
   },
   computed: {
     disabled: function () {
-      return setBtnStatus(this.status, this.rowObj);
+      return setBtnStatus(this.status, this.rowObj) || this.itemConfig.disabled
+        ? true
+        : false;
     },
     isReset: function () {
       return this.itemConfig._id === "reset";
@@ -96,7 +98,7 @@ export default {
       // this.$app.handle[this.itemConfig._id](this.rowObj, this.$app.tableId, this.itemConfig, this.mainFlag)
       if (!this.$app.handle[this.itemConfig._id]) {
         this.$message({
-          message: "请查看是否配置_id！",
+          message: "请查看是否配置相应_id！",
           type: "error",
         });
         return;

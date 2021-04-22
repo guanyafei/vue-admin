@@ -32,7 +32,7 @@
 >> | prop   | 当前输入框绑定的字段 | string | - |
 >> | hidden | 是否隐藏 true隐藏  false显示| string | - |
 >> | block | 是否占一行 true是  false否| string | false |
->> | disabled | 是否禁用输入框 true是 false否 | string | - |
+>> | disabled | 是否置灰输入框 true是 false否 | string | false |
 >> | required | 是否表单必填 true是 false否 | string | - |
 >> | isDisabled | 是否禁用输入框 true是 false否 配合disabledId使用  详细dialog的disabledId说明 | string | - |
 >>> - ##### tag可选值说明
@@ -119,6 +119,7 @@
 >> | block | 是否占一行 true是  false否| string | false |
 >>> | placeholder | 按钮文字 | string | - |
 >>> | addToMore | 按钮是否加入更多下拉框内 true是 false否 | string | - |
+>>> | disabled | 是否置灰按钮 true是 false否 | string | false |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
 >>> | statusValidateId | 按钮状态校验id 用于表格操作按钮一些状态下置灰校验 **(注：statusValidateId在common/status.js内配置 key值配置为需要校验的字段，value值数组配置哪些状态下置灰不可点击)** | string | - |
 >>> | _id | 与需要操作的table、alert、dialog标签上定义的_id一致 用于指明需要操作的是哪个标签 **(注：若_id值为reset 则表示该按钮是重置按钮 用于清空查询表单项数据)**  | string | - |
@@ -157,7 +158,7 @@
 >>> | action | 弹窗确定按钮请求接口  **（注：多个button操作同一个dialog，请求不同接口，action用'\|'隔开，action顺序与_id保持一致）** | string | - |
 >>> | method | 接口请求方式 配合action使用 **（注：多个button操作同一个dialog，不同的请求方式，method用'\|'隔开，method顺序与_id保持一致）** | string | get |
 >>> | disabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置disabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
->>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 **(注：若为true 保存成功后 保存按钮置灰不可点击）**| string | false |
+>>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 | string | false |
 
 ## options配置
 > - 配置文件位置：common/options.js

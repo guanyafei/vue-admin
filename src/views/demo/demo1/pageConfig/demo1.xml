@@ -86,5 +86,4 @@
             <tableCol  prop="addressDetail" lable="详细地址" width="200"/>
         </table>
     </dialog>
-    <alert _id="d"  action='/lmis-md-web/cusm/statusOpen.do|/lmis-md-web/cusm/statusClose.do' method="post" tip="ddd？"/>
 </root>
