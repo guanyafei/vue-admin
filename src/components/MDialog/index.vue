@@ -135,7 +135,7 @@ export default {
     // saveOnShow 保存后是否立即关闭弹窗
     onSaveOnShow() {
       this.$app.handleMapping[this.handleId]["loading"] = true;
-      this.loading = this.$app.handleMapping[this.handleId]["loading"];
+      // this.loading = this.$app.handleMapping[this.handleId]["loading"];
       this.isSaveOnShow ? (this.isSaveDisable = true) : this.closeDia();
     },
   },

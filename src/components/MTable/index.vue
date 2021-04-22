@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="$app.handleMapping[tableConfig.$._id]['loading']">
     <el-table :data="tableList.rows || []" stripe border style="width: 100%">
       <el-table-column
         v-if="tableConfig.$.type || type"
@@ -117,7 +117,7 @@ export default {
   data() {
     return {
       tableConfig: {},
-      loading: false,
+      // loading: false,
       canUseBtns: this.$app.canUseBtns,
     };
   },
@@ -148,7 +148,7 @@ export default {
   },
   mounted() {
     // loading
-    this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
+    // this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
     this.tableConfig.$ &&
       this.tableConfig.$.lazyLoad !== "true" &&
       this.handleCurrentChange();
@@ -174,11 +174,7 @@ export default {
     },
     getTablelist(val) {
       this.$app.handleMapping[this.tableConfig.$._id]["loading"] = true;
-      this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
-      console.log(
-        this.$app.handleMapping[this.tableConfig.$._id],
-        this.loading
-      );
+      // this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
       fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
         date: encodeURIComponent(
           "Mon Apr 19 2021 10:12:02 GMT 0800 (中国标准时间)"
@@ -191,9 +187,9 @@ export default {
         rows: this.pageSize,
       }).then((res) => {
         this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
-        this.loading = this.$app.handleMapping[this.tableConfig.$._id][
-          "loading"
-        ];
+        // this.loading = this.$app.handleMapping[this.tableConfig.$._id][
+        //   "loading"
+        // ];
         this.$app.handleMapping[this.tableConfig.$._id][
           `${this.tableConfig.$._id}BaseDate`
         ] = res;

@@ -320,7 +320,10 @@ export default {
                 if (valid) {
                   const mapKey = mainFlag === "N" ? tableId : itemKey;
                   // 开启form表单loading
-                  this.$set(this.loadings, mapKey, true);
+                  this.loadings.hasOwnProperty(mapKey) &&
+                    this.$set(this.loadings, mapKey, true);
+                  this.handleMapping.hasOwnProperty(mapKey) &&
+                    (this.handleMapping[mapKey]["loading"] = true);
                   return;
                   fetch(
                     this.handleMapping[mapKey].action,
@@ -332,7 +335,10 @@ export default {
                     }
                   ).then((res) => {
                     // 关闭form表单loading
-                    this.$set(this.loadings, mapKey, true);
+                    this.loadings.hasOwnProperty(mapKey) &&
+                      this.$set(this.loadings, mapKey, false);
+                    this.handleMapping.hasOwnProperty(mapKey) &&
+                      (this.handleMapping[mapKey]["loading"] = false);
                     //判断是否关闭dailog
                     !this.handleMapping[mapKey]["saveOnShow"] &&
                       (this.$refs[mapKey][0].dialogVisibleObj[

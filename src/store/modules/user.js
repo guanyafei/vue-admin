@@ -262,7 +262,7 @@ const actions = {
                             }
                         ],
                         'btns': {
-                            'demo1': ['update', 'statusClose', 'ooo', 'query', 'add', 'reset', 'see']
+                            'demo1': ['update', 'statusClose', 'ooo', 'query', 'add', 'reset', 'see', 'tj']
                         }
                     }
                 }
