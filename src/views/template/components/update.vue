@@ -98,7 +98,7 @@
   </el-dialog>
 </template>
 <script>
-import { setRules } from "@/utils/validate";
+import setRules from "@/common/validate";
 export default {
   name: "MUpdate",
   components: {},

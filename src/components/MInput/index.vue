@@ -79,7 +79,6 @@ export default {
   mounted() {},
   methods: {
     handleModelInput(value) {
-      console.log("ttttttttttt", value);
       this.$emit("input", value);
       // if (this.$parent.$options.componentName === 'ElFormItem') {
       //   if (this.validateEvent) {

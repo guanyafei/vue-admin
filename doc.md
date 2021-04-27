@@ -1,8 +1,51 @@
-## 页面
-> #### 一、目录
->> - 一级目录： src/views下建文件夹
->> - 二级目录： 一级目录下建文件夹
->>- 入口文件： 二级目录下index.vue
+# Getting started
+## 环境安装
+> npm install -g vue-cli
+## 依赖包安装
+> npm i
+## 运行
+> npm run dev
+## 打包
+> npm run build:prod
+## 页面结构
+
+>├── build                      # 构建相关
+├── mock                       # 项目mock 模拟数据
+├── public                     # 静态资源
+│   │── favicon.ico            # favicon图标
+│   └── index.html             # html模板
+├── src                        # 源代码
+│   ├── api                    # 所有请求
+│   ├── assets                 # 主题 图片等静态资源
+│   ├── common                 # 公共配置
+│   │   ├── options.js         # 下拉框公共配置
+│   │   ├── status.js          # 按钮状态公共配置
+│   │   ├── transForm.js       # 状态转描述公共配置
+│   │   └── validate.js        # 自定义校验公共配置
+│   ├── components             # 全局公用组件
+│   ├── directive              # 全局指令
+│   ├── filters                # 全局 filter
+│   ├── icons                  # 项目所有 svg icons
+│   ├── layout                 # 全局 layout
+│   ├── router                 # 路由
+│   ├── store                  # 全局 store管理
+│   ├── styles                 # 全局样式
+│   ├── utils                  # 全局公用方法
+│   ├── views                  # views 所有页面
+│   ├── App.vue                # 入口页面
+│   ├── main.js                # 入口文件 加载组件 初始化等
+│   └── permission.js          # 权限管理
+├── .env.xxx                   # 环境变量配置
+├── .eslintrc.js               # eslint 配置项
+├── .babelrc                   # babel-loader 配置
+├── vue.config.js              # vue-cli 配置
+├── postcss.config.js          # postcss 配置
+└── package.json               # package.json
+## 新建页面
+> #### 一、路径
+>> - 一级路径： src/views下建文件夹
+>> - 二级路径： 一级路径下建文件夹
+>> - 入口文件： 二级路径下index.vue
 >> - xml配置文件： 入口文件同级文件夹pageConfig下新建xml文件
 >> ![目录](./src/assets/doc_img/xml.png) 
 > #### 二、主页面、弹窗配置规则
@@ -59,7 +102,7 @@
 >>> |  select  | 下拉框 | string | - |
 >>> | placeholder| 输入框占位提示文字 | string | 请选择 |
 >>> | width | 文本宽度，单位为 px | string | 250 |
->>> | optionId | 下拉选项id 获取配置的下拉项 详细见下方注释 | string | - |
+>>> | optionId | 下拉选项id 获取配置的下拉项 | string | - |
 >>> | action | 接口 获取下拉项 标签获取焦点时触发 optionId权重大于action| string | - |
 >>> | method | 接口请求方式 配合action使用 | string | get |
 >>>  **4. tag="radio"**
@@ -116,14 +159,13 @@
 >>> | 参数 | 说明 | 类型 | 默认值 |
 >>> | :----: | :---  | :----: | :----: |
 >>> | type | 类型 不同类型展示样式不同| primary 、success、warning 、danger、info、text  | primary |
->> | block | 是否占一行 true是  false否| string | false |
+>>> | block | 是否占一行 true是  false否| string | false |
 >>> | placeholder | 按钮文字 | string | - |
 >>> | addToMore | 按钮是否加入更多下拉框内 true是 false否 | string | - |
 >>> | disabled | 是否置灰按钮 true是 false否 | string | false |
 >>> | isQueryBtn | 是否是查询按钮 true是  false否 | string | - |
->>> | statusValidateId | 按钮状态校验id 用于表格操作按钮一些状态下置灰校验 **(注：statusValidateId在common/status.js内配置 key值配置为需要校验的字段，value值数组配置哪些状态下置灰不可点击)** | string | - |
+>>> | statusId | 按钮状态校验id 用于表格操作按钮一些状态下置灰校验 **(注：statusId在common/status.js内配置 key值配置为需要校验的字段，value值数组配置哪些状态下置灰不可点击)** | string | - |
 >>> | _id | 与需要操作的table、alert、dialog标签上定义的_id一致 用于指明需要操作的是哪个标签 **(注：若_id值为reset 则表示该按钮是重置按钮 用于清空查询表单项数据)**  | string | - |
->> ![按钮权限](./src/assets/doc_img/status.png) 
 > ### 四、表格
 >> - #### table
 >>> | 参数 | 说明 | 类型 | 默认值 |
@@ -161,17 +203,6 @@
 >>> | method | 接口请求方式 配合action使用 **（注：多个button操作同一个dialog，不同的请求方式，method用'\|'隔开，method顺序与_id保持一致）** | string | get |
 >>> | disabledId  | 两个button操作该弹窗时配合isDisabled使用  例：_id="add\|update" add、update按钮唤起同一个弹窗  需要update按钮唤起的弹窗里面一些表单字段置灰不可修改 设置disabledId为update formItem表单项设置isDisabled为true 则同一个表单项add内的可修改  update内的置灰| string | - |
 >>> | saveOnShow | 点击保存后是否关闭弹窗  ture否  false是 | string | false |
-
-## options配置
-> - 配置文件位置：common/options.js
-> ![配置](./src/assets/doc_img/option.png) 
-
-## 按钮点击权限
-> - 页面name作为key值 当前用户可点击按钮id数组作为value
-> ![按钮权限](./src/assets/doc_img/btnqx.png) 
-## 自定义校验
-> - 页面name作为key值 当前用户可点击按钮id数组作为value
-> ![按钮权限](./src/assets/doc_img/btnqx.png) 
 ## 路由格式
 > | 参数 | 说明 | 类型 | 默认值 |
 > | :----: | :---  | :----: | :----: |
@@ -182,6 +213,12 @@
 > | meta | 路由元信息 title：该路由在侧边栏和面包屑中展示的名字 icon：路由的图标 | string | - |
 > | children | 子菜单项配置数组  配置说明同上 | string | - |
 > ![按钮权限](./src/assets/doc_img/router.png) 
+## options配置
+> 路径：conmmon/options.js
+> - common：对象 公共配置 键：optionsId  值:数组对象  label：下拉展示描述 value：真实绑定的值
+> - options: 对象 键：页面name值 值：对象(键：optionsId 值：数组对象  label：下拉展示描述 value：真实绑定的值)
+> ![按钮权限](./src/assets/doc_img/options.png) 
+
 
 
 

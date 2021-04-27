@@ -71,8 +71,7 @@ export default {
   },
   data() {
     return {
-      status:
-        getStatus(this.$route.name)[this.itemConfig["statusValidateId"]] || {},
+      status: getStatus(this.$route.name)[this.itemConfig["statusId"]] || {},
     };
   },
   computed: {

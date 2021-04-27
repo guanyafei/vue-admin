@@ -131,7 +131,8 @@
 </template>
 
 <script>
-import { isArray, isEmptyObj, setRules } from "@/utils/validate";
+import { isArray, isEmptyObj } from "@/utils/validate";
+import setRules from "@/common/validate";
 import { onIsCanUse } from "@/utils/index";
 import MFormItem from "@/components/MFormItem";
 import MCollapse from "@/components/MCollapse";

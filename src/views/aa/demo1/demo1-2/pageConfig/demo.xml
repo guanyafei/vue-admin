@@ -12,7 +12,7 @@
             <formItem tag="text" disabled="true" placeholder="请输入" prop="codAccountNo" lable="客户账号" hidden="true"/>
             <formItem tag="select" placeholder="请输入" prop="city" lable="城市" action="url" lazyLoad="true"/>
             <button type="primary" _id="query" isQueryBtn="true" placeholder="查询"/>
-            <button type="success" _id="add" block="true" statusValidateId="a" placeholder="创建"/>
+            <button type="success" _id="add" block="true" statusId="a" placeholder="创建"/>
             <button type="success" _id="reset" placeholder="重置"/>
         </form>
         <table _id="query" action="/lmis-md-web/cusm/totalQuery.do" size="20" sizeList="[20,30,40,80]" method="get">
