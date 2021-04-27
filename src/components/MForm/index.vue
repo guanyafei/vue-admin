@@ -211,12 +211,9 @@ export default {
     setRules,
     // 更新  rowDate 赋值给 form表单
     initForm(formObj) {
-      console.log("yyyy", formObj);
       Object.keys(formObj).map((keyItem) => {
         formObj[keyItem] = this.updateDate[keyItem];
       });
-      // formObj["sex"] = 1;
-      console.log("ssssssss", this.updateDate);
     },
     // xml to json表单数据组装  初始化
     xmlToJson(searchConfig) {

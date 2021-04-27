@@ -49,7 +49,7 @@
       <div v-loading="loading">
         <el-table
           style="width: 100%"
-          :data="list.rows"
+          :data="list.list"
           row-class-name="row-style"
           stripe
           border
@@ -68,10 +68,9 @@
         <div class="pagination">
           <el-pagination
             layout="total, sizes, prev, pager, next, jumper"
-            :total="list.total"
+            :total="list.totalCount || 0"
             :page-size="10"
             :page-sizes="pageSizes"
-            :hide-on-single-page="isHideSinglePage"
             @current-change="handleCurrentChange"
             @size-change="handleSizeChange"
           />
@@ -184,13 +183,13 @@ export default {
         ? JSON.parse(this.itemConfig.sizeList)
         : [20, 30, 40, 50];
     },
-    isHideSinglePage: function () {
-      return !!(
-        !this.list.total ||
-        this.list.total === this.pageSize ||
-        this.list.total < this.pageSize
-      );
-    },
+    // isHideSinglePage: function () {
+    //   return !!(
+    //     !this.list.total ||
+    //     this.list.total === this.pageSize ||
+    //     this.list.total < this.pageSize
+    //   );
+    // },
     titles: function () {
       return this.itemConfig.title ? this.itemConfig.title : this.title;
     },
@@ -243,19 +242,19 @@ export default {
     },
     getTablelist(val) {
       this.loading = true;
-      fetch(this.itemConfig.action, this.itemConfig.method, {
-        date: encodeURIComponent(
-          "Mon Jan 04 2021 19:27:29 GMT 0800 (中国标准时间)"
-        ),
-        conditions: "",
-        currentDCId: "FB68C5CEEC1640C3B1D09BEBCD99FD5E",
-        Login_SessionId: "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
-        readOnly: "YES",
+      let fetchForm = {
         page: val,
-        rows: this.pageSize,
+        limit: this.pageSize,
+      };
+      this.itemConfig.methodName &&
+        (fetchForm["methodName"] = this.itemConfig.methodName);
+      this.itemConfig.serviceName &&
+        (fetchForm["serviceName"] = this.itemConfig.serviceName);
+      fetch(this.itemConfig.action, this.itemConfig.method, {
+        ...fetchForm,
       }).then((res) => {
         this.loading = false;
-        this.list = res || [];
+        this.list = res.page || [];
       });
     },
     zoomQuery() {

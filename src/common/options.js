@@ -1,3 +1,4 @@
+// 配置下拉框数据
 const common = {
     ff: [{ 'label': 'dd', 'value': '0' }, { 'label': 'nn', 'value': '1' }]
 }

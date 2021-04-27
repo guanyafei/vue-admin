@@ -1,22 +1,14 @@
 <root>
-    <dialog _id="update"  action="/route/route.do" serviceName="UserService" methodName="updateById" method="post">
+    <dialog _id="update|add"  action="/route/route.do" serviceName="UserService" methodName="updateById|insert" method="post|post" title="更新|新增">
         <form>
            <formItem tag="text" placeholder="请输入" prop="age" lable="年龄"/>
            <formItem tag="select" placeholder="请输入" prop="sex" lable="性别" optionId="a"/>
            <formItem tag="text" placeholder="请输入" prop="phone" lable="电话"/>
-           <formItem tag="text" hidden="true" placeholder="请输入" prop="id" lable="id"/>
-           <button type="primary" _id="query" placeholder="保存"/>
-        </form>
-    </dialog>
-     <dialog _id="add"  action="/route/route.do" serviceName="UserService" methodName="insert" method="post">
-        <form>
-           <formItem tag="text" placeholder="请输入" prop="age" lable="年龄"/>
-           <formItem tag="select" placeholder="请输入" prop="sex" lable="性别" optionId="a"/>
-           <formItem tag="text" placeholder="请输入" prop="phone" lable="电话"/>
-           <formItem tag="text" placeholder="请输入" prop="login_name" lable="登录名"/>
+           <formItem tag="text" placeholder="请输入" prop="loginName" lable="登录名"/>
            <formItem tag="text" placeholder="请输入" prop="name" lable="用户名"/>
            <formItem tag="text" placeholder="请输入" prop="password" lable="密码"/>
-           <formItem tag="text" placeholder="请输入" prop="user_type" lable="用户类型"/>
+           <formItem tag="text" placeholder="请输入" prop="userType" lable="用户类型"/>
+           <formItem tag="text" placeholder="请输入" hidden="true" prop="id" lable="id"/>
            <button type="primary" _id="query" placeholder="保存"/>
         </form>
     </dialog>

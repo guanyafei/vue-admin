@@ -117,7 +117,7 @@ const actions = {
                                         path: 'bb',
                                         component: () =>
                                             import ('@/views/aa/demo1/index'),
-                                        name: 'demo3',
+                                        name: 'demo5',
                                         alwaysShow: true,
                                         meta: {
                                             title: '客户信息维护11',

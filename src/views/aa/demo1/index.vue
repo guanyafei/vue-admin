@@ -16,7 +16,7 @@ try {
 }
 
 export default {
-  name: "demo1",
+  name: "demo5",
   components: { MComp },
   data() {
     return {

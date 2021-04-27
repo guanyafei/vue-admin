@@ -284,7 +284,6 @@ export default {
           adr: [],
         }
       );
-      console.log("yyyyyyyyyy", this.updateForm);
       this.$emit("onHideUpdate");
     },
   },

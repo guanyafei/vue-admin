@@ -7,11 +7,11 @@
             <button type="success" _id="add" placeholder="新增"/>
             <button type="success" _id="reset" placeholder="重置"/>
         </form>
-        <table _id="query" action="/route/route.do" serviceName="UserService" methodName="queryPage" size="30" sizeList="[5,30,40,80]" method="post">
+        <table _id="query" action="/route/route.do" serviceName="UserService" methodName="queryPage" size="10" sizeList="[10,30,40,80]" method="post">
             <tableCol  prop="age" lable="年龄" align="left"/>
             <tableCol  prop="name" lable="姓名"/>
             <tableCol  prop="phone" lable="电话"/>
-            <tableCol  prop="sexName" lable="性别"/>
+            <tableCol  prop="sex" lable="性别" transFormId="a"/>
             <tableCol  prop="userType" lable="用户类别"/>
             <tableCol  prop="status" lable="状态"/>
             <tableCol  lable="操作">

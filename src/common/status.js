@@ -1,3 +1,4 @@
+// 配置置灰按钮 key：字段  value：字段的哪些值置灰
 const common = {
     ff: { 'key': 'status', 'value': '3' }
 }

@@ -258,7 +258,6 @@ export default {
         if (isEmptyObj(this.handleMapping[itemKey]._id)) {
           // btnConfig 用于主页面查询  新增
           // tableId 用于表格内操作栏按钮
-          // this.handle[this.handleMapping[itemKey]._id] = (data = {}, tableId = '', btnConfig = {}) => {
           this.handle[this.handleMapping[itemKey]._id] = (
             data = {},
             tableId = "",
@@ -269,8 +268,6 @@ export default {
               ? this.$set(this.updateDateObj, itemKey, data)
               : this.$set(this.updateDateObj, itemKey, {});
             if (this.handleMapping[itemKey].handleType === "alert") {
-              console.log(" this.tableId", this, tableId, itemKey);
-              // return;
               let fetchForm = { id: this.updateDateObj[itemKey].id };
               this.handleMapping[itemKey].serviceName &&
                 (fetchForm["serviceName"] = this.handleMapping[itemKey][
@@ -349,8 +346,9 @@ export default {
                     ? this.handleMapping[mapKey]["size"]
                     : 20;
                   fetchForm["page"] = 1;
+                  console.log("fetchForm", fetchForm);
                   Object.keys(fetchForm).map((val) => {
-                    fetchForm[val] == null && (fetchForm[val] = "");
+                    fetchForm[val] == null && delete fetchForm[val];
                   });
                   fetch(
                     this.handleMapping[mapKey].action,

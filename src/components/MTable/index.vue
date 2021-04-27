@@ -59,6 +59,21 @@
           </template>
         </el-table-column>
         <el-table-column
+          v-else-if="item.$.transFormId"
+          :key="index"
+          :prop="item.$.prop"
+          :label="item.$.lable"
+          :align="item.$.align || align"
+          :width="item.$.width || width"
+        >
+          <template v-slot:default="scope">
+            {{
+              scope.row[item.$.prop]
+                | getDecs(item.$.transFormId, transFormOpts)
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column
           v-else
           :key="index"
           :prop="item.$.prop"
@@ -74,7 +89,6 @@
         :total="tableList.totalCount || 0"
         :page-size="pageSize"
         :page-sizes="pageSizes"
-        :hide-on-single-page="isHideSinglePage"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
       />
@@ -82,6 +96,7 @@
   </div>
 </template>
 <script>
+import getTransForm from "@/common/transForm";
 import MButton from "@/components/MButton";
 import { fetch } from "@/utils/requestFn";
 export default {
@@ -118,6 +133,7 @@ export default {
     return {
       tableConfig: {},
       canUseBtns: this.$app.canUseBtns,
+      transFormOpts: {},
     };
   },
   computed: {
@@ -134,19 +150,19 @@ export default {
         ? JSON.parse(this.tableConfig.$.sizeList)
         : [20, 30, 40, 50];
     },
-    isHideSinglePage: function () {
-      return !!(
-        !this.tableList.totalCount ||
-        this.tableList.totalCount === this.pageSize ||
-        this.tableList.totalCount < this.pageSize
-      );
-    },
+    // isHideSinglePage: function () {
+    //   return !!(
+    //     !this.tableList.totalCount ||
+    //     this.tableList.totalCount === this.pageSize ||
+    //     this.tableList.totalCount < this.pageSize
+    //   );
+    // },
   },
   created() {
     this.tableConfig = this.xmlConfigObj;
+    this.transFormOpts = getTransForm(this.$route.name) || {};
   },
   mounted() {
-    console.log("rrrrrrrrrrrrr", this.$app);
     this.tableConfig.$ &&
       this.tableConfig.$.lazyLoad !== "true" &&
       this.handleCurrentChange();
@@ -184,7 +200,6 @@ export default {
         ...fetchForm,
       })
         .then((res) => {
-          console.log("taqbletabler", res);
           this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
           this.$app.handleMapping[this.tableConfig.$._id][
             `${this.tableConfig.$._id}BaseDate`
