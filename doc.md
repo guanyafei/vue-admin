@@ -130,6 +130,8 @@
 >>> | :----: | :---  | :----: | :----: |
 >>> |  _id | 值唯一 用途见button标签 | string | - |
 >>> | action | 接口 获取表格数据  | string | - |
+>>> | methodName | 接口 | string | - |
+>>> | serviceName | 接口 | string | - |
 >>> | lazyLoad | 是否进入页面自动加载数据 true是 false否 需要手动点击查询按钮加载数据 | string | - |
 >>> | method | 接口请求方式 配合action使用 | string | get |
 >>> | size | 每页显示条目个数 | string | 20 |

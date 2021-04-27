@@ -270,6 +270,20 @@ export default {
               : this.$set(this.updateDateObj, itemKey, {});
             if (this.handleMapping[itemKey].handleType === "alert") {
               console.log(" this.tableId", this, tableId, itemKey);
+              // return;
+              let fetchForm = { id: this.updateDateObj[itemKey].id };
+              this.handleMapping[itemKey].serviceName &&
+                (fetchForm["serviceName"] = this.handleMapping[itemKey][
+                  "serviceName"
+                ]);
+              this.handleMapping[itemKey].methodName &&
+                (fetchForm["methodName"] = this.handleMapping[itemKey][
+                  "methodName"
+                ]);
+              fetchForm["limit"] = this.handleMapping[itemKey].size
+                ? this.handleMapping[itemKey]["size"]
+                : 20;
+              fetchForm["page"] = 1;
               this.$confirm(
                 `${
                   this.handleMapping[itemKey].tip
@@ -288,9 +302,7 @@ export default {
                     this.handleMapping[itemKey].action,
                     this.handleMapping[itemKey].method,
                     {
-                      id: this.updateDateObj[itemKey].id,
-                      Login_SessionId:
-                        "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
+                      ...fetchForm,
                     }
                   ).then((res) => {
                     this.$refs[`${tableId}Table`].length
@@ -324,34 +336,66 @@ export default {
                     this.$set(this.loadings, mapKey, true);
                   this.handleMapping.hasOwnProperty(mapKey) &&
                     (this.handleMapping[mapKey]["loading"] = true);
-                  return;
+                  let fetchForm = { ...this.forms[`${tableId}`] };
+                  this.handleMapping[mapKey].serviceName &&
+                    (fetchForm["serviceName"] = this.handleMapping[mapKey][
+                      "serviceName"
+                    ]);
+                  this.handleMapping[mapKey].methodName &&
+                    (fetchForm["methodName"] = this.handleMapping[mapKey][
+                      "methodName"
+                    ]);
+                  fetchForm["limit"] = this.handleMapping[mapKey].size
+                    ? this.handleMapping[mapKey]["size"]
+                    : 20;
+                  fetchForm["page"] = 1;
+                  Object.keys(fetchForm).map((val) => {
+                    fetchForm[val] == null && (fetchForm[val] = "");
+                  });
                   fetch(
                     this.handleMapping[mapKey].action,
                     this.handleMapping[mapKey].method,
                     {
-                      ...this.forms[`${tableId}`],
-                      Login_SessionId:
-                        "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
+                      ...fetchForm,
                     }
-                  ).then((res) => {
-                    // 关闭form表单loading
-                    this.loadings.hasOwnProperty(mapKey) &&
-                      this.$set(this.loadings, mapKey, false);
-                    this.handleMapping.hasOwnProperty(mapKey) &&
-                      (this.handleMapping[mapKey]["loading"] = false);
-                    //判断是否关闭dailog
-                    !this.handleMapping[mapKey]["saveOnShow"] &&
-                      (this.$refs[mapKey][0].dialogVisibleObj[
-                        `${mapKey}DialogVisible`
-                      ] = false);
-                    if (isQueryBtn === "true") {
-                      this.handleMapping[itemKey][`${itemKey}BaseDate`] = res;
-                    } else {
-                      this.$refs[`${itemKey}Table`].length
-                        ? this.$refs[`${itemKey}Table`][0].handleCurrentChange()
-                        : this.$refs[`${itemKey}Table`].handleCurrentChange();
-                    }
-                  });
+                  )
+                    .then((res) => {
+                      // 关闭form表单loading
+                      this.loadings.hasOwnProperty(mapKey) &&
+                        this.$set(this.loadings, mapKey, false);
+                      this.handleMapping.hasOwnProperty(mapKey) &&
+                        (this.handleMapping[mapKey]["loading"] = false);
+                      if (isQueryBtn === "true") {
+                        this.handleMapping[itemKey][`${itemKey}BaseDate`] =
+                          res.page;
+                      } else {
+                        //判断是否关闭dailog
+                        if (
+                          this.handleMapping[mapKey]["saveOnShow"] &&
+                          this.handleMapping[mapKey]["saveOnShow"] === "true"
+                        ) {
+                          this.$refs[mapKey][0].dialogVisibleObj[
+                            `${mapKey}DialogVisible`
+                          ] = true;
+                        } else {
+                          this.$refs[mapKey][0].dialogVisibleObj[
+                            `${mapKey}DialogVisible`
+                          ] = false;
+                        }
+                        this.$refs[`${itemKey}Table`].length
+                          ? this.$refs[
+                              `${itemKey}Table`
+                            ][0].handleCurrentChange()
+                          : this.$refs[`${itemKey}Table`].handleCurrentChange();
+                      }
+                    })
+                    .catch(() => {
+                      // 关闭form表单loading
+                      this.loadings.hasOwnProperty(mapKey) &&
+                        this.$set(this.loadings, mapKey, false);
+                      this.handleMapping.hasOwnProperty(mapKey) &&
+                        (this.handleMapping[mapKey]["loading"] = false);
+                    });
                 } else {
                   console.log("error submit!!");
                   return false;

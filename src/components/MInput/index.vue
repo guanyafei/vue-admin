@@ -21,10 +21,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    value: {
-      type: String,
-      default: "",
-    },
+    value: null,
     tag: {
       type: String,
       default: "text",
@@ -82,6 +79,7 @@ export default {
   mounted() {},
   methods: {
     handleModelInput(value) {
+      console.log("ttttttttttt", value);
       this.$emit("input", value);
       // if (this.$parent.$options.componentName === 'ElFormItem') {
       //   if (this.validateEvent) {

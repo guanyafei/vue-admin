@@ -92,6 +92,16 @@ const actions = {
                                             title: '公司主体', //该路由在侧边栏和面包屑中展示的名字
                                             icon: 'icon' //路由的图标
                                         }
+                                    },
+                                    {
+                                        path: 'demo3', //二级菜单路径  不要以'/'开头
+                                        component: () =>
+                                            import ('@/views/demo/demo3/index'), // 二级菜单组件  
+                                        name: 'demo3', //路由的名字 与index页面名称一致
+                                        meta: {
+                                            title: '测试', //该路由在侧边栏和面包屑中展示的名字
+                                            icon: 'icon' //路由的图标
+                                        }
                                     }
                                 ]
                             }, {
@@ -142,7 +152,8 @@ const actions = {
                             }
                         ],
                         'btns': {
-                            'demo1': ['update', 'statusClose', 'ooo', 'query', 'add', 'reset', 'see', 'tj']
+                            'demo1': ['update', 'statusClose', 'ooo', 'query', 'add', 'reset', 'see', 'tj'],
+                            'demo3': ['update', 'statusClose', 'query', 'add', 'reset', 'del'],
                         }
                     }
                 }

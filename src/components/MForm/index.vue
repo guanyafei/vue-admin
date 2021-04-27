@@ -191,8 +191,8 @@ export default {
     const searchConfig = this.xmlConfigObj;
     this.formKey && this.$set(this.forms, this.formKey, {});
     this.xmlToJson(searchConfig);
-    isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey]);
     this.$nextTick(() => {
+      isEmptyObj(this.updateDate) && this.initForm(this.forms[this.formKey]);
       this.$set(this.$app.forms, this.formKey, this.forms[this.formKey]);
       this.$set(
         this.$app.formRefs,
@@ -211,10 +211,12 @@ export default {
     setRules,
     // 更新  rowDate 赋值给 form表单
     initForm(formObj) {
+      console.log("yyyy", formObj);
       Object.keys(formObj).map((keyItem) => {
-        this.updateDate[keyItem] &&
-          (formObj[keyItem] = this.updateDate[keyItem]);
+        formObj[keyItem] = this.updateDate[keyItem];
       });
+      // formObj["sex"] = 1;
+      console.log("ssssssss", this.updateDate);
     },
     // xml to json表单数据组装  初始化
     xmlToJson(searchConfig) {
@@ -238,7 +240,7 @@ export default {
             switch (item.$.tag) {
               case "select":
               case "radio":
-                this.$set(this.forms[this.formKey], itemObj.prop, "");
+                this.$set(this.forms[this.formKey], itemObj.prop, null);
                 itemObj.options &&
                   !isArray(itemObj.options) &&
                   (itemObj = Object.assign(itemObj, {
@@ -257,7 +259,7 @@ export default {
                 break;
               default:
                 itemObj = item.$;
-                this.$set(this.forms[this.formKey], itemObj.prop, "");
+                this.$set(this.forms[this.formKey], itemObj.prop, null);
             }
             this.formItems[itemObj.prop] = itemObj;
           });

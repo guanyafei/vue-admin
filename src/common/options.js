@@ -37,6 +37,9 @@ const options = {
     demo2: {
         a: [{ 'label': '黄金糕', 'value': '0' }, { 'label': '双皮奶', 'value': '1' }]
     },
+    demo3: {
+        a: [{ 'label': '男', 'value': 0 }, { 'label': '女', 'value': 1 }]
+    },
     tempalte: {
         region: [
             { label: "区域一", value: "shanghai" },

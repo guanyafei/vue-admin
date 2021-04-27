@@ -1,5 +1,7 @@
 ```
 ## Getting started
+# install vue-cli
+npm install -g vue-cli
 
 # install dependency
 npm install

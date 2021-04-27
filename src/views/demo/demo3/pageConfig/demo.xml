@@ -1,0 +1,27 @@
+<root>
+    <main _id="main">
+        <form>
+            <formItem tag="text" placeholder="请输入" prop="age" lable="年龄"/>
+            <formItem tag="select" placeholder="请输入" prop="sex" lable="性别" optionId="a"/>
+            <button type="primary" _id="query" isQueryBtn="true" placeholder="查询"/>
+            <button type="success" _id="add" placeholder="新增"/>
+            <button type="success" _id="reset" placeholder="重置"/>
+        </form>
+        <table _id="query" action="/route/route.do" serviceName="UserService" methodName="queryPage" size="30" sizeList="[5,30,40,80]" method="post">
+            <tableCol  prop="age" lable="年龄" align="left"/>
+            <tableCol  prop="name" lable="姓名"/>
+            <tableCol  prop="phone" lable="电话"/>
+            <tableCol  prop="sexName" lable="性别"/>
+            <tableCol  prop="userType" lable="用户类别"/>
+            <tableCol  prop="status" lable="状态"/>
+            <tableCol  lable="操作">
+                <button type="text" _id="statusClose" addToMore="true" placeholder="冻结"/>
+                <button type="text" _id="statusOpen" addToMore="true" placeholder="开通"/>
+                <button type="text" _id="update" placeholder="更新"/>
+                <button type="text" _id="del" placeholder="删除"/>
+                <button type="text" _id="d" addToMore="true" placeholder="ff"/>
+            </tableCol>
+        </table>
+    </main>
+    <alert _id="del"  action="/route/route.do" serviceName="UserService" methodName="deleteUserById" method="post" tip="确定删除吗？"/>
+</root>

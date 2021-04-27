@@ -13,6 +13,7 @@ module.exports = {
     assetsDir: 'static',
     lintOnSave: process.env.NODE_ENV === 'development',
     productionSourceMap: false,
+    // mode: 'history',
     devServer: {
         port: port,
         open: true,
@@ -24,11 +25,14 @@ module.exports = {
         before: require('./mock/mock-server.js'),
         proxy: {
             '/dev-api': {
-                target: 'http://10.112.76.32:8084/', // 服务器端接口地址
+                // target: 'http://10.112.76.32:8084/', // 服务器端接口地址
+                target: 'http://10.2.115.47:8080/', // 服务器端接口地址
                 secure: false, // 如果是https接口，需要配置这个参数
+                ws: true,
                 changeOrigin: true, //是否跨域
                 pathRewrite: {
-                    '^/dev-api/lmis-md-web': '/lmis-md-web'
+                    // '^/dev-api/lmis-md-web': '/lmis-md-web',
+                    '^/dev-api/route': '/route'
                 }
             }
         }

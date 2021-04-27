@@ -1,6 +1,6 @@
 <template>
   <div v-loading="$app.handleMapping[tableConfig.$._id]['loading']">
-    <el-table :data="tableList.rows || []" stripe border style="width: 100%">
+    <el-table :data="tableList.list || []" stripe border style="width: 100%">
       <el-table-column
         v-if="tableConfig.$.type || type"
         :type="tableConfig.$.type || type"
@@ -71,7 +71,7 @@
     <div class="pagination">
       <el-pagination
         layout="total, sizes, prev, pager, next, jumper"
-        :total="tableList.total || 0"
+        :total="tableList.totalCount || 0"
         :page-size="pageSize"
         :page-sizes="pageSizes"
         :hide-on-single-page="isHideSinglePage"
@@ -117,7 +117,6 @@ export default {
   data() {
     return {
       tableConfig: {},
-      // loading: false,
       canUseBtns: this.$app.canUseBtns,
     };
   },
@@ -137,9 +136,9 @@ export default {
     },
     isHideSinglePage: function () {
       return !!(
-        !this.tableList.total ||
-        this.tableList.total === this.pageSize ||
-        this.tableList.total < this.pageSize
+        !this.tableList.totalCount ||
+        this.tableList.totalCount === this.pageSize ||
+        this.tableList.totalCount < this.pageSize
       );
     },
   },
@@ -147,8 +146,7 @@ export default {
     this.tableConfig = this.xmlConfigObj;
   },
   mounted() {
-    // loading
-    // this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
+    console.log("rrrrrrrrrrrrr", this.$app);
     this.tableConfig.$ &&
       this.tableConfig.$.lazyLoad !== "true" &&
       this.handleCurrentChange();
@@ -174,28 +172,29 @@ export default {
     },
     getTablelist(val) {
       this.$app.handleMapping[this.tableConfig.$._id]["loading"] = true;
-      // this.loading = this.$app.handleMapping[this.tableConfig.$._id]["loading"];
-      fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
-        date: encodeURIComponent(
-          "Mon Apr 19 2021 10:12:02 GMT 0800 (中国标准时间)"
-        ),
-        conditions: "",
-        currentDCId: "FB68C5CEEC1640C3B1D09BEBCD99FD5E",
-        Login_SessionId: "SESSION_307B8CBFBBD1444B9BFCB0DD65F02DC9",
-        readOnly: "YES",
+      let fetchForm = {
         page: val,
-        rows: this.pageSize,
-      }).then((res) => {
-        this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
-        // this.loading = this.$app.handleMapping[this.tableConfig.$._id][
-        //   "loading"
-        // ];
-        this.$app.handleMapping[this.tableConfig.$._id][
-          `${this.tableConfig.$._id}BaseDate`
-        ] = res;
-        this.$app._mainTableId = "";
-        this.$app.mainFlag = "N";
-      });
+        limit: this.pageSize,
+      };
+      this.tableConfig.$.methodName &&
+        (fetchForm["methodName"] = this.tableConfig.$.methodName);
+      this.tableConfig.$.serviceName &&
+        (fetchForm["serviceName"] = this.tableConfig.$.serviceName);
+      fetch(this.tableConfig.$.action, this.tableConfig.$.method, {
+        ...fetchForm,
+      })
+        .then((res) => {
+          console.log("taqbletabler", res);
+          this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
+          this.$app.handleMapping[this.tableConfig.$._id][
+            `${this.tableConfig.$._id}BaseDate`
+          ] = res.page;
+          this.$app._mainTableId = "";
+          this.$app.mainFlag = "N";
+        })
+        .catch(() => {
+          this.$app.handleMapping[this.tableConfig.$._id]["loading"] = false;
+        });
     },
     // 按钮分类  是否加入到drop-down
     hasAddToMore(items = []) {

@@ -7,12 +7,13 @@
           <slot />
         </section>
         <slot name="visible-inline-btn-slot" />
-        <span class="arrow-warp" @click="boxshow = !boxshow">
+        <span
+          class="arrow-warp"
+          @click="boxshow = !boxshow"
+          v-if="formItemLen > 3"
+        >
           {{ !boxshow ? "展开" : "收起" }}
-          <i
-            v-if="formItemLen > 3"
-            :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]"
-          />
+          <i :class="['el-icon-arrow-up', { 'icon-arrow': boxshow }]" />
         </span>
         <slot name="visible-block-btn-slot" />
       </div>
